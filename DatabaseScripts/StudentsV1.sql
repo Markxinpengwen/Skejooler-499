@@ -39,6 +39,7 @@ Other Information:
 - removed Profile Picture BLOB
 - gender as NOT NULL had the first ENUM element as default (ie.'not declared').
 - age is optional
+- email is NOT unique
 */
 
 /*
@@ -63,6 +64,7 @@ CREATE TABLE `Students` (
 	email varchar(45) NOT NULL,
 	gender ENUM('not declared','male','female','transgender') NOT NULL,
 	age int(2),
+	phone varchar(11),
 	-- institution int(11),
 	
 	PRIMARY KEY (`sid`)

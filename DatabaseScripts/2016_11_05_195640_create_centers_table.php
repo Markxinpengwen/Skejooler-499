@@ -30,11 +30,11 @@ class CreateCentersTable extends Migration
 			$table->integer('cid')->unsigned(); //*1
 			$table->foreign('cid')->references('uid')->on('Users')->onDelete('cascade')->onUpdate('cascade');
 			$table->string('name')->nullable(false);
-			$table->string('email')->nullable(false);
-			$table->string('phone',11);
-			$table->string('description',1000);
+			$table->string('email')->nullable();
+			$table->string('phone',11)->nullable();
+			$table->string('description',1000)->nullable();
 			$table->boolean('canSupportOnlineExam');
-			$table->decimal('cost',6,2);
+			$table->decimal('cost',6,2)->nullable();
 			//Address
 			$table->string('street_name')->nullable(false);
 			$table->string('city')->nullable(false);

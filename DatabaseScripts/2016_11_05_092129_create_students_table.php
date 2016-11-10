@@ -32,7 +32,8 @@ class CreateStudentsTable extends Migration
             $table->string('firstName')->nullable(false);
 			$table->string('lastName')->nullable(false);
 			$table->string('email')->nullable(false);
-            $table->string('password')->nullable(false);
+			$table->integer('institution')->unsigned()->nullable();
+			$table->foreign('institution')->references('iid')->on('Institutions')->onDelete('set null')->onUpdate('cascade');
 			$table->enum('gender', ['not_declared','male','female','transgender'])->default('not_declared');
 			$table->tinyInteger('age')->unsigned();
 			$table->string('phone',11);

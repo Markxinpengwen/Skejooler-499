@@ -47,6 +47,9 @@ class CreateCentersTable extends Migration
 			//Engine
 			$table->engine = 'InnoDB';
 		});
+		
+		//Auto-Increment
+		DB::update("ALTER TABLE Centers AUTO_INCREMENT = 10000;");
     }
 
     /**

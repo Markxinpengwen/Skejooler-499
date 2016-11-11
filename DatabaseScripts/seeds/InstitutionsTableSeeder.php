@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
+// require the Faker autoloader
+require_once 'vendor/fzaninotto/faker/src/autoload.php';
+
 class InstitutionsTableSeeder extends Seeder
 {
 	/**
@@ -19,7 +22,13 @@ class InstitutionsTableSeeder extends Seeder
     public function run()
     {
         //Constants
-		$NUM_RECORDS=4;
+		$NUM_RECORDS=15;
+		
+		//Echo
+		echo "InstitutionTableSeeder] Seeding ".$NUM_RECORDS." Institutions.\n";
+		
+		//Faker
+		$faker = Faker\Factory::create();
 		
 		//Acquire initial auto_inc value on institutions 
 		//!@# (This is a shitty hack, change this ASAP!!!)
@@ -34,17 +43,22 @@ class InstitutionsTableSeeder extends Seeder
 		
 		//Insert each created Record into the database.
 		for($i = 0; $i < $NUM_RECORDS; $i++) {
+			
+			//Name for echoing
+			$tmp = $faker->company() . " University";
+			
 			//use 'insertGetId' for grabbing auto-incremented field
 			$iid = DB::table('Institutions')->insertGetId(
 				[					
 					'iid' => $iid,
-					'name' => "University ". $iid,
-					'description' => "Description". $iid,
+					'name' => $tmp,
+					'description' => $faker->bs() . ", is our description.",
 					'hasPaid' => rand(0,1)
 				]
 			);
+			
 			//Echo Record, and Increment iid
-			echo "\tInstitutionsSeeder] Inserted iid ". $iid .": ". "University". $iid .".\n";
+			echo "\n\t- Institution ". $iid .": ". $tmp .".";
 			$iid++;
 		}//for
     }

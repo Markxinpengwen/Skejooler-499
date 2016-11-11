@@ -12,19 +12,20 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //STEP 1) Call Independent Table Seeders:
+		echo "________________________________\n";
 		echo "Calling Independant Seeders...\n";
-		echo "-------------------------------\n\n";
+		echo "________________________________\n\n";
 		
 		//Institution Seeder
-		echo "DBSeeder] Seeding Institutions.\n";
 		$this->call(InstitutionsTableSeeder::class);
 
 		//STEP 2) Call Dependent Table Seeders:
-		//echo "\n\nCalling Dependant Seeders...\n";
-		//echo "-------------------------------\n\n";
+		echo "\n________________________________";
+		echo "\nCalling Dependant Seeder...\n";
+		echo "________________________________\n\n";
 		
-		//Users
-		//$this->call(UsersSeeder::class);
+		//Giant Seeder
+		$this->call(GiantTableSeeder::class);
 		
 		
     }

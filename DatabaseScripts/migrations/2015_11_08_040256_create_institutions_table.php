@@ -28,6 +28,9 @@ class CreateInstitutionsTable extends Migration
 			//Engine
 			$table->engine = 'InnoDB';
         });
+		
+		//Auto-Increment
+		DB::update("ALTER TABLE Institutions AUTO_INCREMENT = 10000;");
     }
 
     /**

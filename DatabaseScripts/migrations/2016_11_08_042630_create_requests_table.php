@@ -36,6 +36,9 @@ class CreateRequestsTable extends Migration
 			//Engine
 			$table->engine = 'InnoDB';
         });
+		
+		//Auto-Increment
+		DB::update("ALTER TABLE Requests AUTO_INCREMENT = 10000;");
     }
 
     /**

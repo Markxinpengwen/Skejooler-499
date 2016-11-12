@@ -8,12 +8,13 @@ class CreateRequestsTable extends Migration
 {
     /*
 	NOTES:
-	- //*1 Do we have the isAccepted boolean here? Would that pose a risk of 
+	- //*1 Do we have the approval_status boolean here? Would that pose a risk of 
 		students being able to modify that value themselves, or would we have
 		to restrict that using a MySQL view?
 	- //** These referential actions for FK's 'student' and 'center' might have
 		to be changed in the future to allow preservation of information.
-	*/
+	- NEED TO IMPLEMENT PREFERED TIME.
+		*/
 	/**
      * Run the migrations.
      *
@@ -25,14 +26,35 @@ class CreateRequestsTable extends Migration
 		Schema::enableForeignKeyConstraints();
 		//Schema
         Schema::create('Requests', function (Blueprint $table) {
-            $table->increments('rid');
+            //Request Identifiers
+			$table->increments('rid');
 			$table->integer('student')->unsigned();
 			$table->foreign('student')->references('sid')->on('Students')->onDelete('cascade')->onUpdate('cascade'); //**
 			$table->integer('center')->unsigned();
 			$table->foreign('center')->references('cid')->on('Centers')->onDelete('cascade')->onUpdate('cascade'); //**
-			$table->boolean('isAccepted')->default(0); //*1
+			//School Information
+			$table->string('center_name')->nullable(false);
+			$table->string('center_street_name')->nullable(false);
+			$table->string('center_city')->nullable(false);
+			$table->enum('center_province', ['British_Columbia','Alberta','Sasketchewan', 'Manitoba','Ontario','Quebec','Nova_Scotia','Newfoundland_and_Labrador', 'New_Brunswick', 'Prince_Edward_Island','Yukon','Northwest_Territories', 'Nunavut'])->default('British_Columbia')->nullable(false);
+			$table->enum('center_country', ['Canada'])->default('Canada')->nullable(false);
+			$table->string('center_postal_code')->nullable(false);
+			$table->string('center_contact')->nullable(); 
+			$table->string('center_contact_email')->nullable();
+			$table->string('center_contact_number')->nullable();
+			//other attributes
+			$table->enum('prefered_date_1', ['Any_Day','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'])->default('Any_Day')->nullable(false);
+			$table->enum('prefered_date_2', ['Any_Day','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'])->default('Any_Day')->nullable(false);
+			//$time->timeTz('prefered_time')->nullable(false);
+			$table->string('course_code',20)->nullable(false);
+			$table->string('additional_requirements',500)->nullable();
+			$table->enum('exam_type',['Final','Midterm','Other'])->default('Final')->nullable(false);
+			$table->enum('exam_medium',['Paper','Online','Other'])->default('Paper')->nullable(false);
+			$table->boolean('approval_status')->default(0); //*1
+			//Request Metainformation
             $table->rememberToken();
             $table->timestamps();
+			
 			//Engine
 			$table->engine = 'InnoDB';
         });

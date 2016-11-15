@@ -22,27 +22,27 @@ class InstitutionsTableSeeder extends Seeder
     public function run()
     {
         //Constants
-		$NUM_RECORDS=15;
+		$NUM_INSTITUTIONS=10;
+		$DEFAULT_AUTO_INCREMENT = 10000;
 		
 		//Echo
-		echo "InstitutionTableSeeder] Seeding ".$NUM_RECORDS." Institutions.\n";
+		echo "InstitutionTableSeeder] Seeding ".$NUM_INSTITUTIONS." Institutions.\n";
 		
 		//Faker
 		$faker = Faker\Factory::create();
 		
-		//Acquire initial auto_inc value on institutions 
-		//!@# (This is a shitty hack, change this ASAP!!!)
-		$iid=0;
+		//Acquire initial auto_increment value on institutions
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Institutions'"));
-		$result = get_object_vars($result[0]);
-		$j=1;
-		foreach ($result as $r){
-			if($j==11){$iid=$r;break;}
-			$j++;
+		$iid = $result[0]['Auto_increment'];
+		if($iid!=0){
+			echo "Next Auto_Increment value is: ".$iid.".";
+		}else{
+			$iid = $DEFAULT_AUTO_INCREMENT;
+			echo "Next Auto_Increment value was 0. Setting to default value of ".$iid.".";
 		}
 		
 		//Insert each created Record into the database.
-		for($i = 0; $i < $NUM_RECORDS; $i++) {
+		for($i = 0; $i < $NUM_INSTITUTIONS; $i++) {
 			
 			//Name for echoing
 			$tmp = $faker->company() . " University";
@@ -69,5 +69,15 @@ class InstitutionsTableSeeder extends Seeder
 OLD:
 //SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'institutions' AND table_schema = 'skejooler' 
 		$id = DB::table('information_schema.tables')->select('AUTO_INCREMENT')->where('table_name', '=', 'institutions')->where('table_schema', '=', 'skejooler')->get();
-	
+
+//Acquire initial auto_inc value on institutions 
+		//!@# (This is a shitty hack, change this ASAP!!!)
+		$iid=0;
+		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Institutions'"));
+		$result = get_object_vars($result[0]);
+		$j=1;
+		foreach ($result as $r){
+			if($j==11){$iid=$r;break;}
+			$j++;
+		}		
 */

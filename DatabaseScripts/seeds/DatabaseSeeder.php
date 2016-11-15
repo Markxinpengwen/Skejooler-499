@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         //STEP 1) Call Independent Table Seeders:
 		echo "________________________________\n";
-		echo "Calling Independant Seeders...\n";
+		echo "Seeding Institution...\n";
 		echo "________________________________\n\n";
 		
 		//Institution Seeder
@@ -21,11 +21,19 @@ class DatabaseSeeder extends Seeder
 
 		//STEP 2) Call Dependent Table Seeders:
 		echo "\n________________________________";
-		echo "\nCalling Dependant Seeder...\n";
+		echo "\nSeeding Users, Students, and Centers...\n";
 		echo "________________________________\n\n";
 		
 		//Giant Seeder
 		$this->call(GiantTableSeeder::class);
+		
+		//STEP 3) Call Request Table Seeders:
+		echo "\n________________________________";
+		echo "\nSeeding Requests...\n";
+		echo "________________________________\n\n";
+		
+		//Requests Seeder
+		$this->call(RequestsSeeder::class);
 		
 		
     }

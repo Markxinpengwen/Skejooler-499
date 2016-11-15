@@ -16,59 +16,60 @@ class GiantTableSeeder extends Seeder
     public function run()
     {
         
+		//-------------------------------------------------------------------------------------
+		//STEP 1) SETUP
+		//-------------------------------------------------------------------------------------
+		
 		//Constants
-		$NUM_STUDENTS=20;
+		$NUM_STUDENTS=10;
 		$NUM_CENTERS=10;
 		
+		//Auto_Increment default values
+		$USERS_DEFAULT_AUTO_INCREMENT = 10000;
+		$STUDENTS_DEFAULT_AUTO_INCREMENT = 10000;
+		$CENTERS_DEFAULT_AUTO_INCREMENT = 10000;
+		
+		//Print
 		echo "GiantTableSeeder] Seeding: ".($NUM_STUDENTS+$NUM_CENTERS). " Users, ".$NUM_STUDENTS. " Students, and ".$NUM_CENTERS . " Centers.\n";
 		
 		//Faker
 		$faker = Faker\Factory::create();
 		
-		//Collect all starting auto-increment id's (//!@#bodge)
-		// https://laravel.com/docs/5.3/queries#retrieving-results
-		//Users
-		$uid=0;
-		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Users'"));
-		$result = get_object_vars($result[0]);
-		$j=1;
-		foreach ($result as $r){if($j==11){$uid=$r;break;}$j++;}
+		//Acquire initial auto_increment value from database, for all tables, and then print them.
 		//Students
-		$sid=0;
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Students'"));
-		$result = get_object_vars($result[0]);
-		$j=1;
-		foreach ($result as $r){if($j==11){$sid=$r;break;}$j++;}
-		//Centers
-		$cid=0;
-		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Centers'"));
-		$result = get_object_vars($result[0]);
-		$j=1;
-		foreach ($result as $r){if($j==11){$cid=$r;break;}$j++;}
-		//unset
-		unset($result);
-		unset($j);
-		
-		//ID null check (//!@#bodge)
-		if( is_null($sid) || is_null($uid) || is_null($cid) ){
-			echo "\nFAILED TO IDENTIFY AN AUTO_INCREMENT PROPERTY. ";
-			//echo "TERMINATING...\n\n";
-			//return;
-			//Instead of terminating, we're hardcoding any null auto_increments to 1
-			is_null($sid) ? $sid=1 : "";
-			is_null($cid) ? $cid=1 : "";
-			is_null($uid) ? $uid=1 : "";
-			echo "\n\n[NEW] ";
+		$sid = $result[0]['Auto_increment'];
+		if($sid!=0){
+			echo "Students Auto_Increment value is: ".$sid.".\n";
+		}else{
+			$sid = $STUDENTS_DEFAULT_AUTO_INCREMENT;
+			echo "Students next Auto_Increment value was 0.\n\tSetting to default value of ".$sid.".\n";
 		}
-		
-		//Prompt With Results
-		echo "Auto_Increment values for:";
-		echo "\nUsers: ".$uid.".";
-		echo "\nStudents: ".$sid.".";
-		echo "\nCenters: ".$cid.".\n";
+		//Users
+		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Users'"));
+		$uid = $result[0]['Auto_increment'];
+		if($uid!=0){
+			echo "Users Auto_Increment value is: ".$uid.".\n";
+		}else{
+			$uid = $USERS_DEFAULT_AUTO_INCREMENT;
+			echo "Users next Auto_Increment value was 0.\n\tSetting to default value of ".$uid.".\n";
+		}
+		//Centers
+		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Centers'"));
+		$cid = $result[0]['Auto_increment'];
+		if($cid!=0){
+			echo "Centers Auto_Increment value is: ".$cid.".\n";
+		}else{
+			$cid = $CENTERS_DEFAULT_AUTO_INCREMENT;
+			echo "Centers next Auto_Increment value was 0.\n\tSetting to default value of ".$cid.".\n";
+		}
 		
 		//First, we will create the Student and Center arrays with all of the values in them.
 		//Second, we will create the User table, and entries, based on the values in the Student/Center arrays.
+		
+		//--------------------------------------------------------------------------------
+		//STEP 2) CREATING VALUES FOR STUDENT, CENTERS, AND USER TABLES
+		//--------------------------------------------------------------------------------
 		
 		//Student Array
 		$students = array();
@@ -87,9 +88,7 @@ class GiantTableSeeder extends Seeder
 		}//for
 		echo "\nGenerated ". $NUM_STUDENTS . " Students.";
 	
-		
-		
-		//Center Array
+		//Centers Array
 		$centers = array();
 		for($i = 0; $i < $NUM_CENTERS; $i++) {
 			$centers[$i] = [
@@ -112,14 +111,11 @@ class GiantTableSeeder extends Seeder
 		echo "\nGenerated ". $NUM_CENTERS . " Centers.";
 		
 		
-		
-		//User---------------------------------------------------
-		
+		//Users Array		
+		$users = array();
 		//Same Password for all users
 		$password="password";		
-		
-		//Create the Users array
-		$users = array();
+		//Populate array
 		for($i = 0; $i < ($NUM_CENTERS+$NUM_STUDENTS); $i++) {
 			//Recalculate Time, and Hash Options
 			$now = getdate();
@@ -158,8 +154,13 @@ class GiantTableSeeder extends Seeder
 			$uid++;
 		}//for		
 		
+		
+		//--------------------------------------------------------------------------------
+		//STEP 3) SUBMITTING USER, CENTER, AND STUDENT VALUES TO DATABASE
+		//--------------------------------------------------------------------------------
+		
+		//Users
 		echo "\n\nInserting Users:";
-		//Now we submit all of the values into the database
 		for($i = 0; $i < ($NUM_CENTERS+$NUM_STUDENTS); $i++) {
 			//Submit Users
 			DB::table('Users')->insert(
@@ -176,8 +177,8 @@ class GiantTableSeeder extends Seeder
 			echo "\n\t- User ".$users[$i]['uid'].": ". $users[$i]['username'];
 		}
 		
+		//Centers AND Students
 		echo "\n\nInserting Centers/Students:";
-		//Now we submit all of the values into the database
 		for($i = 0; $i < ($NUM_CENTERS+$NUM_STUDENTS); $i++) {
 			//Submit Either Student OR Center
 			if($i < $NUM_CENTERS){
@@ -216,10 +217,55 @@ class GiantTableSeeder extends Seeder
 					]
 				);
 				echo "\n\t- Student ".$students[($i-$NUM_CENTERS)]['sid'].": ".$students[($i-$NUM_CENTERS)]['firstName']." ".$students[($i-$NUM_CENTERS)]['lastName'];
-			}
-			
+			}//if
 		}//for	
 		echo "\n";
-		
 	}//run
-}
+	
+}//class
+
+
+/*
+OLD CODE:
+//Collect all starting auto-increment id's (//!@#bodge)
+		// https://laravel.com/docs/5.3/queries#retrieving-results
+		//Users
+		$uid=0;
+		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Users'"));
+		$result = get_object_vars($result[0]);
+		$j=1;
+		foreach ($result as $r){if($j==11){$uid=$r;break;}$j++;}
+		//Students
+		$sid=0;
+		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Students'"));
+		$result = get_object_vars($result[0]);
+		$j=1;
+		foreach ($result as $r){if($j==11){$sid=$r;break;}$j++;}
+		//Centers
+		$cid=0;
+		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Centers'"));
+		$result = get_object_vars($result[0]);
+		$j=1;
+		foreach ($result as $r){if($j==11){$cid=$r;break;}$j++;}
+		//unset
+		unset($result);
+		unset($j);
+		
+		///Auto increment ID null check (//!@#bodge)
+		if( is_null($sid) || is_null($uid) || is_null($cid) ){
+			echo "\nFAILED TO IDENTIFY AN AUTO_INCREMENT PROPERTY. ";
+			//echo "TERMINATING...\n\n";
+			//return;
+			//Instead of terminating, we're hardcoding any null auto_increments to 1
+			is_null($sid) ? $sid=1 : "";
+			is_null($cid) ? $cid=1 : "";
+			is_null($uid) ? $uid=1 : "";
+			echo "\n\n[NEW] ";
+		}
+		
+		//Prompt With Results
+		echo "Auto_Increment values for:";
+		echo "\nUsers: ".$uid.".";
+		echo "\nStudents: ".$sid.".";
+		echo "\nCenters: ".$cid.".\n";
+*/

@@ -22,7 +22,7 @@ class InstitutionsTableSeeder extends Seeder
     public function run()
     {
         //Constants
-		$NUM_INSTITUTIONS=10;
+		$NUM_INSTITUTIONS=1;
 		$DEFAULT_AUTO_INCREMENT = 10000;
 		
 		//Echo

@@ -21,7 +21,7 @@ class GiantTableSeeder extends Seeder
 		//-------------------------------------------------------------------------------------
 		
 		//Constants
-		$NUM_STUDENTS=10;
+		$NUM_STUDENTS=20;
 		$NUM_CENTERS=10;
 		
 		//Auto_Increment default values

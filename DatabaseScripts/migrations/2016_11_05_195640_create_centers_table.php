@@ -40,7 +40,7 @@ class CreateCentersTable extends Migration
 			$table->string('city')->nullable(false);
 			$table->enum('province', ['British_Columbia','Alberta','Sasketchewan', 'Manitoba','Ontario','Quebec','Nova_Scotia','Newfoundland_and_Labrador', 'New_Brunswick', 'Prince_Edward_Island','Yukon','Northwest_Territories', 'Nunavut'])->default('British_Columbia')->nullable(false);
 			$table->enum('country', ['Canada'])->default('Canada')->nullable(false);
-			$table->string('postal_code')->nullable(false);
+			$table->string('postal_code',6)->nullable(false);
 			$table->float('longitude',10,6)->default(NULL)->nullable();
 			$table->float('latitude',10,6)->default(NULL)->nullable();
 			$table->timestamps();

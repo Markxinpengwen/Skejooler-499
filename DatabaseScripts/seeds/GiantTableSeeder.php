@@ -21,8 +21,8 @@ class GiantTableSeeder extends Seeder
 		//-------------------------------------------------------------------------------------
 		
 		//Constants
-		$NUM_STUDENTS=20;
-		$NUM_CENTERS=10;
+		$NUM_STUDENTS=10;
+		$NUM_CENTERS=5;
 		
 		//Auto_Increment default values
 		$USERS_DEFAULT_AUTO_INCREMENT = 10000;
@@ -35,7 +35,21 @@ class GiantTableSeeder extends Seeder
 		//Faker
 		$faker = Faker\Factory::create();
 		
-		//Acquire initial auto_increment value from database, for all tables, and then print them.
+		//(For Students) Check for Institutions for 'institution' foreign key reference.
+		$result = DB::select(DB::raw("SELECT count(*) AS 'count' FROM institutions;"));
+		$num_institutions = $result[0]['count'];
+		$institutions;
+		if ($num_institutions < $NUM_STUDENTS){
+			echo "There are only ".$num_institutions." Institutions for ".$NUM_STUDENTS." Students.\n\tMultiple students per available institution.\n";
+			$institutions = DB::table('institutions')->pluck('iid')->take($num_institutions);
+		}else{
+			echo "Institution Count: ".$num_institutions.".\n";
+			$institutions = DB::table('institutions')->pluck('iid')->take($NUM_STUDENTS);
+		}
+		$institutions = $institutions->toArray();		
+		shuffle($institutions);
+		
+		//Acquire initial auto_increment values from database (for students, users, and centers) and then print them.
 		//Students
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Students'"));
 		$sid = $result[0]['Auto_increment'];
@@ -64,6 +78,8 @@ class GiantTableSeeder extends Seeder
 			echo "Centers next Auto_Increment value was 0.\n\tSetting to default value of ".$cid.".\n";
 		}
 		
+		unset($result);
+		
 		//First, we will create the Student and Center arrays with all of the values in them.
 		//Second, we will create the User table, and entries, based on the values in the Student/Center arrays.
 		
@@ -74,12 +90,30 @@ class GiantTableSeeder extends Seeder
 		//Student Array
 		$students = array();
 		for($i = 0; $i < $NUM_STUDENTS; $i++) {
+			//Define enumerated variables and switch assignments
+			$gender="";
+			switch(rand(0,3)){
+				case 0:
+					$gender="male";
+					break;
+				case 1:
+					$gender="female";
+					break;
+				case 2:
+					$gender="not_declared";
+					break;
+				case 3:
+					$gender="transgender";
+					break;					
+			};
+			$school = $institutions[($i%$num_institutions)];
 			$students[$i] = [
 				'sid' => 0,
 				'firstName' => $faker->firstName,
 				'lastName' => $faker->lastName,
 				'email' => $faker->unique()->safeEmail,
-				'gender' => (rand(0,1) == 1 ? "male" : "female"),
+				'institution' => $school,
+				'gender' => $gender,
 				'age' => (rand(0,40)+ 20),
 				'phone' => substr($faker->e164PhoneNumber,-11),
 				'created_at' => $faker->dateTimeThisDecade($max = 'now'),
@@ -103,9 +137,11 @@ class GiantTableSeeder extends Seeder
 				'city' => $faker->city(),
 				'province' => 'British_Columbia',
 				'country' => 'Canada',
-				'postal_code' => "A1B2C3",
+				'postal_code' => substr($faker->e164PhoneNumber,-6),
 				'longitude' => $faker->longitude($max = -119.2, $min = -127.0 ),
-				'latitude' => $faker->latitude($max = 52.11, $min = 49.04 )
+				'latitude' => $faker->latitude($max = 52.11, $min = 49.04 ),
+				'created_at' => $faker->dateTimeThisDecade($max = 'now'),
+				'updated_at' => $faker->dateTimeThisMonth($max = 'now')
 			];
 		}//for
 		echo "\nGenerated ". $NUM_CENTERS . " Centers.";
@@ -198,7 +234,9 @@ class GiantTableSeeder extends Seeder
 						'country' => $centers[$i]['country'],
 						'postal_code' => $centers[$i]['postal_code'],
 						'longitude' => $centers[$i]['longitude'],
-						'latitude' => $centers[$i]['latitude']
+						'latitude' => $centers[$i]['latitude'],
+						'created_at' => $centers[$i]['created_at'],
+						'updated_at' => $centers[$i]['updated_at']
 					]
 				);
 				echo "\n\t- Center ".$centers[$i]['cid'].": ".$centers[$i]['name'];				
@@ -209,6 +247,7 @@ class GiantTableSeeder extends Seeder
 						'firstName' => $students[($i-$NUM_CENTERS)]['firstName'],
 						'lastName' => $students[($i-$NUM_CENTERS)]['lastName'],
 						'email' => $students[($i-$NUM_CENTERS)]['email'],
+						'institution' => $students[($i-$NUM_CENTERS)]['institution'],
 						'gender' => $students[($i-$NUM_CENTERS)]['gender'],
 						'age' => $students[($i-$NUM_CENTERS)]['age'],
 						'phone' => $students[($i-$NUM_CENTERS)]['phone'],

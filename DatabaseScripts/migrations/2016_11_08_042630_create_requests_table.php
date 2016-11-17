@@ -30,7 +30,7 @@ class CreateRequestsTable extends Migration
 			$table->increments('rid');
 			$table->integer('student')->unsigned();
 			$table->foreign('student')->references('sid')->on('Students')->onDelete('cascade')->onUpdate('cascade'); //**
-			$table->integer('center')->unsigned();
+			$table->integer('center')->unsigned()->nullable(); //center must be nullable, for requests to unregistered centers without a CID.
 			$table->foreign('center')->references('cid')->on('Centers')->onDelete('cascade')->onUpdate('cascade'); //**
 			//School Information
 			$table->string('center_name')->nullable(false);

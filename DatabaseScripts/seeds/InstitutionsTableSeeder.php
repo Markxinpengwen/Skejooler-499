@@ -22,7 +22,7 @@ class InstitutionsTableSeeder extends Seeder
     public function run()
     {
         //Constants
-		$NUM_INSTITUTIONS=1;
+		$NUM_INSTITUTIONS=3;
 		$DEFAULT_AUTO_INCREMENT = 10000;
 		
 		//Echo
@@ -52,8 +52,11 @@ class InstitutionsTableSeeder extends Seeder
 				[					
 					'iid' => $iid,
 					'name' => $tmp,
-					'description' => $faker->bs() . ", is our description.",
-					'hasPaid' => rand(0,1)
+					'description' => $faker->bs(). " ".$faker->bs(). ", is our description.",
+					'hasPaid' => rand(0,1),
+					'remember_token' => str_random(100),
+					'created_at' => $faker->dateTimeThisDecade($max = 'now'),
+					'updated_at' => $faker->dateTimeThisMonth($max = 'now')
 				]
 			);
 			
@@ -61,9 +64,10 @@ class InstitutionsTableSeeder extends Seeder
 			echo "\n\t- Institution ". $iid .": ". $tmp .".";
 			$iid++;
 		}//for
-    }
+		echo "\n";
+    }//run
 	
-}
+}//class
 
 /**
 OLD:

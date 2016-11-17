@@ -15,8 +15,13 @@ class RequestsSeeder extends Seeder
      */
     public function run()
     {		
+		
+		//-------------------------------------------------------------------------------------
+		//STEP 1) SETUP
+		//-------------------------------------------------------------------------------------
+		
 		//Constants
-		$NUM_REQUESTS = 100;
+		$NUM_REQUESTS = 25;
 		$DEFAULT_AUTO_INCREMENT = 20000;
 		
 		//Variables
@@ -27,30 +32,7 @@ class RequestsSeeder extends Seeder
 		//Print
 		echo "RequestSeeder] Creating ".$NUM_REQUESTS." Requests from students.\n";
 		
-		
-		//Count number of students
-		$result = DB::select(DB::raw("SELECT count(*) AS 'count' FROM students;"));
-		$num_students = $result[0]['count'];
-		if ($num_students < $NUM_REQUESTS){
-			echo "There are only ".$num_students." students for ".$NUM_REQUESTS." requests.\n\tMultiple request per available student.";
-		}else{
-			echo "Student Count: ".$num_students.".";
-		}
-		unset($result);
-		
-		//Count number of centers
-		$result = DB::select(DB::raw("SELECT count(*) AS 'count' FROM centers;"));
-		$num_centers = $result[0]['count'];
-		if ($num_centers < $NUM_REQUESTS){
-			echo "\nThere are only ".$num_centers." centers for ".$NUM_REQUESTS." requests.\n\tMultiple request per available center.";
-		}else{
-			echo "\nCenter Count: ".$num_centers.".";
-		}
-		unset($result);
-		
-		
-		
-		//Acquire initial rid auto_increment value from database, and then print.
+		//Acquire initial RID auto_increment value from database, and then print.
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Requests'"));
 		$rid = $result[0]['Auto_increment'];
 		if($rid!=0){
@@ -59,35 +41,46 @@ class RequestsSeeder extends Seeder
 			$rid = $DEFAULT_AUTO_INCREMENT;
 			echo "\nRequests next Auto_Increment value was 0.\n\tSetting to default value of ".$rid.".\n";
 		}
-	
 		
-		//Acquire Valid Students SID's, shuffle for random order	
-		if($num_students<$NUM_REQUESTS){
-			$students = DB::table('students')->take($num_students)->pluck('sid');
-		}else{
-			$students = DB::table('students')->take($NUM_REQUESTS)->pluck('sid');
-		}
-		$students = $students->toArray();
-		shuffle($students);
-		
-		
-		//Acquire Valid Centers data
-		if($num_centers<$NUM_REQUESTS){
-			$centers = DB::table('centers')->take($num_centers)->get();		
-		}else{
-			$centers = DB::table('centers')->take($NUM_REQUESTS)->get();
-		}
-		$centers = $centers->toArray();
-		
-		
-		
-		//Students and Centers check
+		//Students and Centers empty check
 		if (count($num_students) == 0 || count($num_centers) == 0){
 			echo "\n\nNO STUDENTS AND/OR NO CENTERS TO WORK WITH. TERMINATING...\n";
 			return;
 		}
-
 		
+		//Count number of students, and collect/shuffle SID's
+		$students;
+		$result = DB::select(DB::raw("SELECT count(*) AS 'count' FROM students;"));
+		$num_students = $result[0]['count'];
+		if ($num_students < $NUM_REQUESTS){
+			echo "There are only ".$num_students." students for ".$NUM_REQUESTS." requests.\n\tMultiple request per available student.";
+			$students = DB::table('students')->take($num_students)->pluck('sid');
+		}else{
+			echo "Student Count: ".$num_students.".";
+			$students = DB::table('students')->take($NUM_REQUESTS)->pluck('sid');
+		}
+		$students = $students->toArray();
+		shuffle($students);
+		unset($result);
+		
+		//Count number of Centers, and collect Center's records
+		$centers;
+		$result = DB::select(DB::raw("SELECT count(*) AS 'count' FROM centers;"));
+		$num_centers = $result[0]['count'];
+		if ($num_centers < $NUM_REQUESTS){
+			echo "\nThere are only ".$num_centers." centers for ".$NUM_REQUESTS." requests.\n\tMultiple request per available center.";
+			$centers = DB::table('centers')->take($num_centers)->get();
+		}else{
+			echo "\nCenter Count: ".$num_centers.".";
+			$centers = DB::table('centers')->take($NUM_REQUESTS)->get();
+		}
+		$centers = $centers->toArray();
+		unset($result);
+		
+		
+		//--------------------------------------------------------------------------------
+		//STEP 2) CREATING REQUEST VALUES
+		//--------------------------------------------------------------------------------
 		
 		//If number of requests can be satisfied without modular math
 		if(count($students)>=$NUM_REQUESTS && count($centers)>=$NUM_REQUESTS) {
@@ -95,6 +88,31 @@ class RequestsSeeder extends Seeder
 			$requests = array();
 			$i = 0;
 			for($i = 0;$i<$NUM_REQUESTS;$i++){
+				//Define enumerated variables and switch assignments
+				$type="";
+				switch(rand(0,2)){
+					case 0:
+						$type="Final";
+						break;
+					case 1:
+						$type="Midterm";
+						break;
+					case 2:
+						$type="Other";
+						break;					
+				};
+				$medium="";
+				switch(rand(0,2)){
+					case 0:
+						$medium="Paper";
+						break;
+					case 1:
+						$medium="Online";
+						break;
+					case 2:
+						$medium="Other";
+						break;					
+				};
 				$requests[$i] = [
 					//Request Identifiers
 					'rid' => ($rid+$i),
@@ -115,16 +133,17 @@ class RequestsSeeder extends Seeder
 					//'prefered_time' =>
 					'course_code' => substr($faker->unixTime($max = 'now'), 4),
 					'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
-					'exam_type' => "Final",
-					'exam_medium' => "Paper",
+					'exam_type' => $type,
+					'exam_medium' => $medium,
 					'approval_status' => rand(0,1),
 					//Request Metainformation
+					'remember_token' => str_random(100),
 					'created_at' => $faker->dateTimeThisDecade($max = 'now'),
 					'updated_at' => $faker->dateTimeThisMonth($max = 'now')
 				];
 			}//for
 		}else{
-			//else, we're busting out the modular math...
+			//Else, we need to bust out the modular math... (//!@#This can be collapsed later)
 			//rid = rid + i
 			//s = (r%s)-1
 			//c= (r%c)-1
@@ -135,10 +154,37 @@ class RequestsSeeder extends Seeder
 			for($i = 1;$i<=$NUM_REQUESTS;$i++){
 				$idx=($i%$num_centers);
 				//echo "\nFor Request: ".($rid+$i-1)." (".$rid."+".$i."-1), the idx value is: ".$idx.". Grabs element centers[".$idx."].";
+				
+				//Define enumerated variables and switch assignments
+				$type="";
+				switch(rand(0,2)){
+					case 0:
+						$type="Final";
+						break;
+					case 1:
+						$type="Midterm";
+						break;
+					case 2:
+						$type="Other";
+						break;					
+				};
+				$medium="";
+				switch(rand(0,2)){
+					case 0:
+						$medium="Paper";
+						break;
+					case 1:
+						$medium="Online";
+						break;
+					case 2:
+						$medium="Other";
+						break;					
+				};
 				$requests[$i-1] = [
 					//Request Identifiers
 					'rid' => ($rid+$i-1),
-					'student' => $students[($i%$num_students)],
+					//'student' => $students[($i%$num_students)-1], //??
+					'student' => (($num_students < $NUM_REQUESTS)? $students[($i%$num_students)] : $students[($i%$num_students)-1] ),
 					'center' => $centers[$idx]['cid'],
 					'center_name' => $centers[$idx]['name'],
 					'center_street_name' => $centers[$idx]['street_name'],
@@ -155,18 +201,23 @@ class RequestsSeeder extends Seeder
 					//'prefered_time' =>
 					'course_code' => substr($faker->unixTime($max = 'now'), 4),
 					'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
-					'exam_type' => "Final",
-					'exam_medium' => "Paper",
+					'exam_type' => $type,
+					'exam_medium' => $medium,
 					'approval_status' => rand(0,1),
 					//Request Metainformation
+					'remember_token' => str_random(100),
 					'created_at' => $faker->dateTimeThisDecade($max = 'now'),
 					'updated_at' => $faker->dateTimeThisMonth($max = 'now')
 				];
 			}//for
 			
 		}			
-		echo "Generated ".$NUM_REQUESTS." Requests.\n";
+		echo "\nGenerated ".$NUM_REQUESTS." Requests.\n";
 		unset($i);
+		
+		//--------------------------------------------------------------------------------
+		//STEP 3) SUBMITTING REQUESTS VALUES TO DATABASE
+		//--------------------------------------------------------------------------------
 		
 		//Now we submit all of the values into the database
 		$i = 0;
@@ -189,7 +240,7 @@ class RequestsSeeder extends Seeder
 					'center_contact_number' => $requests[$i]['center_contact_number'],
 					//other attributes
 					'prefered_date_1' => $requests[$i]['prefered_date_1'],
-					'prefered_date_1' => $requests[$i]['prefered_date_1'],
+					'prefered_date_2' => $requests[$i]['prefered_date_2'],
 					//'prefered_time' =>
 					'course_code' => $requests[$i]['course_code'],
 					'additional_requirements' => $requests[$i]['additional_requirements'],
@@ -197,6 +248,7 @@ class RequestsSeeder extends Seeder
 					'exam_medium' => $requests[$i]['exam_medium'],
 					'approval_status' => $requests[$i]['approval_status'],
 					//Request Metainformation
+					'remember_token' => $requests[$i]['remember_token'],
 					'created_at' => $requests[$i]['created_at'],
 					'updated_at' => $requests[$i]['updated_at']
 				]

@@ -13,7 +13,7 @@ class CreateRequestsTable extends Migration
 		to restrict that using a MySQL view?
 	- //** These referential actions for FK's 'student' and 'center' might have
 		to be changed in the future to allow preservation of information.
-	- NEED TO IMPLEMENT PREFERED TIME.
+	- NEED TO IMPLEMENT preferred TIME.
 		*/
 	/**
      * Run the migrations.
@@ -43,9 +43,9 @@ class CreateRequestsTable extends Migration
 			$table->string('center_contact_email')->nullable();
 			$table->string('center_contact_number')->nullable();
 			//other attributes
-			$table->enum('prefered_date_1', ['Any_Day','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'])->default('Any_Day')->nullable(false);
-			$table->enum('prefered_date_2', ['Any_Day','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'])->default('Any_Day')->nullable(false);
-			//$time->timeTz('prefered_time')->nullable(false);
+			$table->enum('preferred_date_1', ['Any_Day','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'])->default('Any_Day')->nullable(false);
+			$table->enum('preferred_date_2', ['Any_Day','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'])->default('Any_Day')->nullable(false);
+			$table->time('preferred_time')->nullable(false);
 			$table->string('course_code',20)->nullable(false);
 			$table->string('additional_requirements',500)->nullable();
 			$table->enum('exam_type',['Final','Midterm','Other'])->default('Final')->nullable(false);

@@ -128,9 +128,9 @@ class RequestsSeeder extends Seeder
 					'center_contact_email' => $faker->safeEmail,
 					'center_contact_number' => substr($faker->e164PhoneNumber,-11),
 					//other attributes
-					'prefered_date_1' => $faker->dayOfWeek,
-					'prefered_date_2' => $faker->dayOfWeek,
-					//'prefered_time' =>
+					'preferred_date_1' => $faker->dayOfWeek,
+					'preferred_date_2' => $faker->dayOfWeek,
+					'preferred_time' => $faker->time($format = 'H:i').":00", //valid time?
 					'course_code' => substr($faker->unixTime($max = 'now'), 4),
 					'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					'exam_type' => $type,
@@ -196,9 +196,9 @@ class RequestsSeeder extends Seeder
 					'center_contact_email' => $faker->safeEmail,
 					'center_contact_number' => substr($faker->e164PhoneNumber,-11),
 					//other attributes
-					'prefered_date_1' => $faker->dayOfWeek,
-					'prefered_date_2' => $faker->dayOfWeek,
-					//'prefered_time' =>
+					'preferred_date_1' => $faker->dayOfWeek,
+					'preferred_date_2' => $faker->dayOfWeek,
+					'preferred_time' => $faker->time($format = 'H:i').":00", //valid time?
 					'course_code' => substr($faker->unixTime($max = 'now'), 4),
 					'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					'exam_type' => $type,
@@ -239,9 +239,9 @@ class RequestsSeeder extends Seeder
 					'center_contact_email' => $requests[$i]['center_contact_email'],
 					'center_contact_number' => $requests[$i]['center_contact_number'],
 					//other attributes
-					'prefered_date_1' => $requests[$i]['prefered_date_1'],
-					'prefered_date_2' => $requests[$i]['prefered_date_2'],
-					//'prefered_time' =>
+					'preferred_date_1' => $requests[$i]['preferred_date_1'],
+					'preferred_date_2' => $requests[$i]['preferred_date_2'],
+					'preferred_time' => $requests[$i]['preferred_time'],
 					'course_code' => $requests[$i]['course_code'],
 					'additional_requirements' => $requests[$i]['additional_requirements'],
 					'exam_type' => $requests[$i]['exam_type'],

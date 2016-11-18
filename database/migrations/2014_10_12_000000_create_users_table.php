@@ -13,14 +13,19 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
+        Schema::create('Users', function (Blueprint $table) {
+            $table->increments('uid');           
+			$table->string('username')->unique();
+            $table->string('passwordHash');
+			$table->string('salt');
             $table->rememberToken();
             $table->timestamps();
+			//Engine
+			$table->engine = 'InnoDB';
         });
+		
+		//Auto-Increment
+		DB::update("ALTER TABLE Users AUTO_INCREMENT = 10000;");
     }
 
     /**
@@ -30,6 +35,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('Users');
     }
 }

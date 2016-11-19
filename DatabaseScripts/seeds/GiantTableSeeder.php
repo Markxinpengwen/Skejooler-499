@@ -8,6 +8,8 @@ require_once 'vendor/fzaninotto/faker/src/autoload.php';
 class GiantTableSeeder extends Seeder
 {
 	
+	//!@# need utype logic
+	
 	/**
      * Seeds ALL the Dependant tables
      *
@@ -23,6 +25,7 @@ class GiantTableSeeder extends Seeder
 		//Constants
 		$NUM_STUDENTS=10;
 		$NUM_CENTERS=5;
+		$NUM_ADMINS=2;
 		
 		//Auto_Increment default values
 		$USERS_DEFAULT_AUTO_INCREMENT = 10000;
@@ -30,7 +33,7 @@ class GiantTableSeeder extends Seeder
 		$CENTERS_DEFAULT_AUTO_INCREMENT = 10000;
 		
 		//Print
-		echo "GiantTableSeeder] Seeding: ".($NUM_STUDENTS+$NUM_CENTERS). " Users, ".$NUM_STUDENTS. " Students, and ".$NUM_CENTERS . " Centers.\n";
+		echo "GiantTableSeeder] Seeding ".($NUM_STUDENTS+$NUM_CENTERS+$NUM_ADMINS). " Users: ".$NUM_STUDENTS. " Students, and ".$NUM_CENTERS . " Centers., and ".$NUM_ADMINS." Admins\n";
 		
 		//Faker
 		$faker = Faker\Factory::create();
@@ -146,13 +149,14 @@ class GiantTableSeeder extends Seeder
 		}//for
 		echo "\nGenerated ". $NUM_CENTERS . " Centers.";
 		
+		//Currently, no personal information for admins.
 		
 		//Users Array		
 		$users = array();
 		//Same Password for all users
 		$password="password";		
 		//Populate array
-		for($i = 0; $i < ($NUM_CENTERS+$NUM_STUDENTS); $i++) {
+		for($i = 0; $i < ($NUM_CENTERS+$NUM_STUDENTS+$NUM_ADMINS); $i++) {
 			//Recalculate Time, and Hash Options
 			$now = getdate();
 			$options = [
@@ -160,20 +164,27 @@ class GiantTableSeeder extends Seeder
 				'salt' => str_random(22) //22 required minimum //str_random safe? random_bytes
 			];
 			
-			//Username, if Student or Center
+			//Create Username and 'utype' (if Student, Center, or Admin)
 			if($i < $NUM_CENTERS){
 				//Center: First 10 letters of name + random digit 0-9
 				$username = substr($centers[$i]['name'],0,10) . rand(0,9);
-			}else{
+				$type = 2;
+			}elseif($i < ($NUM_CENTERS+$NUM_STUDENTS)){
 				//Student: First 5 letters of First and Last Names
 				$username = substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5);
-			}
+				$type = 1;
+			}else{
+				//admin: first 5 of first name last name, and a random 0-9
+				$username = substr($faker->firstName . $faker->lastName,0,5) . rand(0,9);
+				$type = 0;
+			}	
 
 			$users[$i] = [
 				'uid' => $uid, //remember uid is incremented below
 				'username' => $username,
 				'salt' => $options['salt'],
 				'passwordHash' => password_hash($password, PASSWORD_DEFAULT, $options),
+				'utype' => $type,
 				'remember_token' => str_random(100),
 				'created_at' => $faker->dateTimeThisDecade($max = 'now'),
 				'updated_at' => $faker->dateTimeThisMonth($max = 'now')
@@ -182,8 +193,8 @@ class GiantTableSeeder extends Seeder
 			//Assign this UID to either Student or Center
 			if($i<$NUM_CENTERS){
 				$centers[$i]['cid'] = $uid;
-			}else{
-				$students[($i-$NUM_CENTERS)]['sid'] = $uid; //!@#?
+			}elseif($i < ($NUM_CENTERS+$NUM_STUDENTS)){
+				$students[($i-$NUM_CENTERS)]['sid'] = $uid;
 			}
 			
 			//Increment uid
@@ -196,8 +207,8 @@ class GiantTableSeeder extends Seeder
 		//--------------------------------------------------------------------------------
 		
 		//Users
-		echo "\n\nInserting Users:";
-		for($i = 0; $i < ($NUM_CENTERS+$NUM_STUDENTS); $i++) {
+		echo "\n\nInserting Users (including admins):";
+		for($i = 0; $i < ($NUM_CENTERS+$NUM_STUDENTS+$NUM_ADMINS); $i++) {
 			//Submit Users
 			DB::table('Users')->insert(
 				[					
@@ -205,6 +216,7 @@ class GiantTableSeeder extends Seeder
 					'username' => $users[$i]['username'],
 					'salt' => $users[$i]['salt'],
 					'passwordHash' => $users[$i]['passwordHash'],
+					'utype' => $users[$i]['utype'],
 					'remember_token' => $users[$i]['remember_token'],
 					'created_at' => $users[$i]['created_at'],
 					'updated_at' => $users[$i]['updated_at']

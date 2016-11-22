@@ -7,8 +7,16 @@ require_once 'vendor/fzaninotto/faker/src/autoload.php';
 
 class GiantTableSeeder extends Seeder
 {
+	/*
+	NOTE ON EMAIL ADDRESS:
+		Student: //Student: First 5 letters of First + First 5 letters of Last Name + Random Digit 0-9 + "@example.com"
+				$email = substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.com";
+		Center: //Center: First 10 letters of name + Random Digit 0-9 + "@example.com"
+				$email = substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.com";
+		Admin: //admin: first 5 of random string (first name + last name) + Random Digit 0-9 + "@example.com"
+				$email = substr($faker->firstName . $faker->lastName,0,5) . rand(0,9)."@example.com";
+	*/
 	
-	//!@# need utype logic
 	
 	/**
      * Seeds ALL the Dependant tables
@@ -64,12 +72,12 @@ class GiantTableSeeder extends Seeder
 		}
 		//Users
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Users'"));
-		$uid = $result[0]['Auto_increment'];
-		if($uid!=0){
-			echo "Users Auto_Increment value is: ".$uid.".\n";
+		$id = $result[0]['Auto_increment'];
+		if($id!=0){
+			echo "Users Auto_Increment value is: ".$id.".\n";
 		}else{
-			$uid = $USERS_DEFAULT_AUTO_INCREMENT;
-			echo "Users next Auto_Increment value was 0.\n\tSetting to default value of ".$uid.".\n";
+			$id = $USERS_DEFAULT_AUTO_INCREMENT;
+			echo "Users next Auto_Increment value was 0.\n\tSetting to default value of ".$id.".\n";
 		}
 		//Centers
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Centers'"));
@@ -114,7 +122,6 @@ class GiantTableSeeder extends Seeder
 				'sid' => 0,
 				'firstName' => $faker->firstName,
 				'lastName' => $faker->lastName,
-				'email' => $faker->unique()->safeEmail,
 				'institution' => $school,
 				'gender' => $gender,
 				'age' => (rand(0,40)+ 20),
@@ -131,7 +138,6 @@ class GiantTableSeeder extends Seeder
 			$centers[$i] = [
 				'cid' => 0, //determined later
 				'name' => $faker->company() . " Center",
-				'email' => $faker->unique()->safeEmail,
 				'phone' => substr($faker->e164PhoneNumber,-11),
 				'description' => $faker->bs() .$faker->bs() .$faker->bs(),
 				'canSupportOnlineExam' => rand(0,1),
@@ -164,24 +170,24 @@ class GiantTableSeeder extends Seeder
 				'salt' => str_random(22) //22 required minimum //str_random safe? random_bytes
 			];
 			
-			//Create Username and 'utype' (if Student, Center, or Admin)
+			//Create Email and 'utype' (if Student, Center, or Admin)
 			if($i < $NUM_CENTERS){
 				//Center: First 10 letters of name + random digit 0-9
-				$username = substr($centers[$i]['name'],0,10) . rand(0,9);
+				$email = substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.com";
 				$type = 2;
 			}elseif($i < ($NUM_CENTERS+$NUM_STUDENTS)){
 				//Student: First 5 letters of First and Last Names
-				$username = substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5);
+				$email = substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.com";
 				$type = 1;
 			}else{
-				//admin: first 5 of first name last name, and a random 0-9
-				$username = substr($faker->firstName . $faker->lastName,0,5) . rand(0,9);
+				//admin: first 5 of first name + last name, and a random 0-9
+				$email = substr($faker->firstName . $faker->lastName,0,5) . rand(0,9)."@example.com";
 				$type = 0;
 			}	
 
 			$users[$i] = [
-				'uid' => $uid, //remember uid is incremented below
-				'username' => $username,
+				'id' => $id, //remember id is incremented below
+				'email' => $email,
 				'salt' => $options['salt'],
 				'passwordHash' => password_hash($password, PASSWORD_DEFAULT, $options),
 				'utype' => $type,
@@ -192,13 +198,13 @@ class GiantTableSeeder extends Seeder
 			
 			//Assign this UID to either Student or Center
 			if($i<$NUM_CENTERS){
-				$centers[$i]['cid'] = $uid;
+				$centers[$i]['cid'] = $id;
 			}elseif($i < ($NUM_CENTERS+$NUM_STUDENTS)){
-				$students[($i-$NUM_CENTERS)]['sid'] = $uid;
+				$students[($i-$NUM_CENTERS)]['sid'] = $id;
 			}
 			
-			//Increment uid
-			$uid++;
+			//Increment id
+			$id++;
 		}//for		
 		
 		
@@ -212,8 +218,8 @@ class GiantTableSeeder extends Seeder
 			//Submit Users
 			DB::table('Users')->insert(
 				[					
-					'uid' => $users[$i]['uid'],
-					'username' => $users[$i]['username'],
+					'id' => $users[$i]['id'],
+					'email' => $users[$i]['email'],
 					'salt' => $users[$i]['salt'],
 					'passwordHash' => $users[$i]['passwordHash'],
 					'utype' => $users[$i]['utype'],
@@ -222,7 +228,7 @@ class GiantTableSeeder extends Seeder
 					'updated_at' => $users[$i]['updated_at']
 				]
 			);
-			echo "\n\t- User ".$users[$i]['uid'].": ". $users[$i]['username'];
+			echo "\n\t- User ".$users[$i]['id'].": ". $users[$i]['email'];
 		}
 		
 		//Centers AND Students
@@ -235,7 +241,6 @@ class GiantTableSeeder extends Seeder
 					[					
 						'cid' => $centers[$i]['cid'],
 						'name' => $centers[$i]['name'],
-						'email' => $centers[$i]['email'],
 						'phone' => $centers[$i]['phone'],
 						'description' => $centers[$i]['description'],
 						'canSupportOnlineExam' => $centers[$i]['canSupportOnlineExam'],
@@ -258,7 +263,6 @@ class GiantTableSeeder extends Seeder
 						'sid' => $students[($i-$NUM_CENTERS)]['sid'],
 						'firstName' => $students[($i-$NUM_CENTERS)]['firstName'],
 						'lastName' => $students[($i-$NUM_CENTERS)]['lastName'],
-						'email' => $students[($i-$NUM_CENTERS)]['email'],
 						'institution' => $students[($i-$NUM_CENTERS)]['institution'],
 						'gender' => $students[($i-$NUM_CENTERS)]['gender'],
 						'age' => $students[($i-$NUM_CENTERS)]['age'],
@@ -278,6 +282,15 @@ class GiantTableSeeder extends Seeder
 
 /*
 OLD CODE:
+
+
+
+//$username = substr($centers[$i]['name'],0,10) . rand(0,9);
+//$username = substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5);
+
+
+
+
 //Collect all starting auto-increment id's (//!@#bodge)
 		// https://laravel.com/docs/5.3/queries#retrieving-results
 		//Users

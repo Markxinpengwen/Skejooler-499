@@ -28,10 +28,9 @@ class CreateStudentsTable extends Migration
 		//Schema
         Schema::create('Students', function (Blueprint $table) {
 			$table->integer('sid')->unsigned(); //*1
-			$table->foreign('sid')->references('uid')->on('Users')->onDelete('cascade')->onUpdate('cascade');
+			$table->foreign('sid')->references('id')->on('Users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('firstName')->nullable(false);
 			$table->string('lastName')->nullable(false);
-			$table->string('email')->nullable(false);
 			$table->integer('institution')->unsigned()->nullable();
 			$table->foreign('institution')->references('iid')->on('Institutions')->onDelete('set null')->onUpdate('cascade');
 			$table->enum('gender', ['not_declared','male','female','transgender'])->default('not_declared');

@@ -28,9 +28,8 @@ class CreateCentersTable extends Migration
 		//Schema
 		Schema::create('Centers', function (Blueprint $table) {
 			$table->integer('cid')->unsigned(); //*1
-			$table->foreign('cid')->references('uid')->on('Users')->onDelete('cascade')->onUpdate('cascade');
+			$table->foreign('cid')->references('id')->on('Users')->onDelete('cascade')->onUpdate('cascade');
 			$table->string('name')->nullable(false);
-			$table->string('email')->nullable();
 			$table->string('phone',11)->nullable();
 			$table->string('description',1000)->nullable();
 			$table->boolean('canSupportOnlineExam');

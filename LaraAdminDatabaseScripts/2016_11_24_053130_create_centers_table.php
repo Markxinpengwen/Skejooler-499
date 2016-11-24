@@ -31,8 +31,7 @@ class CreateCentersTable extends Migration
             ["country", "country", "Dropdown", false, "Canada", 0, 0, true, ["Canada"]],
             ["postal_code", "postal_code", "String", false, "", 5, 6, true],
             ["longitude", "longitude", "Float", false, "0.000000", 8, 11, false],
-            ["latitude", "latitude", "Float", false, "0.000000", 8, 11, false],
-            ["created_at", "created_at", "Datetime", false, "", 0, 0, false],
+            ["latitude", "latitude", "Float", false, "0.000000", 8, 11, false]
         ]);
 		
 		/*
@@ -78,8 +77,8 @@ class CreateCentersTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('centers')) {
-            Schema::drop('centers');
+        if (Schema::hasTable('Centers')) {
+            Schema::drop('Centers');
         }
     }
 }

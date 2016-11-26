@@ -4,6 +4,8 @@
  * Help: http://laraadmin.com
  */
 
+//Version 1) Untested
+ 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,19 +15,28 @@ class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *	//!@# rememberToken?
      * @return void
      */
     public function up()
     {
-        Module::generate("Users", 'users', 'name', 'fa-group', [
+        Module::generate("Users", 'users', 'id', 'fa-group', [
+            ["id", "id", "Integer", true, 0, 5, 7, true],
+			["email", "email", "Email", true, "", 0, 250, true],
+            ["passwordHash", "passwordHash", "Password", false, "", 6, 250, true],
+            ["salt", "salt", "String", true, "", 6, 250, true],
+            ["utype", "utype", "Radio", false, 1, 0, 0, true, [0,1,2]]
+        ]);
+		/*
+		ORIGINAL TABLE
+		Module::generate("Users", 'users', 'name', 'fa-group', [
             ["name", "Name", "Name", false, "", 5, 250, true],
             ["context_id", "Context", "Integer", false, "0", 0, 0, false],
             ["email", "Email", "Email", true, "", 0, 250, false],
             ["password", "Password", "Password", false, "", 6, 250, true],
             ["type", "User Type", "Dropdown", false, "Employee", 0, 0, false, ["Employee", "Client"]],
         ]);
-		
+		*/
 		/*
 		Row Format:
 		["field_name_db", "Label", "UI Type", "Unique", "Default_Value", "min_length", "max_length", "Required", "Pop_values"]

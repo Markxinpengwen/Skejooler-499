@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
 	public function run()
 	{
 		
+		echo "DatabaseSeeder] Running Standard LaraAdmin Seeder Code...\n";
+		
 		/* ================ LaraAdmin Seeder Code ================ */
 		
 		// Generating Module Menus
@@ -156,5 +158,22 @@ class DatabaseSeeder extends Seeder
 			$module->is_gen=true;
 			$module->save();	
 		}
-	}
+		
+		echo "DatabaseSeeder] \t- Completed\n";
+		
+		/* ======*=====*===== Custom Seeder Code ====*====*====*==== */
+		
+		echo "DatabaseSeeder] Running Custom Seeder Code for LaraAdmin...\n";
+		
+		//Call Institution Seeder:
+		$this->call(InstitutionsTableSeederLA::class);
+		
+		//!@# later, for users, center, student, and request seeders		
+		
+		//End of custom seed code.
+		echo "DatabaseSeeder] \t- Completed\n";
+		
+		//End Run Mehtod
+		echo "\nDatabaseSeeder] End of Database Seeding.\n";
+	} //run
 }

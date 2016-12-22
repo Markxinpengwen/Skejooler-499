@@ -165,7 +165,7 @@ class RolesController extends Controller
 				return view('la.roles.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
-				])->with('role', $role);
+			      	])->with('role', $role);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,

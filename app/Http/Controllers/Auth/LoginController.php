@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Role;
 use App\User;
+use Validator;
+use Eloquent;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -22,12 +25,22 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
     protected $redirectTo = '/';
+//    protected function redirectTo()
+//    {
+//        $id = Auth::id();
+//        if($id == 1){
+//            return view('/center');
+//        }
+//        else
+//            return view('/center');
+//    }
 
     /**
      * Create a new controller instance.

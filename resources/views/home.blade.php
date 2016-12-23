@@ -54,9 +54,21 @@
             <ul class="nav navbar-nav navbar-right">
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
-                    <!--<li><a href="{{ url('/register') }}">Register</a></li>-->
+                    <li><a href="{{ url('/register') }}">Register</a></li>
                 @else
-                    <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a></li>
+                <!--
+                    redirect basic on user type
+                 -->
+                    @if(Auth::user()->type == 'center')
+                        <li><a href="{{ url('/center') }}">{{ Auth::user()->name }}</a></li>
+                        <li><a href="{{ url('/logout') }}">Log out</a></li>
+                    @elseif(Auth::user()->type == 'student')
+                        <li><a href="{{ url('/student') }}">{{ Auth::user()->name }}</a></li>
+                        <li><a href="{{ url('/logout') }}">Log out</a></li>
+                    @else
+                        <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a></li>
+                        <li><a href="{{ url('/logout') }}">Log out</a></li>
+                    @endif
                 @endif
             </ul>
         </div><!--/.nav-collapse -->

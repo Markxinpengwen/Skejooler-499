@@ -14,8 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/center', 'UserController@center');
 /* ================== Homepage + Admin Routes ================== */
 
 require __DIR__.'/admin_routes.php';
-require __DIR__.'/center_routes.php';
+//require __DIR__.'/center_routes.php';

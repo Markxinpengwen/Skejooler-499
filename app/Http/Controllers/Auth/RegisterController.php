@@ -9,6 +9,7 @@ use Eloquent;
 use App\Models\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -31,6 +32,7 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+
 
     /**
      * Create a new controller instance.
@@ -81,6 +83,7 @@ class RegisterController extends Controller
      *
      * @param  array  $data
      * @return User
+     * Assign user type basic on the input
      */
     protected function create(array $data)
     {
@@ -109,7 +112,7 @@ class RegisterController extends Controller
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'context_id' => $employee->id,
-                'type' => "Employee",
+                'type' => "student",
             ]);
         }
         else{
@@ -135,7 +138,7 @@ class RegisterController extends Controller
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'context_id' => $employee->id,
-                'type' => "Client",
+                'type' => "center",
             ]);
         }
         $role = Role::where('name', 'SUPER_ADMIN')->first();

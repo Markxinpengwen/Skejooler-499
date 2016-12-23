@@ -62,10 +62,10 @@
                     </div><!-- /.col -->
 
                     </div><!-- /.col -->
-                    <div class="col-xs-4">
+                    <div class="col-xs-12">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
                     </div><!-- /.col -->
-                </div>
+                <br>
             </form>
 
             @include('auth.partials.social_login')

@@ -32,41 +32,10 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
-//    protected function redirectTo()
-//    {
-//        $id = Auth::id();
-//        if($id == 1){
-//            return view('/center');
-//        }
-//        else
-//            return view('/center');
-//    }
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
 
-    public function showLoginForm()
-    {
-		$roleCount = Role::count();
-		if($roleCount != 0) {
-			$userCount = User::count();
-			if($userCount == 0) {
-				return redirect('register');
-			} else {
-				return view('auth.login');
-			}
-		} else {
-			return view('errors.error', [
-				'title' => 'Migration not completed',
-				'message' => 'Please run command <code>php artisan db:seed</code> to generate required table data.',
-			]);
-		}
-    }
 }

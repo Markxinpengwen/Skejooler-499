@@ -9,4 +9,7 @@ class UserController extends Controller
     public function center(){
         return view('/center');
     }
+    public function student(){
+        return view('/student');
+    }
 }

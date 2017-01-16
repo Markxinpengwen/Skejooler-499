@@ -3,7 +3,7 @@
 
 	@if(LAConfigs::getByKey('layout') != 'layout-top-nav')
 	<!-- Logo -->
-	<a href="{{ url('/center') }}" class="logo">
+	<a href="{{ url('/student') }}" class="logo">
 		<!-- mini logo for sidebar mini 50x50 pixels -->
 		<span class="logo-mini"><b>{{ LAConfigs::getByKey('sitename_short') }}</b></span>
 		<!-- logo for regular state and mobile devices -->
@@ -22,15 +22,15 @@
 					<i class="fa fa-bars"></i>
 				</button>
 			</div>
-			@include('cn.layouts.partials.top_nav_menu')
-			@include('cn.layouts.partials.notifs')
+			@include('st.layouts.partials.top_nav_menu')
+			@include('st.layouts.partials.notifs')
 		</div><!-- /.container-fluid -->
 	@else
 		<!-- Sidebar toggle button-->
 		<a href="#" class="sidebar-toggle b-l" data-toggle="offcanvas" role="button">
 			<span class="sr-only">Toggle navigation</span>
 		</a>
-		@include('cn.layouts.partials.notifs')
+		@include('st.layouts.partials.notifs')
 	@endif
 	
 	</nav>

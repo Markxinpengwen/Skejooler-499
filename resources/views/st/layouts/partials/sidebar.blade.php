@@ -35,9 +35,9 @@
         <ul class="sidebar-menu">
             <li class="header">FUNCTIONS</li>
             <!-- Optionally, you can add icons to the links -->
-            <li><a href="{{url('/center') }}"></i> <span>Dashboard</span></a></li>
-            <li><a href="{{url('/center') }}"></i> <span>Forms</span></a></li>
-            <li><a href="{{url('/center') }}"></i> <span>Requests</span></a></li>
+            <li><a href="{{url('/student') }}"></i> <span>Dashboard</span></a></li>
+            <li><a href="{{url('/student') }}"></i> <span>Forms</span></a></li>
+            <li><a href="{{url('/student') }}"></i> <span>Requests</span></a></li>
 
             <?php
             $menuItems = Dwij\Laraadmin\Models\Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();

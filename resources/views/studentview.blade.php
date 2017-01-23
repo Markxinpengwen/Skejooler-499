@@ -294,18 +294,29 @@
                 }
                 if(section==2){
                     //Examinee Information
-                    document.getElementById('firstName').value="";
-                    document.getElementById('lastName').value="";
-                    document.getElementById('phone').value="";
-                    document.getElementById('email').value="";
+                    document.getElementById('studentFirstName').value="";
+                    document.getElementById('studentLastName').value="";
+                    document.getElementById('studentPhone').value="";
+                    document.getElementById('studentEmail').value="";
                     console.log("Sec.2 Examinee Information [cleared]");
                 }
                 if(section==3){
                     //Institution Information
+                    document.getElementById('institutionName').value="";
+                    document.getElementById('institutionStreetAddress').value="";
+                    document.getElementById('institutionCity').value="";
+                    document.getElementById('institutionContactName').value="";
+                    document.getElementById('institutionContactPhone').value="";
+                    document.getElementById('institutionContactEmail').value="";
                     console.log("Sec.3 Institution Information [cleared]");
                 }
                 if(section==4){
                     //Exam Information
+                    document.getElementById('courseNumber').value="";
+                    document.getElementById('midtermOrFinal').value="Midterm";
+                    document.getElementById('examType').value="Paper";
+                    document.getElementById('computerRequired').value="";
+                    document.getElementById('additionalInformation').value="";
                     console.log("Sec.4 Exam Information [cleared]");
                 }
 
@@ -313,6 +324,30 @@
 
         </script>
 
+        <!--Modernizr, and tests-->
+        <script src="modernizr-custom.js"></script>
+        <script type="text/javascript">
+            /*
+            console.log("Beginning Modernizr Browser Feature Tests");
+            Modernizr = new Modernizr();
+            //date ability
+            if (Modernizr.inputtypes.date) {
+                console.log("Date element SUPPORTED.");
+            } else {
+                console.log("Date element NOT SUPPORTED.");
+            }
+            */
+
+            Modernizr.load({
+                test: Modernizr.inputtypes.date,
+                nope: ['http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js', 'jquery-ui.css'],
+                complete: function () {
+                    $('input[type=date]').datepicker({
+                        dateFormat: 'yy-mm-dd'
+                    });
+                }
+            });
+        </script>
     </head>
 
     <body>
@@ -323,7 +358,7 @@
         <div id="map-canvas"></div>
 
 
-        <h3>Filter Criteria:</h3>
+        <h2>Filter Criteria:</h2>
         <!--City Selection-->
         <label>City:</label>
         <select id="city">
@@ -347,15 +382,18 @@
         <br>
         <label for='supportsOnline'>Can Support An Online Exam:</label>
         <input id='supportsOnline'type='checkbox'name='supportsOnline'/>
+        <br>
+        <br>
 
         <!--NEW LARAVEL FORM-->
         <fieldset>
             {!! Form::open() !!}
             <div>
-                <h2>Form:</h2>
+                <h2>Invigilation Center Info:</h2>
                 <button id="clear1" type="button" onclick="clearForm(1);">Clear Section</button>
             </div>
             <div>
+                <!--Cneter Information-->
                 {!! Form::label('centerName','Center Name:') //Center Name!!}
                 {!! Form::text('centerName') !!}
                 <br>
@@ -365,9 +403,7 @@
                 {!! Form::label('centerCity','Center City:') //Center City!!}
                 {!! Form::text('centerCity') !!}
                 <br>
-                {!! Form::label('centerName','Center Name:') //Center Name!!}
-                {!! Form::text('centerName') !!}
-                <br>
+
                 {!! Form::label('centerProvince','Center Province:') //Center Province!!}
                 <select id="centerProvince">
                     <option value="British_Columbia">British Columbia</option>
@@ -386,22 +422,76 @@
                 </select>
             </div>
 
+            <div>
+                <!--Examinee Information-->
+                <h2>Examinee Info:</h2>
+                <button id="clear2" type="button" onclick="clearForm(2);">Clear Section</button>
+                <br>
+                {!! Form::label('studentFirstName','Student First Name:') //Student First Name!!}
+                {!! Form::text('studentFirstName') !!}
+                <br>
+                {!! Form::label('studentLastName','Student Last Name:') //Student Last Name!!}
+                {!! Form::text('studentLastName') !!}
+                <br>
+                {!! Form::label('studentPhone','Student Phone Number:') //Student Phone Number!!}
+                {!! Form::text('studentPhone') //!@# "number" wasn't accepted as method. Revise later!!}
+                <br>
+                {!! Form::label('studentEmail','Student Email Address:') //Student Email!!}
+                {!! Form::email('studentEmail') !!}
+                <br>
+                {!! Form::label('examDate1','Exam Date (First Choice):') //Exam Date 1!!}
+                <input type="date" />
+
+            </div>
+            <div>
+                <!--Institution Information-->
+                <h2>Institution Info:</h2>
+                <button id="clear3" type="button" onclick="clearForm(3);">Clear Section</button>
+                <br>
+                {!! Form::label('institutionName','Institution Name:') //Institution Name!!}
+                {!! Form::text('institutionName') !!}
+                <br>
+                {!! Form::label('institutionStreetAddress','Institution Street Address:') //Institution Street Address!!}
+                {!! Form::text('institutionStreetAddress') !!}
+                <br>
+                {!! Form::label('institutionCity','Institution City:') //Institution City!!}
+                {!! Form::text('institutionCity') !!}
+                <br>
+                {!! Form::label('institutionProvince','Institution Province:') //Institution Province!!}
+                <select id="institutionProvince">
+                    <option value="British_Columbia">British Columbia</option>
+                    <option value="Alberta">Alberta</option>
+                    <option value="Sasketchewan">Sasketchewan</option>
+                    <option value="Manitoba">Manitoba</option>
+                    <option value="Ontario">Ontario</option>
+                    <option value="Quebec">Quebec</option>
+                    <option value="Nova_Scotia">Nova Scotia</option>
+                    <option value="Newfoundland_and_Labrador">Newfoundland and Labrador</option>
+                    <option value="New_Brunswick">New Brunswick</option>
+                    <option value="Prince_Edward_Island">Prince Edward Island</option>
+                    <option value="Yukon">Yukon</option>
+                    <option value="Northwest_Territories">Northwest Territories</option>
+                    <option value="Nunavut">Nunavut</option>
+                </select>
+                <br>
+                {!! Form::label('institutionContactName','Institution Contact Name:') //Institution Contact Name!!}
+                {!! Form::text('institutionContactName') !!}
+                <br>
+                {!! Form::label('institutionContactPhone','Institution Contact Phone:') //Institution Contact Phone!!}
+                {!! Form::text('institutionContactPhone') !!}
+                <br>
+                {!! Form::label('institutionContactEmail','Institution Contact Email:') //Institution Contact Email!!}
+                {!! Form::email('institutionContactEmail') !!}
+
+            </div>
+
             {!! Form::close() !!}
         </fieldset>
 
-        <!--Form Elements (Don't forget to add required)-->
-        <br>
-        <hr>
-        <br>
-        <form>
-            <fieldset>
-                <legend>Invigilation Center Information</legend>
 
-                <br>
-                <label>Center Province:</label>
 
-            </fieldset>
-        </form>
+
+        <!--
 
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
@@ -429,6 +519,9 @@
                 </div>
             </div>
         </div>
+
+        -->
+
 
     </body>
 </html>

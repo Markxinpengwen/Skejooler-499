@@ -44,8 +44,10 @@ class CenterController extends Controller
     public function editProfile()
     {
         $center = DB::table('centers')->where('cid', '1')->get();
-        return $center;
-        //return view('center/profileEdit')->with($center);
+        $center = json_decode($center, true);
+        $center = array_get($center, '0');
+
+        return view('center/profileEdit')->with('center', $center);
     }
 
     /**

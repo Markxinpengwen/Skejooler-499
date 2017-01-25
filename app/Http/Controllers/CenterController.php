@@ -109,6 +109,6 @@ class CenterController extends Controller
 //        $center = json_decode($center, true);
 //        $center = array_get($center, '0');
 //
-//        return view('center/profile')->with('center', $center);
+        return view('center/schedule')->with('center', 'hi');
     }
 }

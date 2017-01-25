@@ -9,6 +9,14 @@ use Collection;
 
 class CenterController extends Controller
 {
+    protected $cid;
+
+    public function __construct()
+    {
+        //get center variables
+        $this->cid = 1;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +24,8 @@ class CenterController extends Controller
      */
     public function index()
     {
-        //TODO temp
-        return showProfile();
+        //TODO set up
+        return CenterController::showProfile();
     }
 
     /**
@@ -28,7 +36,7 @@ class CenterController extends Controller
      */
     public function showProfile()
     {
-        $center = DB::table('centers')->where('cid', '2')->get();
+        $center = DB::table('centers')->where('cid', $this->cid)->get();
         $center = json_decode($center, true);
         $center = array_get($center, '0');
 
@@ -43,7 +51,7 @@ class CenterController extends Controller
      */
     public function editProfile()
     {
-        $center = DB::table('centers')->where('cid', '2')->get();
+        $center = DB::table('centers')->where('cid', $this->cid)->get();
         $center = json_decode($center, true);
         $center = array_get($center, '0');
 
@@ -59,13 +67,23 @@ class CenterController extends Controller
      */
     public function updateProfile()
     {
+        //TODO - change into store profile and validation needed
         $center = Input::all();
-        DB::table('centers')->where('cid', '1')->update([
-            'cname' => $center['cname'],
-            //'' => $center[''],
+        DB::table('centers')->where('cid', $this->cid)->update([
+            'name' => $center['name'],
+            'email' => $center['email'],
+            'phone' => $center['phone'],
+            'description' => $center['description'],
+            //'canSupportOnlineExam' => $center['canSupportOnlineExam'],
+            'cost' => $center['cost'],
+            'street_name' => $center['street_name'],
+            'city' => $center['city'],
+            'province' => $center['province'],
+            'country' => $center['country'],
+            //'postal_code' => $center['postal_code']
         ]);
 
-        return view('center/profile')->with($center);
+        return CenterController::showProfile();
     }
 
     /*
@@ -77,5 +95,20 @@ class CenterController extends Controller
     public function storeProfile(Request $request)
     {
 
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showSchedule()
+    {
+//        $center = DB::table('schedules')->where('cid', $this->cid)->get();
+//        $center = json_decode($center, true);
+//        $center = array_get($center, '0');
+//
+//        return view('center/profile')->with('center', $center);
     }
 }

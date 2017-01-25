@@ -2,16 +2,6 @@
 
 @section('title', 'Profile')
 
-@if (count($errors) > 0)
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 @section('content')
     <table>
     {{ Form::open(array('action' => 'CenterController@updateProfile')) }}
@@ -22,19 +12,19 @@
         {{--TODO - delete--}}
         <tr>
             <td>{{ Form::label('cid', 'Center ID:') }}</td>
-            <td>{{ Form::number('cid', center['cid']) }}</td>
+            <td>{{ Form::number('cid', $center['cid']) }}</td>
         </tr>
 
         <tr><th colspan = "2"><hr>General Info</th></tr>
 
         <tr>
             <td>{{ Form::label('cname', 'Name:') }}</td>
-            <td>{{ Form::text('name', center['name']) }}</td>
+            <td>{{ Form::text('name', $center['name']) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('description', 'Description:') }}</td>
-            <td>{{ Form::textarea('description', center['description']) }}</td>
+            <td>{{ Form::textarea('description', $center['description']) }}</td>
         </tr>
 
         <tr>
@@ -46,36 +36,36 @@
 
         <tr>
             <td>{{ Form::label('cost', 'Exam Cost:') }}</td>
-            <td>{{ Form::text('cost', center['cost']) }}</td>
+            <td>{{ Form::text('cost', $center['cost']) }}</td>
         </tr>
 
         <tr><th colspan = "2"><hr>Contact</th></tr>
 
         <tr>
             <td>{{ Form::label('phone', 'Phone Number:') }}</td>
-            <td>{{ Form::text('phone', center['phone']) }}</td>
+            <td>{{ Form::text('phone', $center['phone']) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('email', 'Email:') }}</td>
-            <td>{{ Form::email('email', center['email']) }}</td>
+            <td>{{ Form::email('email', $center['email']) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('website', 'Website:') }}</td>
-            <td>{{ Form::text('website', center['website']) }}</td>
+            <td>{{ Form::text('website') }}</td>
         </tr>
 
         <tr><th colspan = "2"><hr>Address</th></tr>
 
         <tr>
-            <td>{{ Form::label('street_address', 'Street Address:') }}</td>
-            <td>{{ Form::text('street_address', center['street_address']) }}</td>
+            <td>{{ Form::label('street_name', 'Street Name:') }}</td>
+            <td>{{ Form::text('street_name', $center['street_name']) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('city', 'City:') }}</td>
-            <td>{{ Form::text('city', center['city']) }}</td>
+            <td>{{ Form::text('city', $center['city']) }}</td>
         </tr>
 
         <tr>
@@ -94,7 +84,7 @@
                 'Yukon' => 'Yukon',
                 'Northwest_Territories' => 'Northwest Territories',
                 'Nunavut' => 'Nunavut'
-                ], center['province']
+                ], $center['province']
                 ) }}</td>
         </tr>
 
@@ -102,7 +92,7 @@
             <td>{{ Form::label('country', 'Country:') }}</td>
             <td>{{ Form::select('country', [
                 'Canada' => 'Canada'
-                ], center['country']) }}</td>
+                ], $center['country']) }}</td>
         </tr>
 
         <tr>

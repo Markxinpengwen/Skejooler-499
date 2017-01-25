@@ -209,6 +209,7 @@
 
                 //Collect selection values
                 cityValue = document.getElementById('city').value;
+                    console.log("cityValue is:"+cityValue+".");//!@#
                 radiusValue = document.getElementById('radius').value;
                 supportsOnlineValue = document.getElementById('supportsOnline').value;
                 var query = "";
@@ -229,8 +230,14 @@
                     query += "OnlineSupport = 'Yes'";
                 }
 
-                //Set the radius section of query (and update radius label)
-                document.getElementById("displayRadius").innerHTML = ""+(radiusValue/1000.0)+" kilometers";
+                //Update Radius Label
+                if(radiusValue==0){
+                    document.getElementById("displayRadius").innerHTML = "All Centers";
+                }else {
+                    document.getElementById("displayRadius").innerHTML = "" + (radiusValue / 1000.0) + " kilometers";
+                }
+
+                //Set the radius section of query
                 if(query.length!=0){
                     query+="AND ";
                 }
@@ -338,6 +345,7 @@
             }
             */
 
+            /*
             Modernizr.load({
                 test: Modernizr.inputtypes.date,
                 nope: ['http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js', 'jquery-ui.css'],
@@ -347,6 +355,8 @@
                     });
                 }
             });
+
+            */
         </script>
     </head>
 
@@ -357,55 +367,157 @@
         <!--Map Element-->
         <div id="map-canvas"></div>
 
+        <table>
+            <tr>
+                <th colspan = "3"><h2>Filter Criteria</h2></th>
+            </tr>
+            <tr>
+                <td> {!! Form::label('labelCity','City') !!} </td>
+                <td>
+                    <!--//!@# need to fix optgroup potential error in laravel select form-->
+                    <select id="city">
+                        <!--default-->
+                        <option value="Any City" default>Any City</option>
+                        <!--cities-->
+                        <option value="100 Mile House">100 Mile House [1]</option>
+                        <option value="Abbotsford">Abbotsford [1]</option>
+                        <option value="Burnaby">Burnaby [2]</option>
+                        <option value="Kelowna">Kelowna [0]</option>
+                    </select>
 
-        <h2>Filter Criteria:</h2>
-        <!--City Selection-->
-        <label>City:</label>
-        <select id="city">
-            <!--default-->
-            <option value="Any City">Any City</option>
-            <!--cities-->
-            <option value="100 Mile House">100 Mile House [1]</option>
-            <option value="Abbotsford">Abbotsford [1]</option>
-            <option value="Burnaby">Burnaby [2]</option>
-            <option value="Kelowna">Kelowna [0]</option>
-        </select>
-        <button id="centerButton" type="button" onclick="centerOnCity();">Center To City</button>
+                </td>
+                <td>
+                    <button id="centerButton" type="button" onclick="centerOnCity();">Center To City</button>
+                </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('labelRadius','Radius') !!} </td>
+                <td> <input id='radius'type='Range'min='0'max='40000'step='500'value='0'/> </td>
+                <td> <label id='displayRadius'></label> </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('supportsOnline','Support for Online Exams') !!} </td>
+                <td> {!! Form::checkbox('supportsOnline') !!}</td>
+                <!--
+                <td><input id='supportsOnline'type='checkbox'name='supportsOnline'/> <td/>
+                -->
+            </tr>
+        </table>
 
-        <!--Radius Selection, Range, meters(m)-->
-        <br>
-        <label>Radius:</label>
-        <input id='radius'type='Range'min='0'max='40000'step='500'value='5000'/>
-        <label id='displayRadius'></label>
 
-        <!--Online Exams Checkbox-->
-        <br>
-        <label for='supportsOnline'>Can Support An Online Exam:</label>
-        <input id='supportsOnline'type='checkbox'name='supportsOnline'/>
-        <br>
-        <br>
 
-        <!--NEW LARAVEL FORM-->
-        <fieldset>
-            {!! Form::open() !!}
-            <div>
-                <h2>Invigilation Center Info:</h2>
-                <button id="clear1" type="button" onclick="clearForm(1);">Clear Section</button>
-            </div>
-            <div>
-                <!--Cneter Information-->
-                {!! Form::label('centerName','Center Name:') //Center Name!!}
-                {!! Form::text('centerName') !!}
-                <br>
-                {!! Form::label('centerStreetAddress','Center Street Address:') //Center Street Address!!}
-                {!! Form::text('centerStreetAddress') !!}
-                <br>
-                {!! Form::label('centerCity','Center City:') //Center City!!}
-                {!! Form::text('centerCity') !!}
-                <br>
 
-                {!! Form::label('centerProvince','Center Province:') //Center Province!!}
-                {!! Form::select('centerProvince',[
+        <!--New Form Table-->
+        <table>
+            <tr>
+                <th colspan = "2"><h1>Complete Your Exam Form</h1></th>
+            </tr>
+
+            <!--Section 1): Invigilation Center-->
+
+            <tr>
+                <th colspan = "2"><h2>Invigilation Center</h2></th>
+            </tr>
+            <tr>
+                <td> {!! Form::label('centerName','Center Name:') //Center Name!!} </td>
+                <td> {!! Form::text('centerName') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('centerStreetAddress','Center Street Address:') //Center Street Address!!} </td>
+                <td> {!! Form::text('centerStreetAddress') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('centerCity','Center City:') //Center City!!} </td>
+                <td> {!! Form::text('centerCity') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('centerProvince','Center Province:') //Center Province!!} </td>
+                <td>
+                    {!! Form::select('centerProvince',[
+                        'Canada' => [
+                            'British_Columbia' => 'British Columbia' ,
+                            'Alberta' => 'Alberta',
+                            'Sasketchewan' => 'Sasketchewan',
+                            'Manitoba' => 'Manitoba',
+                            'Ontario' => 'Ontario',
+                            'Quebec' => 'Quebec',
+                            'Nova_Scotia' => 'Nova Scotia',
+                            'Newfoundland_and_Labrador' => 'Newfoundland and Labrador',
+                            'New_Brunswick' => 'New Brunswick',
+                            'Prince_Edward_Island' => 'Prince Edward Island',
+                            'Yukon' => 'Yukon',
+                            'Northwest_Territories' => 'Northwest Territories',
+                            'Nunavut' => 'Nunavut',
+                        ],
+                        'British_Columbia'
+                    ]); !!}
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button id="clear1" type="button" onclick="clearForm(1);">Clear Section</button>
+                </td>
+            </tr>
+
+            <!-- Section 2: Examinee-->
+            <tr></tr>
+            <tr>
+                <th colspan = "2"><h2>Examinee (i.e. You)</h2></th>
+            </tr>
+            <tr>
+                <td> {!! Form::label('studentFirstName','Student First Name:') //Student First Name!!} </td>
+                <td> {!! Form::text('studentFirstName') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('studentLastName','Student Last Name:') //Student Last Name!!} </td>
+                <td> {!! Form::text('studentLastName') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('studentPhone','Student Phone Number:') //Student Phone Number!!} </td>
+                <td> {!! Form::number('studentPhone') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('studentEmail','Student Email Address:') //Student Email!!} </td>
+                <td> {!! Form::email('studentEmail') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('examDate1','Exam Date (First Choice):') //Exam Date 1!!} </td>
+                <!--//!@# //!@# Form::date('name', \Carbon\Carbon::now()); -->
+                <td><input type="date" id="'examDate1" /></td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('examDate2','Exam Date (Second Choice):') //Exam Date 2!!} </td>
+                <td><input type="date" id="'examDate2" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button id="clear2" type="button" onclick="clearForm(2);">Clear Section</button>
+                </td>
+            </tr>
+
+            <!-- Section 3: Institution Info-->
+
+            <tr></tr>
+            <tr>
+                <th colspan = "2"><h2>Institution</h2></th>
+            </tr>
+            <tr>
+                <td> {!! Form::label('institutionName','Institution Name:') //Institution Name!!} </td>
+                <td> {!! Form::text('institutionName') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('institutionStreetAddress','Institution Street Address:') //Institution Street Address!!} </td>
+                <td> {!! Form::text('institutionStreetAddress') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('institutionCity','Institution City:') //Institution City!!} </td>
+                <td> {!! Form::text('institutionCity') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('institutionProvince','Institution Province:') //Institution Province!!} </td>
+                <td> {!! Form::select('institutionProvince',[
                     'Canada' => [
                         'British_Columbia' => 'British Columbia' ,
                         'Alberta' => 'Alberta',
@@ -422,90 +534,38 @@
                         'Nunavut' => 'Nunavut',
                     ],
                     'British_Columbia'
-                ]); !!}
-            </div>
-
-            <div>
-                <!--Examinee Information-->
-                <h2>Examinee Info:</h2>
-                <button id="clear2" type="button" onclick="clearForm(2);">Clear Section</button>
-                <br>
-                {!! Form::label('studentFirstName','Student First Name:') //Student First Name!!}
-                {!! Form::text('studentFirstName') !!}
-                <br>
-                {!! Form::label('studentLastName','Student Last Name:') //Student Last Name!!}
-                {!! Form::text('studentLastName') !!}
-                <br>
-                {!! Form::label('studentPhone','Student Phone Number:') //Student Phone Number!!}
-                {!! Form::number('studentPhone') !!}
-                <br>
-                {!! Form::label('studentEmail','Student Email Address:') //Student Email!!}
-                {!! Form::email('studentEmail') !!}
-                <br>
-                {!! Form::label('examDate1','Exam Date (First Choice):') //Exam Date 1!!}
-                <input type="date" id="'examDate1" />
-                <br>
-                {!! Form::label('examDate2','Exam Date (Second Choice):') //Exam Date 2!!}
-                <input type="date" id="'examDate2" />
-                <br>
-
-            </div>
-            <div>
-                <!--Institution Information-->
-                <h2>Institution Info:</h2>
-                <button id="clear3" type="button" onclick="clearForm(3);">Clear Section</button>
-                <br>
-                {!! Form::label('institutionName','Institution Name:') //Institution Name!!}
-                {!! Form::text('institutionName') !!}
-                <br>
-                {!! Form::label('institutionStreetAddress','Institution Street Address:') //Institution Street Address!!}
-                {!! Form::text('institutionStreetAddress') !!}
-                <br>
-                {!! Form::label('institutionCity','Institution City:') //Institution City!!}
-                {!! Form::text('institutionCity') !!}
-                <br>
-                {!! Form::label('institutionProvince','Institution Province:') //Institution Province!!}
-                {!! Form::select('institutionProvince',[
-                    'Canada' => [
-                        'British_Columbia' => 'British Columbia' ,
-                        'Alberta' => 'Alberta',
-                        'Sasketchewan' => 'Sasketchewan',
-                        'Manitoba' => 'Manitoba',
-                        'Ontario' => 'Ontario',
-                        'Quebec' => 'Quebec',
-                        'Nova_Scotia' => 'Nova Scotia',
-                        'Newfoundland_and_Labrador' => 'Newfoundland and Labrador',
-                        'New_Brunswick' => 'New Brunswick',
-                        'Prince_Edward_Island' => 'Prince Edward Island',
-                        'Yukon' => 'Yukon',
-                        'Northwest_Territories' => 'Northwest Territories',
-                        'Nunavut' => 'Nunavut',
-                    ],
-                    'British_Columbia'
-                ]); !!}
-                <br>
-                {!! Form::label('institutionContactName','Institution Contact Name:') //Institution Contact Name!!}
-                {!! Form::text('institutionContactName') !!}
-                <br>
-                {!! Form::label('institutionContactPhone','Institution Contact Phone:') //Institution Contact Phone!!}
-                {!! Form::text('institutionContactPhone') !!}
-                <br>
-                {!! Form::label('institutionContactEmail','Institution Contact Email:') //Institution Contact Email!!}
-                {!! Form::email('institutionContactEmail') !!}
-
-            </div>
-            <div>
-                <!--Submit Button-->
-                {!! Form::submit('Submit Form'); !!}
-            </div>
-            {!! Form::close() !!}
-        </fieldset>
+                ]); !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('institutionContactName','Institution Contact Name:') //Institution Contact Name!!} </td>
+                <td> {!! Form::text('institutionContactName') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('institutionContactPhone','Institution Contact Phone:') //Institution Contact Phone!!} </td>
+                <td> {!! Form::text('institutionContactPhone') !!} </td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('institutionContactEmail','Institution Contact Email:') //Institution Contact Email!!} </td>
+                <td> {!! Form::email('institutionContactEmail') !!} </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button id="clear3" type="button" onclick="clearForm(3);">Clear Section</button>
+                </td>
+            </tr>
+            <!-- Submit-->
+            <tr><td>.</td></tr>
+            <tr><td>.</td></tr>
+            <tr>
+                <td></td>
+                <td>{!! Form::submit('Submit Form'); !!}</td>
+            </tr>
+        </table>
 
 
 
-
-        <!--
-
+        <!-- Old laravel default code //remove
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
@@ -517,24 +577,7 @@
                     @endif
                 </div>
             @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-
         -->
-
 
     </body>
 </html>

@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Input;
-use DB;
-use Collection;
+use Illuminate\Http\Request as Request;
+use Illuminate\Support\Facades\Input as Input;
+use App\Centers as Centers;
+use Collective\Html\FormFacade as Form;
 
 class CenterController extends Controller
 {
-    protected $cid;
-
-    public function __construct()
-    {
-        //get center variables
-        $this->cid = 1;
-    }
+    protected $cid = 1;
 
     /**
      * Display a listing of the resource.
@@ -24,21 +18,19 @@ class CenterController extends Controller
      */
     public function index()
     {
-        //TODO set up
         return CenterController::showProfile();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $cid
      * @return \Illuminate\Http\Response
      */
     public function showProfile()
     {
-        $center = DB::table('centers')->where('cid', $this->cid)->get();
-        $center = json_decode($center, true);
-        $center = array_get($center, '0');
+        // find correct Center
+        $center = Centers::find($this->cid);
 
         return view('center/profile')->with('center', $center);
     }
@@ -46,14 +38,13 @@ class CenterController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $cid
      * @return \Illuminate\Http\Response
      */
     public function editProfile()
     {
-        $center = DB::table('centers')->where('cid', $this->cid)->get();
-        $center = json_decode($center, true);
-        $center = array_get($center, '0');
+        // find correct Center
+        $center = Centers::find($this->cid);
 
         return view('center/profileEdit')->with('center', $center);
     }
@@ -62,26 +53,34 @@ class CenterController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $cid
      * @return \Illuminate\Http\Response
      */
     public function updateProfile()
     {
-        //TODO - change into store profile and validation needed
-        $center = Input::all();
-        DB::table('centers')->where('cid', $this->cid)->update([
-            'name' => $center['name'],
-            'email' => $center['email'],
-            'phone' => $center['phone'],
-            'description' => $center['description'],
-            //'canSupportOnlineExam' => $center['canSupportOnlineExam'],
-            'cost' => $center['cost'],
-            'street_name' => $center['street_name'],
-            'city' => $center['city'],
-            'province' => $center['province'],
-            'country' => $center['country'],
-            //'postal_code' => $center['postal_code']
-        ]);
+        // grab center info to be updated
+        $tempcenter = Input::all();
+
+        // find correct Center to update
+        $center = Centers::find($this->cid);
+
+        //TODO - validate
+
+        // update center
+        $center->name = $tempcenter['name'];
+        $center->email = $tempcenter['email'];
+        $center->phone = $tempcenter['phone'];
+        $center->description = $tempcenter['description'];
+        //$center->canSupportOnlineExam = $tempcenter['canSupportOnlineExam'];
+        $center->cost = $tempcenter['cost'];
+        $center->street_name = $tempcenter['street_name'];
+        $center->city = $tempcenter['city'];
+        $center->province = $tempcenter['province'];
+        $center->country = $tempcenter['country'];
+        //$center->postal_code => $tempcenter['postal_code'];
+
+        // save new values to DB
+        $center->save();
 
         return CenterController::showProfile();
     }

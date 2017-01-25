@@ -12,19 +12,19 @@
         {{--TODO - delete--}}
         <tr>
             <td>{{ Form::label('cid', 'Center ID:') }}</td>
-            <td>{{ Form::number('cid', $center['cid']) }}</td>
+            <td>{{ Form::number('cid', $center->cid) }}</td>
         </tr>
 
         <tr><th colspan = "2"><hr>General Info</th></tr>
 
         <tr>
             <td>{{ Form::label('cname', 'Name:') }}</td>
-            <td>{{ Form::text('name', $center['name']) }}</td>
+            <td>{{ Form::text('name', $center->name) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('description', 'Description:') }}</td>
-            <td>{{ Form::textarea('description', $center['description']) }}</td>
+            <td>{{ Form::textarea('description', $center->description) }}</td>
         </tr>
 
         <tr>
@@ -36,19 +36,19 @@
 
         <tr>
             <td>{{ Form::label('cost', 'Exam Cost:') }}</td>
-            <td>{{ Form::text('cost', $center['cost']) }}</td>
+            <td>{{ Form::text('cost', $center->cost) }}</td>
         </tr>
 
         <tr><th colspan = "2"><hr>Contact</th></tr>
 
         <tr>
             <td>{{ Form::label('phone', 'Phone Number:') }}</td>
-            <td>{{ Form::text('phone', $center['phone']) }}</td>
+            <td>{{ Form::text('phone', $center->phone) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('email', 'Email:') }}</td>
-            <td>{{ Form::email('email', $center['email']) }}</td>
+            <td>{{ Form::email('email', $center->email) }}</td>
         </tr>
 
         <tr>
@@ -60,12 +60,12 @@
 
         <tr>
             <td>{{ Form::label('street_name', 'Street Name:') }}</td>
-            <td>{{ Form::text('street_name', $center['street_name']) }}</td>
+            <td>{{ Form::text('street_name', $center->street_name) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('city', 'City:') }}</td>
-            <td>{{ Form::text('city', $center['city']) }}</td>
+            <td>{{ Form::text('city', $center->city) }}</td>
         </tr>
 
         <tr>
@@ -96,22 +96,21 @@
         </tr>
 
         <tr>
-            <td>{{ Form::label('', 'Postal Code:') }}</td>
-            <td>{{ Form::text('') }}</td>
+            <td>{{ Form::label('postal_code', 'Postal Code:') }}</td>
+            <td>{{ Form::text('postal_code', $center->postal_code) }}</td>
         </tr>
 
         {{--TODO - delete--}}
         <tr>
-            <td>{{ Form::label('', 'Longitude:') }}</td>
-            <td>{{ Form::text('') }}</td>
+            <td>{{ Form::label('longitude', 'Longitude:') }}</td>
+            <td>{{ Form::text('longitude', $center->longitude) }}</td>
         </tr>
 
         {{--TODO - delete--}}
         <tr>
-            <td>{{ Form::label('', 'Latitude:') }}</td>
-            <td>{{ Form::text('') }}</td>
+            <td>{{ Form::label('latitude', 'Latitude:') }}</td>
+            <td>{{ Form::text('latitude', $center->latitude) }}</td>
         </tr>
-
 
         <tr>
             <td></td>

@@ -434,6 +434,9 @@
                 {!! Form::text('studentLastName') !!}
                 <br>
                 {!! Form::label('studentPhone','Student Phone Number:') //Student Phone Number!!}
+                {!! Form::number('studentPhone') !!}
+                <br>
+                {!! Form::label('studentPhone','Student Phone Number:') //Student Phone Number!!}
                 {!! Form::text('studentPhone') //!@# "number" wasn't accepted as method. Revise later!!}
                 <br>
                 {!! Form::label('studentEmail','Student Email Address:') //Student Email!!}
@@ -484,7 +487,10 @@
                 {!! Form::email('institutionContactEmail') !!}
 
             </div>
-
+            <div>
+                <!--Submit Button-->
+                {!! Form::submit('Submit Form'); !!}
+            </div>
             {!! Form::close() !!}
         </fieldset>
 

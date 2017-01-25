@@ -17,7 +17,7 @@ class CenterController extends Controller
     public function index()
     {
         //TODO temp
-        return view('center/profile');
+        return showProfile();
     }
 
     /**
@@ -28,7 +28,7 @@ class CenterController extends Controller
      */
     public function showProfile()
     {
-        $center = DB::table('centers')->where('cid', '1')->get();
+        $center = DB::table('centers')->where('cid', '2')->get();
         $center = json_decode($center, true);
         $center = array_get($center, '0');
 
@@ -43,7 +43,7 @@ class CenterController extends Controller
      */
     public function editProfile()
     {
-        $center = DB::table('centers')->where('cid', '1')->get();
+        $center = DB::table('centers')->where('cid', '2')->get();
         $center = json_decode($center, true);
         $center = array_get($center, '0');
 

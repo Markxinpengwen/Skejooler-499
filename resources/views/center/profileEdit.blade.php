@@ -12,8 +12,6 @@
     </div>
 @endif
 
-{{ $input or 'not found'}}
-
 @section('content')
     <table>
     {{ Form::open(array('action' => 'CenterController@updateProfile')) }}

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Input as Input;
 use App\Centers as Centers;
-use Collective\Html\FormFacade as Form;
 
 class CenterController extends Controller
 {

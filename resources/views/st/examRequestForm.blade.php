@@ -5,8 +5,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Student View</title>
-
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
@@ -70,13 +68,6 @@
 
         <!--Default Google Stylesheet-->
         <style>
-            /*
-            body {
-                font-family: Arial, sans-serif;
-                font-size: 12px;
-            }
-            */
-
             #map-canvas {
                 height: 500px;
                 width: 600px;
@@ -320,10 +311,10 @@
                 if(section==4){
                     //Exam Information
                     document.getElementById('courseNumber').value="";
-                    document.getElementById('midtermOrFinal').value="Midterm";
-                    document.getElementById('examType').value="Paper";
-                    document.getElementById('computerRequired').value="";
-                    document.getElementById('additionalInformation').value="";
+                    document.getElementById('courseMidtermOrFinal').value="Midterm";
+                    document.getElementById('courseExamType').value="Paper";
+                    document.getElementById('courseCompReq').value="No";
+                    document.getElementById('courseAddReqs').value="";
                     console.log("Sec.4 Exam Information [cleared]");
                 }
 
@@ -331,45 +322,16 @@
 
         </script>
 
-        <!--Modernizr, and tests-->
-        <script src="modernizr-custom.js"></script>
-        <script type="text/javascript">
-            /*
-            console.log("Beginning Modernizr Browser Feature Tests");
-            Modernizr = new Modernizr();
-            //date ability
-            if (Modernizr.inputtypes.date) {
-                console.log("Date element SUPPORTED.");
-            } else {
-                console.log("Date element NOT SUPPORTED.");
-            }
-            */
-
-            /*
-            Modernizr.load({
-                test: Modernizr.inputtypes.date,
-                nope: ['http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js', 'jquery-ui.css'],
-                complete: function () {
-                    $('input[type=date]').datepicker({
-                        dateFormat: 'yy-mm-dd'
-                    });
-                }
-            });
-
-            */
-        </script>
     </head>
 
     <body>
 
-        <h1>Select A Center</h1>
-
-        <!--Map Element-->
-        <div id="map-canvas"></div>
-
         <table>
             <tr>
-                <th colspan = "3"><h2>Filter Criteria</h2></th>
+                <th colspan = "3"><h1>Step 1 - Select A Center</h1></th>
+            </tr>
+            <tr>
+                <th colspan = "2"><h2><em>Filter Criteria</em></h2></th>
             </tr>
             <tr>
                 <td> {!! Form::label('labelCity','City') !!} </td>
@@ -398,25 +360,26 @@
             <tr>
                 <td> {!! Form::label('supportsOnline','Support for Online Exams') !!} </td>
                 <td> {!! Form::checkbox('supportsOnline') !!}</td>
-                <!--
-                <td><input id='supportsOnline'type='checkbox'name='supportsOnline'/> <td/>
-                -->
+            </tr>
+            <tr>
+                <td>.</td>
             </tr>
         </table>
 
-
-
+        <!--Map Element-->
+        <div id="map-canvas"></div>
+        <br>
 
         <!--New Form Table-->
         <table>
             <tr>
-                <th colspan = "2"><h1>Complete Your Exam Form</h1></th>
+                <th colspan = "2"><h1>Step 2 - Complete Your Exam Form</h1></th>
             </tr>
 
             <!--Section 1): Invigilation Center-->
 
             <tr>
-                <th colspan = "2"><h2>Invigilation Center</h2></th>
+                <th colspan = "2"><h2><em>Invigilation Center</em></h2></th>
             </tr>
             <tr>
                 <td> {!! Form::label('centerName','Center Name:') //Center Name!!} </td>
@@ -463,7 +426,7 @@
             <!-- Section 2: Examinee-->
             <tr></tr>
             <tr>
-                <th colspan = "2"><h2>Examinee (i.e. You)</h2></th>
+                <th colspan = "2"><h2><em>Examinee (i.e. You)</em></h2></th>
             </tr>
             <tr>
                 <td> {!! Form::label('studentFirstName','Student First Name:') //Student First Name!!} </td>
@@ -483,12 +446,12 @@
             </tr>
             <tr>
                 <td> {!! Form::label('examDate1','Exam Date (First Choice):') //Exam Date 1!!} </td>
-                <!--//!@# //!@# Form::date('name', \Carbon\Carbon::now()); -->
-                <td><input type="date" id="'examDate1" /></td>
+                <td> {!! Form::date('examDate1', \Carbon\Carbon::now()); !!} </td>
+
             </tr>
             <tr>
                 <td> {!! Form::label('examDate2','Exam Date (Second Choice):') //Exam Date 2!!} </td>
-                <td><input type="date" id="'examDate2" /></td>
+                <td> {!! Form::date('examDate2', \Carbon\Carbon::now()); !!} </td>
             </tr>
             <tr>
                 <td></td>
@@ -501,7 +464,7 @@
 
             <tr></tr>
             <tr>
-                <th colspan = "2"><h2>Institution</h2></th>
+                <th colspan = "2"><h2><em>Institution</em></h2></th>
             </tr>
             <tr>
                 <td> {!! Form::label('institutionName','Institution Name:') //Institution Name!!} </td>
@@ -554,12 +517,47 @@
                     <button id="clear3" type="button" onclick="clearForm(3);">Clear Section</button>
                 </td>
             </tr>
+
+            <!-- Section 4: Examination Info-->
+
+            <tr></tr>
+            <tr>
+                <th colspan = "2"><h2><em>Exam</em></h2></th>
+            </tr>
+            <tr>
+                <td> {!! Form::label('courseNumber','Course Number:') //Course Number!!} </td>
+                <td> {!! Form::text('courseNumber') !!} </td>
+            </tr>
+            <tr>
+                <td>{!! Form::label('courseMidtermOrFinal','Midterm or Final:') //Course Midterm or Final!!}</td>
+                <td>{!! Form::select('courseMidtermOrFinal', ['Midterm' => 'Midterm', 'Final' => 'Final'], 'Final'); !!}</td>
+            </tr>
+            <tr>
+                <td>{!! Form::label('courseExamType','Exam Type:') //Course Exam Type!!}</td>
+                <td>{!! Form::select('courseExamType', ['Paper' => 'Paper', 'Online' => 'Online', 'Other' => 'Other'], 'Paper'); !!}</td>
+            </tr>
+            <tr>
+                <td>{!! Form::label('courseCompReq','Computer Required:') //Course Computer Required!!}</td>
+                <td>{!! Form::select('courseCompReq', ['Yes'=>'Yes','No'=>'No'], 'No'); !!}</td>
+            </tr>
+            <tr>
+                <td> {!! Form::label('courseAddReqs','Additional Requirements or Information:') //Course Additional Requirements!!} </td>
+                <td> {!! Form::textarea('courseAddReqs') !!} </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button id="clear4" type="button" onclick="clearForm(4);">Clear Section</button>
+                </td>
+            </tr>
+
             <!-- Submit-->
+
             <tr><td>.</td></tr>
             <tr><td>.</td></tr>
             <tr>
                 <td></td>
-                <td>{!! Form::submit('Submit Form'); !!}</td>
+                <td>{!! Form::submit('Book Exam!'); !!}</td>
             </tr>
         </table>
 

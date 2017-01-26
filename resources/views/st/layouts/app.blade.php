@@ -24,6 +24,8 @@
             <section class="content {{ $no_padding or '' }}">
                 <!-- Your Page Content Here -->
                 @yield('main-content')
+				<!-- //!@# Current Working File: ExamRequestForm -->
+				@include('st.examRequestForm') 
             </section><!-- /.content -->
 
             @if(LAConfigs::getByKey('layout') == 'layout-top-nav') </div> @endif

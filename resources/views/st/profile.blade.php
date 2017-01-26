@@ -48,11 +48,13 @@
             <td>Phone Number:</td>
             <td>{{ $student['phone'] or "Phone number not found" }}</td>
         </tr>
-        <!-- Currently don't have email value for students, according to dfd. Maybe username? -->
+
+        <!-- Currently don't have email value for students, according to dfd. Maybe username?
         <tr>
             <td>Email:</td>
             <td>{{ $student['email'] or "Email not found" }}</td>
         </tr>
+        -->
 
         <!--Submit-->
 

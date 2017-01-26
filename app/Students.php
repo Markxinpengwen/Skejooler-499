@@ -9,7 +9,7 @@ class Students extends Model
     protected $table = "students";
     protected $primaryKey = "sid";
 
-    public function centers()
+    public function students()
     {
         return $this->hasMany('students');
     }

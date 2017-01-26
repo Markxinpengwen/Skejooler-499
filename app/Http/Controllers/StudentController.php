@@ -1,9 +1,10 @@
 <?php
 
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Input as Input;
 use App\Students as Students;
-use Collective\Html\FormFacade as Form;
 
 class StudentController extends Controller
 {

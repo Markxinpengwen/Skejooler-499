@@ -162,6 +162,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Dwij\Laraadmin\LAProvider::class,
 
         /*
          * Package Service Providers...
@@ -178,10 +179,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        /*
-         * Added Providers
-         */
-        Collective\Html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -230,13 +227,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        /*
-         * Added Aliases
-         */
-        'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class,
-        'Input' => Illuminate\Support\Facades\Input::class,
-        'Collection' => Illuminate\Support\Collection::class,
     ],
 
 ];

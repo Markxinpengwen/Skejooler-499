@@ -54,6 +54,9 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
+            'dump_command_path' => '/opt/lampp/bin', // only the path, so without 'mysqldump' or 'pg_dump'
+            'dump_command_timeout' => 60 * 5, // 5 minute timeout
+            'dump_using_single_transaction' => true, // perform dump using a single transaction
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'forge'),
@@ -111,7 +114,7 @@ return [
 
         'default' => [
             'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
+            'password' => env('REDIS_PASSWORD', ''),
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
         ],

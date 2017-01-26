@@ -1,13 +1,48 @@
 <?php
+/**
+ * Controller genrated using LaraAdmin
+ * Help: http://laraadmin.com
+ */
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Http\Requests;
+use Illuminate\Http\Request;
 
-class Controller extends BaseController
+/**
+ * Class HomeController
+ * @package App\Http\Controllers
+ */
+class HomeController extends Controller
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $roleCount = \App\Role::count();
+		if($roleCount != 0) {
+			if($roleCount != 0) {
+				return view('home');
+			}
+		} else {
+			return view('errors.error', [
+				'title' => 'Migration not completed',
+				'message' => 'Please run command <code>php artisan db:seed</code> to generate required table data.',
+			]);
+		}
+    }
+
 }

@@ -3,96 +3,58 @@
 @section('title', 'Profile')
 
 @section('content')
+    <!--This Profile code was initially writen by Brett Schaad, but later modified by Barrett for the Student view-->
+
+    <!-- Profile Table-->
+
     <table>
-        {{ Form::open(array('action' => 'CenterController@editProfile')) }}
+        {{ Form::open(array('action' => 'StudentController@editProfile')) }}
 
         {{--TODO - delete--}}
         <tr><th colspan = "2">Unchangeable</th></tr>
 
         {{--TODO - delete--}}
         <tr>
-            <td>Center ID:</td>
-            <td>{{ $center['cid'] or "Center ID not found" }}</td>
+            <td>Student ID:</td>
+            <td>{{ $student['sid'] or "Student ID not found" }}</td>
         </tr>
-
-        <tr><th colspan = "2"><hr>General Info</th></tr>
-
         <tr>
-            <td>Name:</td>
-            <td>{{ $center['name'] or "Name not found" }}</td>
+            <th colspan = "2"><hr>Student Information</th>
         </tr>
-
         <tr>
-            <td>Description:</td>
-            <td>{{ $center['description'] or "Description not found" }}</td>
+            <td>First Name:</td>
+            <td>{{ $student['firstName'] or "First name not found" }}</td>
         </tr>
-
         <tr>
-            <td>Online Exam Support:</td>
-            <td>{{ $center['canSupportOnlineExam'] or "Online support not found" }}</td>
+            <td>Last Name:</td>
+            <td>{{ $student['lastName'] or "Last name not found" }}</td>
         </tr>
-
         <tr>
-            <td>Exam Cost:</td>
-            <td>{{ $center['cost'] or "Exam cost not found" }}</td>
+            <td>Institution Number:</td>
+            <td>{{ $student['institution'] or "Institution Number not found" }}</td>
         </tr>
-
-        <tr><th colspan = "2"><hr>Contact</th></tr>
-
+        <tr>
+            <td>Gender:</td>
+            <td>{{ $student['sex'] or "Gender not found" }}</td>
+        </tr>
+        <tr>
+            <td>Age:</td>
+            <td>{{ $student['age'] or "Age not found" }}</td>
+        </tr>
+        <tr>
+            <th colspan = "2"><hr>Contact Information</th>
+        </tr>
         <tr>
             <td>Phone Number:</td>
-            <td>{{ $center['phone'] or "Phone number not found" }}</td>
+            <td>{{ $student['phone'] or "Phone number not found" }}</td>
         </tr>
-
+        <!-- Currently don't have email value for students, according to dfd. Maybe username? -->
         <tr>
             <td>Email:</td>
-            <td>{{ $center['email'] or "Email not found" }}</td>
+            <td>{{ $student['email'] or "Email not found" }}</td>
         </tr>
 
-        <tr>
-            <td>Website:</td>
-            <td>{{ $center['website'] or "Website not found" }}</td>
-        </tr>
-
-        <tr><th colspan = "2"><hr>Address</th></tr>
-
-        <tr>
-            <td>Street Address:</td>
-            <td>{{ $center['street_name'] or "Street address not found" }}</td>
-        </tr>
-
-        <tr>
-            <td>City:</td>
-            <td>{{ $center['city'] or "City not found" }}</td>
-        </tr>
-
-        <tr>
-            <td>Province:</td>
-            <td>{{ $center['province'] or "Province not found" }}</td>
-        </tr>
-
-        <tr>
-            <td>Country:</td>
-            <td>{{ $center['country'] or "Country not found" }}</td>
-        </tr>
-
-        <tr>
-            <td>Postal Code:</td>
-            <td>{{ "" }}</td>
-        </tr>
-
-        {{--TODO - delete--}}
-        <tr>
-            <td>Longitude:</td>
-            <td>{{ "" }}</td>
-        </tr>
-
-        {{--TODO - delete--}}
-        <tr>
-            <td>Latitude:</td>
-            <td>{{ "" }}</td>
-        </tr>
-
+        <!--Submit-->
 
         <tr>
             <td></td>

@@ -1,8 +1,8 @@
-@extends('layouts.dashboard')
+@extends("cn.layouts.app")
 
 @section('title', 'Schedule')
 
-@section('content')
+@section('main-content')
     <table>
 
         <tr><th colspan = "6">Upcoming Exams</th></tr>

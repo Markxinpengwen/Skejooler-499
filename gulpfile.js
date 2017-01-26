@@ -38,4 +38,3 @@ gulp.task('compress', function() {
     }))
     .pipe(gulp.dest('dist'))
 });
-*/

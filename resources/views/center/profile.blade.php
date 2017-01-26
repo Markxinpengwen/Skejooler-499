@@ -1,8 +1,8 @@
-@extends('layouts.dashboard')
+@extends("cn.layouts.app")
 
 @section('title', 'Profile')
 
-@section('content')
+@section('main-content')
     <table>
         {{ Form::open(array('action' => 'CenterController@editProfile')) }}
 

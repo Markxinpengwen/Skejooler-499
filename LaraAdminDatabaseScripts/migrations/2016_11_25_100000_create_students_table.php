@@ -1,10 +1,9 @@
 <?php
 /**
+ * //!@# Completed 01-28
  * Migration genrated using LaraAdmin
  * Help: http://laraadmin.com
  */
-
- //Version 1: Untested
  
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -24,7 +23,7 @@ class CreateStudentsTable extends Migration
             ["firstName", "firstName", "String", false, "", 0, 256, true],
 			["lastName", "lastName", "String", false, "", 0, 256, true],
 			["institution", "institution", "Integer", false, "", 5, 7, false],
-            ["gender", "gender", "Dropdown", false, "not_declared", 0, 0, false, ["not_declared","male","female","transgender"]],
+            ["sex", "sex", "Dropdown", false, "not_declared", 0, 0, false, ["not_declared","male","female","transgender"]],
 			["age", "age", "Integer", false, 0, 0, 110, false],
 			["phone", "phone", "Mobile", false, "00000000000", 0, 15, false] //15 digits?
         ]);

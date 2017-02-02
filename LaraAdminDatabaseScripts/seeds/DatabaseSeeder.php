@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
 				]);
 			}
 		}
-		
+
 		// Create Administration Department
 	   	$dept = new Department;
 		$dept->name = "Administration";

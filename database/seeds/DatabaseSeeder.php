@@ -51,11 +51,11 @@ class DatabaseSeeder extends Seeder
 		}
 		
 		// Create Administration Department
-	   	$dept = new Department;
-		$dept->name = "Administration";
-		$dept->tags = "[]";
-		$dept->color = "#000";
-		$dept->save();
+//	   	$dept = new Department;
+//		$dept->name = "Administration";
+//		$dept->tags = "[]";
+//		$dept->color = "#000";
+//		$dept->save();
 		
 		// Create Super Admin Role
 		$role = new Role;
@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
 		$role->display_name = "Super Admin";
 		$role->description = "Full Access Role";
 		$role->parent = 1;
-		$role->dept = $dept->id;
+//		$role->dept = $dept->id;
 		$role->save();
 		
 		// Set Full Access For Super Admin Role

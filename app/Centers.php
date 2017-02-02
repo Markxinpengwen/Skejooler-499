@@ -2,12 +2,15 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Centers extends Model
+class Centers extends BaseModel
 {
     protected $table = "centers";
     protected $primaryKey = "cid";
+
+    protected $rules = array(
+        'cid' => 'required',
+        'name' => 'required',
+    );
 
     public function centers()
     {

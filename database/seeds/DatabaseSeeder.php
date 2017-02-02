@@ -8,9 +8,12 @@ use Dwij\Laraadmin\Models\ModuleFieldTypes;
 use Dwij\Laraadmin\Models\Menu;
 use Dwij\Laraadmin\Models\LAConfigs;
 
+//Used by LA
 use App\Role;
 use App\Permission;
 use App\Models\Department;
+
+include 'database\seeds\InstitutionsTableSeederLA.php';
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +24,8 @@ class DatabaseSeeder extends Seeder
 	 */
 	public function run()
 	{
+		
+		echo "DatabaseSeeder] Running Standard LaraAdmin Seeder Code...\n";
 		
 		/* ================ LaraAdmin Seeder Code ================ */
 		
@@ -49,7 +54,7 @@ class DatabaseSeeder extends Seeder
 				]);
 			}
 		}
-		
+
 		// Create Administration Department
 	   	$dept = new Department;
 		$dept->name = "Administration";
@@ -156,5 +161,35 @@ class DatabaseSeeder extends Seeder
 			$module->is_gen=true;
 			$module->save();	
 		}
-	}
+		
+		echo "DatabaseSeeder] \t- Completed\n";
+		
+		/* ======*=====*===== Custom Seeder Code ====*====*====*==== */
+		
+		echo "DatabaseSeeder] Running Custom Seeder Code for LaraAdmin...\n";
+		
+		//Call Institution Seeder:
+		echo "DatabaseSeeder] \tInstitution Seeder\n";
+		$this->call(InstitutionsTableSeederLA::class);
+		echo "DatabaseSeeder] \t\t- Complete\n";
+		
+		//!@# Uncomment when ready
+		
+		//Call Giant Seeder:
+		//echo "DatabaseSeeder] \tGiant Seeder\n";
+		//$this->call(GiantTableSeederLA::class);
+		//echo "DatabaseSeeder] \t\t- Complete\n";
+		
+		//Call Request Seeder:
+		//echo "DatabaseSeeder] \tRequest Seeder\n";
+		//$this->call(RequestsTableSeederLA::class);
+		//echo "DatabaseSeeder] \t\t- Complete\n";
+		
+		
+		//End of custom seed code.
+		echo "DatabaseSeeder] Seeding Completed.\n";
+		
+		//End Run Mehtod
+		echo "\nDatabaseSeeder] End of Database Seeding.\n";
+	} //run
 }

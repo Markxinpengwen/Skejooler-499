@@ -3,13 +3,10 @@
 use Illuminate\Database\Seeder;
 
 // require the Faker autoloader
-require_once 'vendor/fzaninotto/faker/src/autoload.php';
+require_once 'vendor/fzaninotto/faker/src/autoload.php'; //old seeder works fine in LA
 
 class InstitutionsTableSeederLA extends Seeder
 {
-	
-	//!@#Version 1 (untested)
-	
 	/**
      * Seed the Institutions Table, given predefined values.
      * 
@@ -17,26 +14,46 @@ class InstitutionsTableSeederLA extends Seeder
      */
     public function run()
     {
+        //-------------------------------------------------------------------------------------
+        //STEP 1) SETUP
+        //-------------------------------------------------------------------------------------
+
         //Constants
-		$NUM_INSTITUTIONS=3;
+		$NUM_INSTITUTIONS=5;
 		$DEFAULT_AUTO_INCREMENT = 10000;
+		$FAKER_SEED=1234;
 		
-		//Echo
 		echo "InstitutionTableSeeder] Seeding ".$NUM_INSTITUTIONS." Institutions.\n";
 		
-		//Faker
+		//Faker Instantiation
 		$faker = Faker\Factory::create();
-		
-		//Acquire initial auto_increment value on institutions
+
+		//Choice for Standardized Seed
+        echo "\nUse Standardized Seed? (y/n):";
+        $fp = fopen("php://stdin","r");
+        $input = rtrim(fgets($fp, 1024));
+        if($input=="y" || $input=="Y"){
+            $faker->seed($FAKER_SEED);
+        }
+
+		//Acquire initial auto_increment value from institutions table, for start index when seeding.
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Institutions'"));
-		$iid = $result[0]['Auto_increment'];
+        $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
+        //var_dump($result);
+		$iid = $result[0]["Auto_increment"];
+
+		//Check whether to set initial auto increment to default constant
 		if($iid!=0){
 			echo "Next Auto_Increment value is: ".$iid.".";
 		}else{
 			$iid = $DEFAULT_AUTO_INCREMENT;
 			echo "Next Auto_Increment value was 0. Setting to default value of ".$iid.".";
 		}
-		
+
+        //--------------------------------------------------------------------------------
+        //STEP 2) CREATE / INSERT INSTITUTIONS INTO INSTITUTIONS TABLE
+        //--------------------------------------------------------------------------------
+
 		//Insert each created Record into the database.
 		for($i = 0; $i < $NUM_INSTITUTIONS; $i++) {
 			
@@ -49,7 +66,7 @@ class InstitutionsTableSeederLA extends Seeder
 					'iid' => $iid,
 					'name' => $tmp,
 					'description' => $faker->bs(). " ".$faker->bs(). ", is our description.",
-					'hasPaid' => "".rand(0,1)."", //!@#string?
+					'hasPaid' => "".rand(0,1)."", //String for LA
 					'created_at' => $faker->dateTimeThisDecade($max = 'now'),
 					'updated_at' => $faker->dateTimeThisMonth($max = 'now')
 				]

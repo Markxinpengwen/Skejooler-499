@@ -14,12 +14,15 @@ class InstitutionsTableSeederLA extends Seeder
      */
     public function run()
     {
+        //-------------------------------------------------------------------------------------
+        //STEP 1) SETUP
+        //-------------------------------------------------------------------------------------
+
         //Constants
-		$NUM_INSTITUTIONS=10;
+		$NUM_INSTITUTIONS=5;
 		$DEFAULT_AUTO_INCREMENT = 10000;
 		$FAKER_SEED=1234;
 		
-		//Echo
 		echo "InstitutionTableSeeder] Seeding ".$NUM_INSTITUTIONS." Institutions.\n";
 		
 		//Faker Instantiation
@@ -46,7 +49,11 @@ class InstitutionsTableSeederLA extends Seeder
 			$iid = $DEFAULT_AUTO_INCREMENT;
 			echo "Next Auto_Increment value was 0. Setting to default value of ".$iid.".";
 		}
-		
+
+        //--------------------------------------------------------------------------------
+        //STEP 2) CREATE / INSERT INSTITUTIONS INTO INSTITUTIONS TABLE
+        //--------------------------------------------------------------------------------
+
 		//Insert each created Record into the database.
 		for($i = 0; $i < $NUM_INSTITUTIONS; $i++) {
 			

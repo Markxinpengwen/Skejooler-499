@@ -187,22 +187,16 @@ class DatabaseSeeder extends Seeder
 		$this->call(InstitutionsTableSeederLA::class);
 		echo "DatabaseSeeder] \t\t- Complete\n";
 		
-		//!@# Uncomment when ready
-		
 		//Call Giant Seeder:
-		//echo "DatabaseSeeder] \tGiant Seeder\n";
-		//$this->call(GiantTableSeederLA::class);
-		//echo "DatabaseSeeder] \t\t- Complete\n";
+		echo "DatabaseSeeder] \tGiant Seeder\n";
+		$this->call(GiantTableSeederLA::class);
+		echo "DatabaseSeeder] \t\t- Complete\n";
 		
 		//Call Request Seeder:
-		//echo "DatabaseSeeder] \tRequest Seeder\n";
-		//$this->call(RequestsTableSeederLA::class);
-		//echo "DatabaseSeeder] \t\t- Complete\n";
-		
-		
-		//End of custom seed code.
-		echo "DatabaseSeeder] Seeding Completed.\n";
-		
+		echo "DatabaseSeeder] \tRequest Seeder\n";
+		$this->call(RequestsTableSeederLA::class);
+		echo "DatabaseSeeder] \t\t- Complete\n";
+
 		//End Run Mehtod
 		echo "\nDatabaseSeeder] End of Database Seeding.\n";
 	} //run

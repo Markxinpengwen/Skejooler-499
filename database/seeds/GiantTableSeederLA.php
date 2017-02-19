@@ -180,25 +180,30 @@ class GiantTableSeederLA extends Seeder
 			];
 			
 			//Create Email and 'utype' (if Student, Center, or Admin)
+            $email=""; $uname=""; $type="";
 			if($i < $NUM_CENTERS){
 				//Center: First 10 letters of name + random digit 0-9
                 $email = str_replace($REGEX_PATTERN,$REGEX_REPLACE,substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.org"); ////$email = substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.org";
 				$type = 2;
+				$uname=$centers[$i]['name'];
 			}elseif($i < ($NUM_CENTERS+$NUM_STUDENTS)){
 				//Student: First 5 letters of First and Last Names
                 $email = str_replace($REGEX_PATTERN,$REGEX_REPLACE,substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.org"); //$email = substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.org";
 				$type = 1;
-			}else{
-				//admin: first 5 of first name + last name, and a random 0-9
-				$email = substr($faker->firstName . $faker->lastName,0,5) . rand(0,9)."@example.org";
-				$type = 0;
-			}	
+                $uname=$students[($i-$NUM_CENTERS)]['firstName'] . " " . $students[$i-$NUM_CENTERS]['lastName'];
+			}else {
+                //admin: first 5 of first name + last name, and a random 0-9
+                $uname = $faker->firstName . " " . $faker->lastName;
+                $email = substr($uname, 0, 5) . rand(0, 9) . "@example.org";
+                $type = 0;
+            }
 
 			$users[$i] = [
 				'uid' => $id, //remember id is incremented below //!@#changed to 'uid'
 				'email' => $email,
+                'name' => $uname, //@!# workaround for Mark.
 				'salt' => $options['salt'],
-				'passwordHash' => password_hash($password, PASSWORD_DEFAULT, $options),
+				'password' => password_hash($password, PASSWORD_DEFAULT, $options),
 				'utype' => $type,
 				'remember_token' => str_random(100),
 				'created_at' => $faker->dateTimeThisDecade($max = 'now'),
@@ -230,8 +235,9 @@ class GiantTableSeederLA extends Seeder
                     'id' => $users[$i]['uid'], //!@#here
 				    'uid' => $users[$i]['uid'], //!@#changed to 'uid'
 					'email' => $users[$i]['email'],
+                    'name' => $users[$i]['name'],
 					'salt' => $users[$i]['salt'],
-					'passwordHash' => $users[$i]['passwordHash'],
+					'password' => $users[$i]['password'],
 					'utype' => $users[$i]['utype'],
 					'remember_token' => $users[$i]['remember_token'],
 					'created_at' => $users[$i]['created_at'],

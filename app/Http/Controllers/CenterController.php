@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Input as Input;
+use Illuminate\Support\Facades\Auth as Auth;
 use App\Centers as Centers;
+use App\Http\Requests\centerRequest as centerRequest;
 
 class CenterController extends Controller
 {
-    protected $cid = 1;
-
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +29,7 @@ class CenterController extends Controller
     public function showProfile()
     {
         // find correct Center
-        $center = Centers::find($this->cid);
+        $center = Centers::find(Auth::id());
 
         return view('center/profile')->with('center', $center);
     }
@@ -43,7 +43,7 @@ class CenterController extends Controller
     public function editProfile()
     {
         // find correct Center
-        $center = Centers::find($this->cid);
+        $center = Centers::find(Auth::id());
 
         return view('center/profileEdit')->with('center', $center);
     }
@@ -57,31 +57,46 @@ class CenterController extends Controller
      */
     public function updateProfile()
     {
+        //TODO - validate
         // grab center info to be updated
         $tempcenter = Input::all();
+        $cid = $tempcenter['cid'];
 
-        // find correct Center to update
-        $center = Centers::find($this->cid);
+        if(centerRequest::authorize($cid))
+        {
+            // find correct Center to update
+            if($this->validate(centerRequest))
+            {
+                $center = Centers::find(Auth::user()->id);
 
-        //TODO - validate
+                // update center
+                $center->name = $tempcenter['name'];
+                $center->email = $tempcenter['email'];
+                $center->phone = $tempcenter['phone'];
+                $center->description = $tempcenter['description'];
+                //$center->canSupportOnlineExam = $tempcenter['canSupportOnlineExam'];
+                $center->cost = $tempcenter['cost'];
+                $center->street_name = $tempcenter['street_name'];
+                $center->city = $tempcenter['city'];
+                $center->province = $tempcenter['province'];
+                $center->country = $tempcenter['country'];
+                //$center->postal_code => $tempcenter['postal_code'];
 
-        // update center
-        $center->name = $tempcenter['name'];
-        $center->email = $tempcenter['email'];
-        $center->phone = $tempcenter['phone'];
-        $center->description = $tempcenter['description'];
-        //$center->canSupportOnlineExam = $tempcenter['canSupportOnlineExam'];
-        $center->cost = $tempcenter['cost'];
-        $center->street_name = $tempcenter['street_name'];
-        $center->city = $tempcenter['city'];
-        $center->province = $tempcenter['province'];
-        $center->country = $tempcenter['country'];
-        //$center->postal_code => $tempcenter['postal_code'];
-
-        // save new values to DB
-        $center->save();
-
-        return CenterController::showProfile();
+                // save new values to DB
+                $center->save();
+                return CenterController::showProfile();
+            }
+            else
+            {
+                //invalid input
+                redirect()->with(centerRequest::messages());
+            }
+        }
+        else
+        {
+            //wrong user???
+            redirect()->with(centerRequest::messages());
+        }
     }
 
     /*
@@ -90,7 +105,7 @@ class CenterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      */
-    public function storeProfile(Request $request)
+    public function storeProfile()
     {
 
     }
@@ -107,6 +122,6 @@ class CenterController extends Controller
 //        $center = json_decode($center, true);
 //        $center = array_get($center, '0');
 //
-        return view('center/schedule')->with('center', 'hi');
+        return view('center/schedule')->with('center', '1');
     }
 }

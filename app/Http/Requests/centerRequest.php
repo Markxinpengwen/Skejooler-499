@@ -14,11 +14,7 @@ class centerRequest extends FormRequest
     public function authorize()
     {
         //TODO
-        if(true)
-        {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -30,7 +26,20 @@ class centerRequest extends FormRequest
     {
         //TODO
         return [
-            'name' => 'required',
+            'cid' => 'required|unique',
+            'name' => 'required|string',
+            'email' => 'email',
+            'phone' => 'digits_between:10, 10',
+            'description' => '',
+            'canSupportOnlineExam' => 'boolean',
+            'cost' => 'numeric',
+            'street_name' => 'string',
+            'city' => 'string',
+            'province' => 'string',
+            'country' => 'string',
+            'postal_code' => 'between:7,7',
+            'longitude' => '',
+            'latitude' => ''
         ];
     }
 

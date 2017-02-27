@@ -70,10 +70,11 @@ a:after {
 /* ==========================================================================
    Wrap Sections
    ========================================================================== */
-
 #headerwrap {
-	background-color: #34495e;
-	padding-top: 60px;
+	background-image: url("../../la-assets/img/Map.jpg");
+	background-repeat: no-repeat;
+	background-size: 1600px 1056px;
+	padding: 200px;
 }
 
 #headerwrap h1 {

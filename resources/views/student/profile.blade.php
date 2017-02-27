@@ -1,8 +1,8 @@
-@extends("st.layouts.app")
+@extends('layouts.dashboard')
 
 @section('title', 'Profile')
 
-@section('main-content')
+@section('content')
     <!--This Profile code was initially writen by Brett Schaad, but later modified by Barrett for the Student view-->
 
     <!-- Profile Table-->

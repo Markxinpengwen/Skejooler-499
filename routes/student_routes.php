@@ -1,6 +1,5 @@
 <?php
-//Route::get('/student', 'StudentController@index');
-Route::get('/student', 'UserController@student');
+Route::get('/student', 'StudentController@index');
 Route::get('/student/requests', 'StudentController@requests');
 Route::get('/student/schedule', 'StudentController@schedule');
 /**

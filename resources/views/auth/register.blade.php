@@ -44,13 +44,13 @@
                     <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
                 <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox"> I agree to the EULA terms
-                            </label>
-                        </div>
-                    </div><!-- /.col -->
+                    {{--<div class="col-xs-8">--}}
+                        {{--<div class="checkbox icheck">--}}
+                            {{--<label>--}}
+                                {{--<input type="checkbox"> I agree to the terms--}}
+                            {{--</label>--}}
+                        {{--</div>--}}
+                    {{--</div><!-- /.col -->--}}
                     <div class="col-xs-8">
                         <div class="radio icheck">
                             <label>

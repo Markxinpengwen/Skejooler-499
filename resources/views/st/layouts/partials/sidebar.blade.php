@@ -36,8 +36,9 @@
             <li class="header">FUNCTIONS</li>
             <!-- Optionally, you can add icons to the links -->
             <li><a href="{{url('/student') }}"></i> <span>Dashboard</span></a></li>
-            <li><a href="{{url('/student') }}"></i> <span>Forms</span></a></li>
-            <li><a href="{{url('/student') }}"></i> <span>Requests</span></a></li>
+            <li><a href="{{url('/student/profile') }}"></i> <span>Profile</span></a></li>
+            <li><a href="{{url('/student/profileEdit') }}"></i> <span>profileEdit</span></a></li>
+
 
             <?php
             $menuItems = Dwij\Laraadmin\Models\Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();

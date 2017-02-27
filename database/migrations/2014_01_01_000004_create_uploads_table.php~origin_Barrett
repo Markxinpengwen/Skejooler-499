@@ -9,7 +9,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateBackupsTable extends Migration
+class CreateUploadsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,10 +18,14 @@ class CreateBackupsTable extends Migration
      */
     public function up()
     {
-        Module::generate("Backups", 'backups', 'name', 'fa-hdd-o', [
-            ["name", "Name", "Name", true, "", 0, 256, true],
-            ["file_name", "File Name", "String", true, "", 0, 256, true],
-            ["backup_size", "File Size", "String",  false, 0, 0, 10, true],
+        Module::generate("Uploads", 'uploads', 'name', 'fa-files-o', [
+            ["name", "Name", "Name", false, "", 5, 250, true],
+            ["path", "Path", "String", false, "", 0, 250, false],
+            ["extension", "Extension", "String", false, "", 0, 20, false],
+            ["caption", "Caption", "String", false, "", 0, 250, false],
+            ["user_id", "Owner", "Dropdown", false, "1", 0, 0, false, "@users"],
+            ["hash", "Hash", "String", false, "", 0, 250, false],
+            ["public", "Is Public", "Checkbox", false, "0", 0, 0, false],
         ]);
 		
 		/*
@@ -67,8 +71,8 @@ class CreateBackupsTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('backups')) {
-            Schema::drop('backups');
+        if (Schema::hasTable('uploads')) {
+            Schema::drop('uploads');
         }
     }
 }

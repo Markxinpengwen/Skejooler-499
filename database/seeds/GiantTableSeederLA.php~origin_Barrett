@@ -3,21 +3,10 @@
 use Illuminate\Database\Seeder;
 
 // require the Faker autoloader
-require_once 'vendor/fzaninotto/faker/src/autoload.php';
+require_once 'vendor/fzaninotto/faker/src/autoload.php';//old seeder works fine in LA
 
-class GiantTableSeeder extends Seeder
+class GiantTableSeederLA extends Seeder
 {
-	/*
-	NOTE ON EMAIL ADDRESS:
-		Student: //Student: First 5 letters of First + First 5 letters of Last Name + Random Digit 0-9 + "@example.com"
-				$email = substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.com";
-		Center: //Center: First 10 letters of name + Random Digit 0-9 + "@example.com"
-				$email = substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.com";
-		Admin: //admin: first 5 of random string (first name + last name) + Random Digit 0-9 + "@example.com"
-				$email = substr($faker->firstName . $faker->lastName,0,5) . rand(0,9)."@example.com";
-	*/
-	
-	
 	/**
      * Seeds ALL the Dependant tables
      *
@@ -34,20 +23,34 @@ class GiantTableSeeder extends Seeder
 		$NUM_STUDENTS=10;
 		$NUM_CENTERS=5;
 		$NUM_ADMINS=2;
-		
+        $FAKER_SEED=1234;
+
+        //Regex Values
+        $REGEX_PATTERN = array(' ','-',',');
+        $REGEX_REPLACE = array('_', '', '_');
+
 		//Auto_Increment default values
 		$USERS_DEFAULT_AUTO_INCREMENT = 10000;
 		$STUDENTS_DEFAULT_AUTO_INCREMENT = 10000;
 		$CENTERS_DEFAULT_AUTO_INCREMENT = 10000;
 		
 		//Print
-		echo "GiantTableSeeder] Seeding ".($NUM_STUDENTS+$NUM_CENTERS+$NUM_ADMINS). " Users: ".$NUM_STUDENTS. " Students, and ".$NUM_CENTERS . " Centers., and ".$NUM_ADMINS." Admins\n";
+		echo "GiantTableSeeder] Seeding ".($NUM_STUDENTS+$NUM_CENTERS+$NUM_ADMINS). " Users: ".$NUM_STUDENTS. " Students, and ".$NUM_CENTERS . " Centers, and ".$NUM_ADMINS." Admins.\n";
 		
 		//Faker
 		$faker = Faker\Factory::create();
+
+        //Choice for Standardized Seed
+        echo "\nUse Standardized Seed? (y/n):";
+        $fp = fopen("php://stdin","r");
+        $input = rtrim(fgets($fp, 1024));
+        if($input=="y" || $input=="Y"){
+            $faker->seed($FAKER_SEED);
+        }
 		
 		//(For Students) Check for Institutions for 'institution' foreign key reference.
 		$result = DB::select(DB::raw("SELECT count(*) AS 'count' FROM institutions;"));
+        $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
 		$num_institutions = $result[0]['count'];
 		$institutions;
 		if ($num_institutions < $NUM_STUDENTS){
@@ -63,6 +66,7 @@ class GiantTableSeeder extends Seeder
 		//Acquire initial auto_increment values from database (for students, users, and centers) and then print them.
 		//Students
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Students'"));
+        $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
 		$sid = $result[0]['Auto_increment'];
 		if($sid!=0){
 			echo "Students Auto_Increment value is: ".$sid.".\n";
@@ -72,6 +76,7 @@ class GiantTableSeeder extends Seeder
 		}
 		//Users
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Users'"));
+        $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
 		$id = $result[0]['Auto_increment'];
 		if($id!=0){
 			echo "Users Auto_Increment value is: ".$id.".\n";
@@ -81,6 +86,7 @@ class GiantTableSeeder extends Seeder
 		}
 		//Centers
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Centers'"));
+        $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
 		$cid = $result[0]['Auto_increment'];
 		if($cid!=0){
 			echo "Centers Auto_Increment value is: ".$cid.".\n";
@@ -123,7 +129,7 @@ class GiantTableSeeder extends Seeder
 				'firstName' => $faker->firstName,
 				'lastName' => $faker->lastName,
 				'institution' => $school,
-				'gender' => $gender,
+				'sex' => $gender,
 				'age' => (rand(0,40)+ 20),
 				'phone' => substr($faker->e164PhoneNumber,-11),
 				'created_at' => $faker->dateTimeThisDecade($max = 'now'),
@@ -135,14 +141,16 @@ class GiantTableSeeder extends Seeder
 		//Centers Array
 		$centers = array();
 		for($i = 0; $i < $NUM_CENTERS; $i++) {
+		    $name=$faker->company();
 			$centers[$i] = [
 				'cid' => 0, //determined later
-				'name' => $faker->company() . " Center",
+				'name' =>  "".$name. " Center",
+                'email' => "".str_replace($REGEX_PATTERN,$REGEX_REPLACE,$name)."@example.org",
 				'phone' => substr($faker->e164PhoneNumber,-11),
 				'description' => $faker->bs() .$faker->bs() .$faker->bs(),
 				'canSupportOnlineExam' => rand(0,1),
 				'cost' => rand(40,400),
-				'street_name' => $faker->streetAddress(),
+				'street_address' => $faker->streetAddress(),
 				'city' => $faker->city(),
 				'province' => 'British_Columbia',
 				'country' => 'Canada',
@@ -154,13 +162,14 @@ class GiantTableSeeder extends Seeder
 			];
 		}//for
 		echo "\nGenerated ". $NUM_CENTERS . " Centers.";
-		
+
+		//
 		//Currently, no personal information for admins.
-		
+		//
+
 		//Users Array		
 		$users = array();
-		//Same Password for all users
-		$password="password";		
+		$password="password"; //!@#Same Password for all users
 		//Populate array
 		for($i = 0; $i < ($NUM_CENTERS+$NUM_STUDENTS+$NUM_ADMINS); $i++) {
 			//Recalculate Time, and Hash Options
@@ -170,27 +179,32 @@ class GiantTableSeeder extends Seeder
 				'salt' => str_random(22) //22 required minimum //str_random safe? random_bytes
 			];
 			
-			//Create Email and 'utype' (if Student, Center, or Admin)
+			//Create Email and 'type' (if Student, Center, or Admin)
+            $email=""; $uname=""; $type="";
 			if($i < $NUM_CENTERS){
 				//Center: First 10 letters of name + random digit 0-9
-				$email = substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.com";
-				$type = 2;
+                $email = str_replace($REGEX_PATTERN,$REGEX_REPLACE,substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.org"); ////$email = substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.org";
+				$type = "center";
+				$uname=$centers[$i]['name'];
 			}elseif($i < ($NUM_CENTERS+$NUM_STUDENTS)){
 				//Student: First 5 letters of First and Last Names
-				$email = substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.com";
-				$type = 1;
-			}else{
-				//admin: first 5 of first name + last name, and a random 0-9
-				$email = substr($faker->firstName . $faker->lastName,0,5) . rand(0,9)."@example.com";
-				$type = 0;
-			}	
+                $email = str_replace($REGEX_PATTERN,$REGEX_REPLACE,substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.org"); //$email = substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.org";
+				$type = "student";
+                $uname=$students[($i-$NUM_CENTERS)]['firstName'] . " " . $students[$i-$NUM_CENTERS]['lastName'];
+			}else {
+                //admin: first 5 of first name + last name, and a random 0-9
+                $uname = $faker->firstName . " " . $faker->lastName;
+                $email = substr($uname, 0, 5) . rand(0, 9) . "@example.org";
+                $type = "admin";
+            }
 
 			$users[$i] = [
-				'id' => $id, //remember id is incremented below
+				'uid' => $id, //remember id is incremented below //!@#changed to 'uid'
 				'email' => $email,
+                'name' => $uname, //@!# workaround for Mark.
 				'salt' => $options['salt'],
-				'passwordHash' => password_hash($password, PASSWORD_DEFAULT, $options),
-				'utype' => $type,
+				'password' => password_hash($password, PASSWORD_DEFAULT, $options),
+				'type' => $type,
 				'remember_token' => str_random(100),
 				'created_at' => $faker->dateTimeThisDecade($max = 'now'),
 				'updated_at' => $faker->dateTimeThisMonth($max = 'now')
@@ -217,18 +231,20 @@ class GiantTableSeeder extends Seeder
 		for($i = 0; $i < ($NUM_CENTERS+$NUM_STUDENTS+$NUM_ADMINS); $i++) {
 			//Submit Users
 			DB::table('Users')->insert(
-				[					
-					'id' => $users[$i]['id'],
+				[
+                    'id' => $users[$i]['uid'], //!@#here
+				    'uid' => $users[$i]['uid'], //!@#changed to 'uid'
 					'email' => $users[$i]['email'],
+                    'name' => $users[$i]['name'],
 					'salt' => $users[$i]['salt'],
-					'passwordHash' => $users[$i]['passwordHash'],
-					'utype' => $users[$i]['utype'],
+					'password' => $users[$i]['password'],
+					'type' => $users[$i]['type'],
 					'remember_token' => $users[$i]['remember_token'],
 					'created_at' => $users[$i]['created_at'],
 					'updated_at' => $users[$i]['updated_at']
 				]
 			);
-			echo "\n\t- User ".$users[$i]['id'].": ". $users[$i]['email'];
+			echo "\n\t- User ID ".$users[$i]['uid'].": ". $users[$i]['email'];
 		}
 		
 		//Centers AND Students
@@ -241,11 +257,12 @@ class GiantTableSeeder extends Seeder
 					[					
 						'cid' => $centers[$i]['cid'],
 						'name' => $centers[$i]['name'],
+                        'email' => $centers[$i]['email'],
 						'phone' => $centers[$i]['phone'],
 						'description' => $centers[$i]['description'],
 						'canSupportOnlineExam' => $centers[$i]['canSupportOnlineExam'],
 						'cost' => $centers[$i]['cost'],
-						'street_name' => $centers[$i]['street_name'],
+						'street_address' => $centers[$i]['street_address'],
 						'city' => $centers[$i]['city'],
 						'province' => $centers[$i]['province'],
 						'country' => $centers[$i]['country'],
@@ -256,7 +273,7 @@ class GiantTableSeeder extends Seeder
 						'updated_at' => $centers[$i]['updated_at']
 					]
 				);
-				echo "\n\t- Center ".$centers[$i]['cid'].": ".$centers[$i]['name'];				
+				echo "\n\t- Center ID ".$centers[$i]['cid'].": ".$centers[$i]['name'];
 			}else{
 				DB::table('Students')->insert(
 					[					
@@ -264,14 +281,14 @@ class GiantTableSeeder extends Seeder
 						'firstName' => $students[($i-$NUM_CENTERS)]['firstName'],
 						'lastName' => $students[($i-$NUM_CENTERS)]['lastName'],
 						'institution' => $students[($i-$NUM_CENTERS)]['institution'],
-						'gender' => $students[($i-$NUM_CENTERS)]['gender'],
+						'sex' => $students[($i-$NUM_CENTERS)]['sex'],
 						'age' => $students[($i-$NUM_CENTERS)]['age'],
 						'phone' => $students[($i-$NUM_CENTERS)]['phone'],
 						'created_at' => $students[($i-$NUM_CENTERS)]['created_at'],
 						'updated_at' => $students[($i-$NUM_CENTERS)]['updated_at']
 					]
 				);
-				echo "\n\t- Student ".$students[($i-$NUM_CENTERS)]['sid'].": ".$students[($i-$NUM_CENTERS)]['firstName']." ".$students[($i-$NUM_CENTERS)]['lastName'];
+				echo "\n\t- Student ID ".$students[($i-$NUM_CENTERS)]['sid'].": ".$students[($i-$NUM_CENTERS)]['firstName']." ".$students[($i-$NUM_CENTERS)]['lastName'];
 			}//if
 		}//for	
 		echo "\n";

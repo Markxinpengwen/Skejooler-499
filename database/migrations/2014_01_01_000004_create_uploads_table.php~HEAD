@@ -9,7 +9,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreatePermissionsTable extends Migration
+class CreateUploadsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,10 +18,14 @@ class CreatePermissionsTable extends Migration
      */
     public function up()
     {
-        Module::generate("Permissions", 'permissions', 'name', 'fa-magic', [
-            ["name", "Name", "Name", true, "", 1, 250, true],
-            ["display_name", "Display Name", "String", false, "", 0, 250, true],
-            ["description", "Description", "Textarea", false, "", 0, 1000, false],
+        Module::generate("Uploads", 'uploads', 'name', 'fa-files-o', [
+            ["name", "Name", "Name", false, "", 5, 250, true],
+            ["path", "Path", "String", false, "", 0, 250, false],
+            ["extension", "Extension", "String", false, "", 0, 20, false],
+            ["caption", "Caption", "String", false, "", 0, 250, false],
+            ["user_id", "Owner", "Dropdown", false, "1", 0, 0, false, "@users"],
+            ["hash", "Hash", "String", false, "", 0, 250, false],
+            ["public", "Is Public", "Checkbox", false, "0", 0, 0, false],
         ]);
 		
 		/*
@@ -67,8 +71,8 @@ class CreatePermissionsTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('permissions')) {
-            Schema::drop('permissions');
+        if (Schema::hasTable('uploads')) {
+            Schema::drop('uploads');
         }
     }
 }

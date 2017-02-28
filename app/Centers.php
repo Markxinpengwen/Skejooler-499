@@ -27,6 +27,21 @@ class Centers extends BaseModel
         'latitude' => ''
     );
 
+    public function validate($data)
+    {
+        $validator = Validate::make($data, $this->rules);
+        if($validator->fails)
+        {
+            $this->errors = $validator->errors;
+            return false;
+
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     public function messages()
     {
         return [

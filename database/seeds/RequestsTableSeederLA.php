@@ -4,9 +4,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
 // require the Faker autoloader
-require_once 'vendor/fzaninotto/faker/src/autoload.php';
+require_once 'vendor/fzaninotto/faker/src/autoload.php'; //old seeder works fine in LA
 
-class RequestsSeeder extends Seeder
+class RequestsTableSeederLA extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,7 @@ class RequestsSeeder extends Seeder
      * @return void
      */
     public function run()
-    {		
-		
+    {
 		//-------------------------------------------------------------------------------------
 		//STEP 1) SETUP
 		//-------------------------------------------------------------------------------------
@@ -23,17 +22,27 @@ class RequestsSeeder extends Seeder
 		//Constants
 		$NUM_REQUESTS = 25;
 		$DEFAULT_AUTO_INCREMENT = 20000;
-		
+		$FAKER_SEED = 1234;
+
 		//Variables
 		$num_students=0;
 		$num_centers=0;
-		$faker = Faker\Factory::create();
+        $faker = Faker\Factory::create();
+
+		//Choice for Standardized Seed
+        echo "\nUse Standardized Seed? (y/n):";
+        $fp = fopen("php://stdin","r");
+        $input = rtrim(fgets($fp, 1024));
+        if($input=="y" || $input=="Y"){
+            $faker->seed($FAKER_SEED);
+        }
 		
 		//Print
 		echo "RequestSeeder] Creating ".$NUM_REQUESTS." Requests from students.\n";
 		
 		//Acquire initial RID auto_increment value from database, and then print.
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Requests'"));
+        $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
 		$rid = $result[0]['Auto_increment'];
 		if($rid!=0){
 			echo "\nRequests Auto_Increment value is: ".$rid.".\n";
@@ -51,6 +60,7 @@ class RequestsSeeder extends Seeder
 		//Count number of students, and collect/shuffle SID's
 		$students;
 		$result = DB::select(DB::raw("SELECT count(*) AS 'count' FROM students;"));
+        $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
 		$num_students = $result[0]['count'];
 		if ($num_students < $NUM_REQUESTS){
 			echo "There are only ".$num_students." students for ".$NUM_REQUESTS." requests.\n\tMultiple request per available student.";
@@ -61,20 +71,25 @@ class RequestsSeeder extends Seeder
 		}
 		$students = $students->toArray();
 		shuffle($students);
+
 		unset($result);
 		
 		//Count number of Centers, and collect Center's records
 		$centers;
 		$result = DB::select(DB::raw("SELECT count(*) AS 'count' FROM centers;"));
+        $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
 		$num_centers = $result[0]['count'];
 		if ($num_centers < $NUM_REQUESTS){
 			echo "\nThere are only ".$num_centers." centers for ".$NUM_REQUESTS." requests.\n\tMultiple request per available center.";
 			$centers = DB::table('centers')->take($num_centers)->get();
+			$centers = json_decode(json_encode($centers),true); //LA Workaround.
 		}else{
 			echo "\nCenter Count: ".$num_centers.".";
 			$centers = DB::table('centers')->take($NUM_REQUESTS)->get();
+            $centers = json_decode(json_encode($centers),true); //LA Workaround.
 		}
-		$centers = $centers->toArray();
+		//$centers = $centers->toArray(); //No longer needed with LA Workaround
+
 		unset($result);
 		
 		
@@ -118,26 +133,26 @@ class RequestsSeeder extends Seeder
 					'rid' => ($rid+$i),
 					'student' => $students[$i],
 					'center' => $centers[$i]['cid'],
-					'center_name' => $centers[$i]['name'],
-					'center_street_name' => $centers[$i]['street_name'],
-					'center_city' => $centers[$i]['city'],
-					'center_province' => $centers[$i]['province'],
-					'center_country' => $centers[$i]['country'],
-					'center_postal_code' => $centers[$i]['postal_code'],
-					'center_contact' => $centers[$i]['phone'],
-					'center_contact_email' => $faker->safeEmail,
-					'center_contact_number' => substr($faker->e164PhoneNumber,-11),
+//					'center_name' => $centers[$i]['name'],
+//					'center_street_name' => $centers[$i]['street_name'],
+//					'center_city' => $centers[$i]['city'],
+//					'center_province' => $centers[$i]['province'],
+//					'center_country' => $centers[$i]['country'],
+//					'center_postal_code' => $centers[$i]['postal_code'],
+//					'center_contact' => $centers[$i]['phone'],
+//					'center_contact_email' => $faker->safeEmail,
+//					'center_contact_number' => substr($faker->e164PhoneNumber,-11),
 					//other attributes
-					'preferred_date_1' => $faker->dayOfWeek,
-					'preferred_date_2' => $faker->dayOfWeek,
-					'preferred_time' => $faker->time($format = 'H:i').":00", //valid time?
+					'preferred_date_1' => $faker->date($format = 'Y-m-d',$max = '2017-12-29 00:00:00'), //date
+					'preferred_date_2' => $faker->date($format = 'Y-m-d',$max = '2017-12-29 00:00:00'), //date
+					//'preferred_time' => $faker->time($format = 'H:i').":00", //valid time //!@# No longer needed
 					'course_code' => substr($faker->unixTime($max = 'now'), 4),
 					'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					'exam_type' => $type,
 					'exam_medium' => $medium,
-					'approval_status' => rand(0,1),
+					'approval_status' => "".rand(0,1)."", //!@#change to string
 					//Request Metainformation
-					'remember_token' => str_random(100),
+					//'remember_token' => str_random(100),
 					'created_at' => $faker->dateTimeThisDecade($max = 'now'),
 					'updated_at' => $faker->dateTimeThisMonth($max = 'now')
 				];
@@ -186,33 +201,33 @@ class RequestsSeeder extends Seeder
 					//'student' => $students[($i%$num_students)-1], //??
 					'student' => (($num_students < $NUM_REQUESTS)? $students[($i%$num_students)] : $students[($i%$num_students)-1] ),
 					'center' => $centers[$idx]['cid'],
-					'center_name' => $centers[$idx]['name'],
-					'center_street_name' => $centers[$idx]['street_name'],
-					'center_city' => $centers[$idx]['city'],
-					'center_province' => $centers[$idx]['province'],
-					'center_country' => $centers[$idx]['country'],
-					'center_postal_code' => $centers[$idx]['postal_code'],
-					'center_contact' => $centers[$idx]['phone'],
-					'center_contact_email' => $faker->safeEmail,
-					'center_contact_number' => substr($faker->e164PhoneNumber,-11),
+//					'center_name' => $centers[$idx]['name'],
+//					'center_street_name' => $centers[$idx]['street_name'],
+//					'center_city' => $centers[$idx]['city'],
+//					'center_province' => $centers[$idx]['province'],
+//					'center_country' => $centers[$idx]['country'],
+//					'center_postal_code' => $centers[$idx]['postal_code'],
+//					'center_contact' => $centers[$idx]['phone'],
+//					'center_contact_email' => $faker->safeEmail,
+//					'center_contact_number' => substr($faker->e164PhoneNumber,-11),
 					//other attributes
-					'preferred_date_1' => $faker->dayOfWeek,
-					'preferred_date_2' => $faker->dayOfWeek,
-					'preferred_time' => $faker->time($format = 'H:i').":00", //valid time?
+					'preferred_date_1' => $faker->date($format = 'Y-m-d',$max = '2017-12-29 00:00:00'), //date
+					'preferred_date_2' => $faker->date($format = 'Y-m-d',$max = '2017-12-29 00:00:00'), //date
+					//'preferred_time' => $faker->time($format = 'H:i').":00", //valid time //!@# No longer needed
 					'course_code' => substr($faker->unixTime($max = 'now'), 4),
 					'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					'exam_type' => $type,
 					'exam_medium' => $medium,
 					'approval_status' => rand(0,1),
 					//Request Metainformation
-					'remember_token' => str_random(100),
+					//'remember_token' => str_random(100),
 					'created_at' => $faker->dateTimeThisDecade($max = 'now'),
 					'updated_at' => $faker->dateTimeThisMonth($max = 'now')
 				];
 			}//for
 			
 		}			
-		echo "\nGenerated ".$NUM_REQUESTS." Requests.\n";
+		echo "\nGenerated ".$NUM_REQUESTS." Requests.";
 		unset($i);
 		
 		//--------------------------------------------------------------------------------
@@ -229,26 +244,26 @@ class RequestsSeeder extends Seeder
 					'rid' => $requests[$i]['rid'],
 					'student' => $requests[$i]['student'],
 					'center' => $requests[$i]['center'],
-					'center_name' => $requests[$i]['center_name'],
-					'center_street_name' => $requests[$i]['center_street_name'],
-					'center_city' => $requests[$i]['center_city'],
-					'center_province' => $requests[$i]['center_province'],
-					'center_country' => $requests[$i]['center_country'],
-					'center_postal_code' => $requests[$i]['center_postal_code'],
-					'center_contact' => $requests[$i]['center_contact'],
-					'center_contact_email' => $requests[$i]['center_contact_email'],
-					'center_contact_number' => $requests[$i]['center_contact_number'],
+//					'center_name' => $requests[$i]['center_name'],
+//					'center_street_name' => $requests[$i]['center_street_name'],
+//					'center_city' => $requests[$i]['center_city'],
+//					'center_province' => $requests[$i]['center_province'],
+//					'center_country' => $requests[$i]['center_country'],
+//					'center_postal_code' => $requests[$i]['center_postal_code'],
+//					'center_contact' => $requests[$i]['center_contact'],
+//					'center_contact_email' => $requests[$i]['center_contact_email'],
+//					'center_contact_number' => $requests[$i]['center_contact_number'],
 					//other attributes
 					'preferred_date_1' => $requests[$i]['preferred_date_1'],
 					'preferred_date_2' => $requests[$i]['preferred_date_2'],
-					'preferred_time' => $requests[$i]['preferred_time'],
+					//'preferred_time' => $requests[$i]['preferred_time'], //!@# No longer needed
 					'course_code' => $requests[$i]['course_code'],
 					'additional_requirements' => $requests[$i]['additional_requirements'],
 					'exam_type' => $requests[$i]['exam_type'],
 					'exam_medium' => $requests[$i]['exam_medium'],
 					'approval_status' => $requests[$i]['approval_status'],
 					//Request Metainformation
-					'remember_token' => $requests[$i]['remember_token'],
+					//'remember_token' => $requests[$i]['remember_token'],
 					'created_at' => $requests[$i]['created_at'],
 					'updated_at' => $requests[$i]['updated_at']
 				]

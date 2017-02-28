@@ -18,8 +18,10 @@ class BaseModel extends Model
             $this->errors = $validator->errors;
             return false;
         }
-
-        return true;
+        else
+        {
+            return true;
+        }
     }
 
     public function errors()

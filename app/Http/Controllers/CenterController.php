@@ -37,8 +37,8 @@ class CenterController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $cid
-     * @return \Illuminate\Http\Response
+     * @param
+     * @return
      */
     public function editProfile()
     {
@@ -62,41 +62,47 @@ class CenterController extends Controller
         $tempcenter = Input::all();
         $cid = $tempcenter['cid'];
 
-        if(centerRequest::authorize($cid))
-        {
-            // find correct Center to update
-            if($this->validate(centerRequest))
-            {
-                $center = Centers::find(Auth::user()->id);
+        var_dump($cid);
+        var_dump($tempcenter);
 
-                // update center
-                $center->name = $tempcenter['name'];
-                $center->email = $tempcenter['email'];
-                $center->phone = $tempcenter['phone'];
-                $center->description = $tempcenter['description'];
-                //$center->canSupportOnlineExam = $tempcenter['canSupportOnlineExam'];
-                $center->cost = $tempcenter['cost'];
-                $center->street_name = $tempcenter['street_name'];
-                $center->city = $tempcenter['city'];
-                $center->province = $tempcenter['province'];
-                $center->country = $tempcenter['country'];
-                //$center->postal_code => $tempcenter['postal_code'];
+//        var_dump($request->authorize($cid));
+//        var_dump($request->validate($tempcenter));
 
-                // save new values to DB
-                $center->save();
-                return CenterController::showProfile();
-            }
-            else
-            {
-                //invalid input
-                redirect()->with(centerRequest::messages());
-            }
-        }
-        else
-        {
-            //wrong user???
-            redirect()->with(centerRequest::messages());
-        }
+//        if($request->authorize($cid))
+//        {
+//            // find correct Center to update
+//            if($request->validate($tempcenter))
+//            {
+//                $center = Centers::find(Auth::user()->id);
+//
+//                // update center
+//                $center->name = $tempcenter['name'];
+//                $center->email = $tempcenter['email'];
+//                $center->phone = $tempcenter['phone'];
+//                $center->description = $tempcenter['description'];
+//                //$center->canSupportOnlineExam = $tempcenter['canSupportOnlineExam'];
+//                $center->cost = $tempcenter['cost'];
+//                $center->street_name = $tempcenter['street_name'];
+//                $center->city = $tempcenter['city'];
+//                $center->province = $tempcenter['province'];
+//                $center->country = $tempcenter['country'];
+//                //$center->postal_code => $tempcenter['postal_code'];
+//
+//                // save new values to DB
+//                $center->save();
+//                return CenterController::showProfile();
+//            }
+//            else
+//            {
+//                //invalid input
+//                redirect()->with(centerRequest::messages());
+//            }
+//        }
+//        else
+//        {
+//            //wrong user???
+//            redirect()->with(centerRequest::messages());
+//        }
     }
 
     /*

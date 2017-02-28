@@ -68,7 +68,7 @@
 
         <tr>
             <td>Province:</td>
-            <td>{{ $center->province or "Province not found" }}</td>
+            <td>{{ str_replace("_", " ", $center->province) }}</td>
         </tr>
 
         <tr>

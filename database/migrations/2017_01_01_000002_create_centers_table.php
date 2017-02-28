@@ -1,16 +1,15 @@
 <?php
 /**
+ * //!@# Completed 01-28
  * Migration genrated using LaraAdmin
  * Help: http://laraadmin.com
  */
 
- //Version 1: untested.
- 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateInstitutionsTable extends Migration
+class CreateCentersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,13 +18,21 @@ class CreateInstitutionsTable extends Migration
      */
     public function up()
     {
-        Module::generate("Institutions", 'institutions', 'iid', 'fa-building-o', [
-            ["iid", "iid", "Integer", true, "", 5, 7, true],
+        Module::generate("Centers", 'centers', 'cid', 'fa-building-o', [
+            ["cid", "cid", "Integer", true, "", 6, 6, true],
             ["name", "name", "String", true, "", 0, 256, true],
-            //["email", "email", "Email", false, "", 0, 256, false], //is needed in future?
-			["description", "description", "Textarea", false, "", 0, 1000, false],
-            //["phone", "phone", "Mobile", false, "", 0, 20, false], //is needed in future?
-            ["hasPaid", "hasPaid", "Radio", false, "0", 0, 0, false, ["0","1"]]            
+            ["email", "email", "Email", false, "", 0, 256, false],
+            ["phone", "phone", "Mobile", false, "", 0, 20, false],
+            ["description", "description", "Textarea", false, "", 0, 0, false],
+            ["canSupportOnlineExam", "canSupportOnlineExam", "Radio", false, "0", 0, 0, false, ["0","1"]],
+            ["cost", "cost", "Currency", false, "", 0, 11, false],
+            ["street_address", "street_address", "String", false, "", 3, 100, true],
+            ["city", "city", "String", false, "", 3, 100, true],
+            ["province", "province", "Dropdown", false, "British_Columbia", 0, 0, true, ["British_Columbia","Alberta","Sasketchewan","Manitoba","Ontario","Quebec","Nova_Scotia","Newfoundland_and_Labrador","New_Brunswick","Prince_Edward_Island","Yukon","Northwest_Territories","Nunavut"]],
+            ["country", "country", "Dropdown", false, "Canada", 0, 0, true, ["Canada"]],
+            ["postal_code", "postal_code", "String", false, "", 5, 6, true],
+            ["longitude", "longitude", "Float", false, "0.000000", 8, 11, false],
+            ["latitude", "latitude", "Float", false, "0.000000", 8, 11, false]
         ]);
 		
 		/*
@@ -71,8 +78,8 @@ class CreateInstitutionsTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('Institutions')) {
-            Schema::drop('Institutions');
+        if (Schema::hasTable('Centers')) {
+            Schema::drop('Centers');
         }
     }
 }

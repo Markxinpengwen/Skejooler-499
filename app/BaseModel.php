@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Validator;
 
 class BaseModel extends Model
 {
@@ -12,21 +13,16 @@ class BaseModel extends Model
 
     public function validate($data)
     {
-        $validator = Validate::make($data, $this->rules);
-        if($validator->fails)
+        $validator = Validator::make($data, $this->rules);
+        if($validator->fails())
         {
-            $this->errors = $validator->errors;
+            $this->errors = $validator->errors()->toArray();
             return false;
         }
         else
         {
             return true;
         }
-    }
-
-    public function errors()
-    {
-        return $this->errors;
     }
 }
 

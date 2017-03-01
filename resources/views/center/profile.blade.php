@@ -5,15 +5,7 @@
 @section('main-content')
     <table>
         {{ Form::open(array('action' => 'CenterController@editProfile')) }}
-
-        {{--TODO - delete--}}
-        <tr><th colspan = "2">Unchangeable</th></tr>
-
-        {{--TODO - delete--}}
-        <tr>
-            <td>Center ID:</td>
-            <td>{{ $center->cid or "Center ID not found" }}</td>
-        </tr>
+        {{ Form::hidden('cid', $center->cid) }}
 
         <tr><th colspan = "2"><hr>General Info</th></tr>
 
@@ -29,12 +21,19 @@
 
         <tr>
             <td>Online Exam Support:</td>
-            <td>{{ $center->canSupportOnlineExam or "Online support not found" }}</td>
+            <td>
+            @if($center->canSupportOnlineExam == 1)
+                Yes
+            @elseif($center->canSupportOnlineExam == 0)
+                No
+            @else
+                Online support not found
+            @endif</td>
         </tr>
 
         <tr>
             <td>Exam Cost:</td>
-            <td>{{ $center->cost or "Exam cost not found" }}</td>
+            <td>{{'$'}}{{ $center->cost or "Exam cost not found" }}</td>
         </tr>
 
         <tr><th colspan = "2"><hr>Contact</th></tr>
@@ -49,16 +48,17 @@
             <td>{{ $center->email or "Email not found" }}</td>
         </tr>
 
-        <tr>
-            <td>Website:</td>
-            <td>{{ $center->website or "Website not found" }}</td>
-        </tr>
+        {{--TODO add website--}}
+        {{--<tr>--}}
+            {{--<td>Website:</td>--}}
+            {{--<td>{{ $center->website or "Website not found" }}</td>--}}
+        {{--</tr>--}}
 
         <tr><th colspan = "2"><hr>Address</th></tr>
 
         <tr>
             <td>Street Address:</td>
-            <td>{{ $center->street_name or "Street address not found" }}</td>
+            <td>{{ $center->street_address or "Street address not found" }}</td>
         </tr>
 
         <tr>

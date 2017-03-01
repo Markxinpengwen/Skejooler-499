@@ -1,7 +1,6 @@
 <?php
 
 namespace App;
-use app\Http\Requests\YourRequest as Request;
 
 class Centers extends BaseModel
 {
@@ -10,36 +9,26 @@ class Centers extends BaseModel
     protected $primaryKey = "cid";
     public $timestamps = true;
 
+    //TODO rules
     protected $rules = array(
-        'cid' => 'required|unique',
         'name' => 'required|string',
         'email' => 'email',
-        'phone' => 'digits_between:10, 10',
+        'phone' => 'numeric',
         'description' => '',
         'canSupportOnlineExam' => 'boolean',
         'cost' => 'numeric',
-        'street_name' => 'string',
+        'street_address' => 'string',
         'city' => 'string',
         'province' => 'string',
         'country' => 'string',
-        'postal_code' => 'between:7,7',
+        'postal_code' => 'between:6,6',
         'longitude' => '',
         'latitude' => ''
     );
 
-    public function validate($data)
+    public function authorize($id)
     {
-        $validator = Validate::make($data, $this->rules);
-        if($validator->fails)
-        {
-            $this->errors = $validator->errors;
-            return false;
-
-        }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 
     public function messages()

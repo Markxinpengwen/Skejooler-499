@@ -26,11 +26,13 @@ class Centers extends BaseModel
         'latitude' => ''
     );
 
+    // TODO authorize statement
     public function authorize($id)
     {
         return true;
     }
 
+    // TODO customized error messages
     public function messages()
     {
         return [

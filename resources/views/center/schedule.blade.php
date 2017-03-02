@@ -3,59 +3,58 @@
 @section('title', 'Schedule')
 
 @section('main-content')
-    <table>
+    <table width = "100%">
 
         <tr><th colspan = "6">Upcoming Exams</th></tr>
 
         {{--TODO - need schedule table then implement display--}}
-        @php $id = 0 @endphp
-        @while($id < 3)
+
+        {{--TODO delete after testing--}}
+        {{--{{var_dump($upcoming)}}--}}
+        {{--{{var_dump($pending)}}--}}
+        {{--{{var_dump($past)}}--}}
+        @foreach($upcoming as $u)
             <tr>
                 {{ Form::open(array('action' => 'CenterController@showSchedule')) }}
-                {{ Form::hidden('id', $id) }}
-                <td>April 10th, 2016</td>
-                <td>11:00am</td>
-                <td>POL SCI 100</td>
-                <td>BCIT - Vancouver</td>
-                <td>Midterm 1</td>
-                <td>{{ Form::submit('View Details') }}</td>
-                @php $id++ @endphp
+                {{--TODO add hidden value for editting{{ Form::hidden('id', $id) }}--}}
+                <td align = "center">{{ $u->preferred_date_1 }}</td>
+                <td align = "center">{{ $u->preferred_date_2 }}</td>
+                <td align = "center">{{ $u->course_code }}</td>
+                <td align = "center">{{ $u->exam_medium }}</td>
+                <td align = "center">{{ $u->exam_type }}</td>
+                <td align = "center">{{ Form::submit('View Details') }}</td>
             </tr>
-        @endwhile
+        @endforeach
 
         <tr><th colspan = "6"><hr>Exams Pending Approval</th></tr>
 
-        @php $id = 0 @endphp
-        @while($id < 6)
+        @foreach($pending as $p)
             <tr>
                 {{ Form::open(array('action' => 'CenterController@showSchedule')) }}
-                {{ Form::hidden('id', $id) }}
-                <td>April 10th, 2016</td>
-                <td>11:00am</td>
-                <td>POL SCI 100</td>
-                <td>BCIT - Vancouver</td>
-                <td>Midterm 1</td>
-                <td>{{ Form::submit('View Details') }}</td>
-                @php $id++ @endphp
+                {{--TODO add hidden value for editting{{ Form::hidden('id', $id) }}--}}
+                <td align = "center">{{ $p->preferred_date_1 }}</td>
+                <td align = "center">{{ $p->preferred_date_2 }}</td>
+                <td align = "center">{{ $p->course_code }}</td>
+                <td align = "center">{{ $p->exam_medium }}</td>
+                <td align = "center">{{ $p->exam_type }}</td>
+                <td align = "center">{{ Form::submit('View Details') }}</td>
             </tr>
-        @endwhile
+        @endforeach
 
         <tr><th colspan = "6"><hr>Past Exams</th></tr>
 
-        @php $id = 0 @endphp
-        @while($id < 5)
+        @foreach($past as $pa)
             <tr>
                 {{ Form::open(array('action' => 'CenterController@showSchedule')) }}
-                {{ Form::hidden('id', $id) }}
-                <td>{{ $id }}</td>
-                <td>{{ $id }}</td>
-                <td>{{ $id }}</td>
-                <td>{{ $id }}</td>
-                <td>{{ $id }}</td>
-                <td>{{ Form::submit('View Details') }}</td>
-                @php $id++ @endphp
+                {{--TODO add hidden value for editting{{ Form::hidden('id', $id) }}--}}
+                <td align = "center">{{ $pa->preferred_date_1 }}</td>
+                <td align = "center">{{ $pa->preferred_date_2 }}</td>
+                <td align = "center">{{ $pa->course_code }}</td>
+                <td align = "center">{{ $pa->exam_medium }}</td>
+                <td align = "center">{{ $pa->exam_type }}</td>
+                <td align = "center">{{ Form::submit('View Details') }}</td>
             </tr>
-        @endwhile
+        @endforeach
 
     </table>
 @stop

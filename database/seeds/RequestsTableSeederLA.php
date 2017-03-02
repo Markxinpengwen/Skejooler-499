@@ -23,6 +23,8 @@ class RequestsTableSeederLA extends Seeder
 		$NUM_REQUESTS = 25;
 		$DEFAULT_AUTO_INCREMENT = 20000;
 		$FAKER_SEED = 1234;
+		$MINIMUM_DATE= "1970-01-01 00:00:00";
+		$DEFAULT_CODE = "DFLT 000";
 
 		//Variables
 		$num_students=0;
@@ -143,10 +145,12 @@ class RequestsTableSeederLA extends Seeder
 //					'center_contact_email' => $faker->safeEmail,
 //					'center_contact_number' => substr($faker->e164PhoneNumber,-11),
 					//other attributes
-					'preferred_date_1' => $faker->date($format = 'Y-m-d',$max = '2017-12-29 00:00:00'), //date
-					'preferred_date_2' => $faker->date($format = 'Y-m-d',$max = '2017-12-29 00:00:00'), //date
-					//'preferred_time' => $faker->time($format = 'H:i').":00", //valid time //!@# No longer needed
-					'course_code' => substr($faker->unixTime($max = 'now'), 4),
+					//'preferred_date_1' => $faker->date($format = 'Y-m-d',$max = '2017-12-29 00:00:00'), //old
+					//'preferred_date_2' => $faker->date($format = 'Y-m-d',$max = '2017-12-29 00:00:00'), //old
+                    'preferred_date_1' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
+                    'preferred_date_2' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
+                    //'scheduled_date' => Datetime.date_create_from_format($format = "YYYY-mm-dd HH:mm:ss",$time = $MINIMUM_DATE, $timezone = 'America/Vancouver'), //Migration should set this by default
+					'course_code' => $DEFAULT_CODE,
 					'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					'exam_type' => $type,
 					'exam_medium' => $medium,
@@ -211,11 +215,11 @@ class RequestsTableSeederLA extends Seeder
 //					'center_contact_email' => $faker->safeEmail,
 //					'center_contact_number' => substr($faker->e164PhoneNumber,-11),
 					//other attributes
-					'preferred_date_1' => $faker->date($format = 'Y-m-d',$max = '2017-12-29 00:00:00'), //date
-					'preferred_date_2' => $faker->date($format = 'Y-m-d',$max = '2017-12-29 00:00:00'), //date
-					//'preferred_time' => $faker->time($format = 'H:i').":00", //valid time //!@# No longer needed
-					'course_code' => substr($faker->unixTime($max = 'now'), 4),
-					'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
+                    'preferred_date_1' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
+                    'preferred_date_2' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
+                    //'scheduled_date' => Datetime.date_create_from_format($format = "YYYY-mm-dd HH:mm:ss",$time = $MINIMUM_DATE, $timezone = 'America/Vancouver'), //Migration should set this by default
+                    'course_code' => $DEFAULT_CODE,
+                    'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					'exam_type' => $type,
 					'exam_medium' => $medium,
 					'approval_status' => rand(0,1),
@@ -256,7 +260,7 @@ class RequestsTableSeederLA extends Seeder
 					//other attributes
 					'preferred_date_1' => $requests[$i]['preferred_date_1'],
 					'preferred_date_2' => $requests[$i]['preferred_date_2'],
-					//'preferred_time' => $requests[$i]['preferred_time'], //!@# No longer needed
+					//'scheduled_date' => $requests[$i]['scheduled_date'], //No longer needed
 					'course_code' => $requests[$i]['course_code'],
 					'additional_requirements' => $requests[$i]['additional_requirements'],
 					'exam_type' => $requests[$i]['exam_type'],

@@ -34,7 +34,10 @@ class CreateRequestsTable extends Migration
 			["additional_requirements", "additional_requirements", "Textarea", false, "", 0, 500, false],
 			["exam_type", "exam_type", "Dropdown", false, "Final", 0, 0, true, ["Final", "Midterm", "Other"]],
 			["exam_medium", "exam_medium", "Dropdown", false, "Paper", 0, 0, true, ["Paper", "Online", "Other"]],
-			["approval_status", "approval_status", "Radio", false, "0", 0, 0, false, ["0","1"]]
+            ["student_approval", "student_approval", "Integer", false, 0, 1, 1, false],
+            ["student_notes", "student_notes", "Textarea", false, "", 0, 500, false],
+            ["center_approval", "center_approval", "Integer", false, 0, 1, 1, false],
+            ["center_notes", "center_notes", "Textarea", false, "", 0, 500, false],
         ]);
     }
 

@@ -154,7 +154,10 @@ class RequestsTableSeederLA extends Seeder
 					'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					'exam_type' => $type,
 					'exam_medium' => $medium,
-					'approval_status' => "".rand(0,1)."", //!@#change to string
+					'student_approval' => "0",
+                    'student_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
+                    'center_approval' => "0",
+                    'center_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					//Request Metainformation
 					//'remember_token' => str_random(100),
 					'created_at' => $faker->dateTimeThisDecade($max = 'now'),
@@ -222,7 +225,10 @@ class RequestsTableSeederLA extends Seeder
                     'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					'exam_type' => $type,
 					'exam_medium' => $medium,
-					'approval_status' => rand(0,1),
+                    'student_approval' => "0",
+                    'student_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
+                    'center_approval' => "0",
+                    'center_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					//Request Metainformation
 					//'remember_token' => str_random(100),
 					'created_at' => $faker->dateTimeThisDecade($max = 'now'),
@@ -265,7 +271,10 @@ class RequestsTableSeederLA extends Seeder
 					'additional_requirements' => $requests[$i]['additional_requirements'],
 					'exam_type' => $requests[$i]['exam_type'],
 					'exam_medium' => $requests[$i]['exam_medium'],
-					'approval_status' => $requests[$i]['approval_status'],
+                    'student_approval' => $requests[$i]['student_approval'],
+                    'student_notes' => $requests[$i]['student_notes'],
+                    'center_approval' => $requests[$i]['center_approval'],
+                    'center_notes' => $requests[$i]['center_notes'],
 					//Request Metainformation
 					//'remember_token' => $requests[$i]['remember_token'],
 					'created_at' => $requests[$i]['created_at'],

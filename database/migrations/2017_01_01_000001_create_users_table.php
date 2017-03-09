@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
         Module::generate("Users", 'users', 'uid', 'fa-group', [
             ["uid", "User ID", "Integer", true, "", 0, 5, 7, true],
 			["email", "Email", "Email", true, "", 0, 250, true],
-            ["name", "Name", "Name", false, 0, 40, false],
+            //["name", "Name", "Name", false, 0, 40, false], //name removal request from Mark
             //["context_id", "Context", "Integer", false, "0", 0, 0, false],
             ["password", "password", "Password", false, "", 6, 250, true],
             ["salt", "salt", "String", true, "", 6, 250, true],

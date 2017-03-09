@@ -21,9 +21,9 @@ class CreateCentersTable extends Migration
         Module::generate("Centers", 'centers', 'cid', 'fa-building-o', [
             ["cid", "cid", "Integer", true, "", 6, 6, true],
             ["name", "name", "String", true, "", 0, 256, true],
-            ["email", "email", "Email", false, "", 0, 256, false],
+            ["center_email", "center_email", "Email", false, "", 0, 256, false],
             ["phone", "phone", "Mobile", false, "", 0, 20, false],
-            ["description", "description", "Textarea", false, "", 0, 0, false],
+            ["description", "description", "Textarea", false, "", 0, 1000, false],
             ["canSupportOnlineExam", "canSupportOnlineExam", "Radio", false, "0", 0, 0, false, ["0","1"]],
             ["cost", "cost", "Currency", false, "", 0, 11, false],
             ["street_address", "street_address", "String", false, "", 3, 100, true],

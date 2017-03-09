@@ -21,7 +21,7 @@ class CreateRequestsTable extends Migration
      */
     public function up()
     {
-        $MINIMUM_DATE= "1970-01-01 00:00:00";
+        $MINIMUM_DATE= "1970-01-02 00:00:01";
 
         Module::generate("Requests", 'requests', 'rid', 'fa-building-o', [
             ["rid", "rid", "Integer", true, "", 6, 6, true],

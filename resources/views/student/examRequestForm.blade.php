@@ -165,47 +165,46 @@
             var CoordAplhabetic = [
                 [49.248775, -122.980531], //any city
                 [51.644127, -121.295124], //100 mile
-                [49.050339, -122.304451], //abbotsford
-                [0.0, 0.0],                 //aldergrove
-                [49.248775, -122.980531], //burnaby
-                [0.0, 0.0],                 //campble river
-                [0.0, 0.0],                 //central okanagan
-                [0.0, 0.0],                 //chilliwack
-                [0.0, 0.0],                 //courtenay
-                [0.0, 0.0],                 //cranbrook
-                [0.0, 0.0],                 //delta
-                [0.0, 0.0],                 //duncan
-                [0.0, 0.0],                 //fort s j
-                [0.0, 0.0],                 //
-                [49.887836, -119.496592], //kelowna
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0],                 //
-                [0.0, 0.0]                  //
+                [49.050438,-122.30447], //abbotsford
+                [49.058052,-122.470667],                 //aldergrove
+                [49.248809,-122.98051], //burnaby
+                [50.033123,-125.273335],                 //campble river
+                [49.947366,-119.558821],                 //central okanagan
+                [49.15794,-121.951467],                 //chilliwack
+                [49.684139,-124.990449],                 //courtenay
+                [49.512968,-115.769401],                 //cranbrook
+                [49.095215,-123.026476],                 //delta
+                [48.778691,-123.707942],                 //duncan
+                [56.252423,-120.846409],                 //fort s j
+                [50.674522,-120.327267],                 //
+                [49.887952,-119.496011], //kelowna
+                [49.104178,-122.660352],                 //
+                [49.219323,-122.598398],                 //
+                [49.165884,-123.940065],                 //
+                [49.205718,-122.910956],                 //
+                [48.842857,-123.704401],                 //
+                [49.319982,-123.072414],                 //
+                [49.319338,-124.313641],                 //
+                [49.499138,-119.593708],                 //
+                [49.219065,-122.689516],                 //
+                [49.233888,-124.805549],                 //
+                [49.262838,-122.781071],                 //
+                [49.284911,-122.867756],                 //
+                [49.835235,-124.524706],                 //
+                [53.917064,-122.749669],                 //
+                [54.315037,-130.320819],                 //
+                [52.981737,-122.494906],                 //
+                [49.166591,-123.133569],                 //
+                [49.701634,-123.155812],                 //
+                [49.10443,-122.801094],                 //
+                [54.518192,-128.603154],                 //
+                [49.282729,-123.120738],                 //
+                [50.267014,-119.272011],                 //
+                [48.428421,-123.365644],                 //
+                [49.175003,-122.624019],                 //
+                [49.334897,-123.166785],                 //
+                [49.025309,-122.802962],                 //
+                [52.141674,-122.141688]              //                 //
 
             ];
 
@@ -268,25 +267,25 @@
                 //'radius'Listener
                 google.maps.event.addDomListener(document.getElementById('radius'),
                     'change', function() {
-                        updateMap();
+                        updateMap(false);
                     });
 
                 //'city'Listener
                 google.maps.event.addDomListener(document.getElementById('city'),
                     'change', function() {
-                        updateMap();
+                        updateMap(true);
                     });
 
                 //'supportsOnline'Listener
                 google.maps.event.addDomListener(document.getElementById('supportsOnline'),
                     'change', function() {
-                        updateMap();
+                        updateMap(false);
                     });
 
             }//Initialize
 
             // Update the query sent to the Fusion Table Layer based on user selection.
-            function updateMap() {
+            function updateMap(shouldRecenter) {
 
                 //Collect selection values
                 cityValue = document.getElementById('city').value;
@@ -353,6 +352,10 @@
                 console.log("City "+cityValue+" located at: Latitide: "+Coord[City.indexOf(cityValue)][0]+", Longitude: "+Coord[City.indexOf(cityValue)][1]+".\n");
                 console.log("FusionLayer Query is: "+layer.query.where+".");
 
+                //Recenter
+                if(shouldRecenter) {
+                    centerOnCity();
+                }
             }//updateMap
 
             //Adda DOM listener to window to initialize()
@@ -368,7 +371,7 @@
                     map.setCenter(new google.maps.LatLng(49.248775, -122.9805312));
                     map.setZoom(9);
                 }
-                console.log("Re-Center Clicked.");
+                console.log("Re-Centered");
             }
 
             //Function to clear elements of the form. //!@#not completed

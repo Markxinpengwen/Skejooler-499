@@ -117,6 +117,11 @@
                 height: 400px;
                 width: 500px;
             }
+
+            .googft-info-window{
+                color: #000000;
+                text-align: left;
+            }
         </style>
 
         <!--Initialize Map script-->
@@ -140,7 +145,7 @@
             //Old City Table //Any City = Burnaby Default
             var City = [
                 'Any City',
-                '100 Mile House',
+                '100_Mile_House',
                 'Abbotsford',
                 'Burnaby',
                 'Kelowna'
@@ -159,10 +164,11 @@
             //var CityByPop = ['Vancouver', 'Surrey', 'Burnaby', 'Richmond', 'Abbotsford', 'Kelowna', 'Port Coquitlam', 'Delta', 'Kamloops', 'Nanaimo', 'Victoria', 'Chilliwack', 'Maple Ridge', 'Prince George', 'New Westminster', 'North Vancouver', 'Penticton', 'West Vancouver', 'North Cowichan', 'Courtenay', 'Vernon', 'Central Okanagan', 'Campbell River', 'Port Moody', 'Walnut Grove', 'Langley', 'Duncan', 'Parksville', 'Williams Lake', 'White Rock', 'Terrace', 'Cranbrook', 'Pitt Meadows', 'Fort Saint John', 'Port Alberni', 'Quesnel', 'Squamish', 'Powell River', 'Prince Rupert', 'Aldergrove'];
 
             //City Table (sorted alphabetically)
-            var CityAlphabetic = ["Any City", "100 Mile House","Abbotsford","Aldergrove","Burnaby","Campbell River","Central Okanagan","Chilliwack","Courtenay","Cranbrook","Delta","Duncan","Fort Saint John","Kamloops","Kelowna","Langley","Maple Ridge","Nanaimo","New Westminster","North Cowichan","North Vancouver","Parksville","Penticton","Pitt Meadows","Port Alberni","Port Coquitlam","Port Moody","Powell River","Prince George","Prince Rupert","Quesnel","Richmond","Squamish","Surrey","Terrace","Vancouver","Vernon","Victoria","Walnut Grove","West Vancouver","White Rock","Williams Lake"];
+            var CityAlphabetic = ["Any City", "100_Mile_House","Abbotsford","Aldergrove","Burnaby","Campbell_River","Central_Okanagan","Chilliwack","Courtenay","Cranbrook","Delta","Duncan","Fort_Saint_John","Kamloops","Kelowna","Langley","Maple_Ridge","Nanaimo","New_Westminster","North_Cowichan","North_Vancouver","Parksville","Penticton","Pitt_Meadows","Port_Alberni","Port_Coquitlam","Port_Moody","Powell_River","Prince_George","Prince_Rupert","Quesnel","Richmond","Squamish","Surrey","Terrace","Vancouver","Vernon","Victoria","Walnut_Grove","West_Vancouver","White_Rock","Williams_Lake"];
+            console.log("CA size ="+CityAlphabetic.length+".");
 
             //Coord Table (Any City = Burnaby Default)
-            var CoordAplhabetic = [
+            var CoordAlphabetic = [
                 [49.248775, -122.980531], //any city
                 [51.644127, -121.295124], //100 mile
                 [49.050438,-122.30447], //abbotsford
@@ -321,7 +327,7 @@
                 if(query.length!=0){
                     query+="AND ";
                 }
-                query += "ST_INTERSECTS("+"Latitude"+", "+"CIRCLE(LATLNG("+Coord[City.indexOf(cityValue)][0]+", "+Coord[City.indexOf(cityValue)][1]+")"+", "+radiusValue+")) "; //Latitude is the location column, because it is paired (two-column) with longitude.
+                query += "ST_INTERSECTS("+"Latitude"+", "+"CIRCLE(LATLNG("+CoordAlphabetic[CityAlphabetic.indexOf(cityValue)][0]+", "+CoordAlphabetic[CityAlphabetic.indexOf(cityValue)][1]+")"+", "+radiusValue+")) "; //Latitude is the location column, because it is paired (two-column) with longitude.
 
                 //Update layer with query
                 layer.setOptions({
@@ -337,7 +343,7 @@
                 circle.setMap(null); //proper way to remove a circle (https://developers.google.com/maps/documentation/javascript/shapes#circles)
                 //Create Circle
                 circle = new google.maps.Circle({
-                    center: new google.maps.LatLng(Coord[City.indexOf(cityValue)][0], Coord[City.indexOf(cityValue)][1]),
+                    center: new google.maps.LatLng(CoordAlphabetic[CityAlphabetic.indexOf(cityValue)][0], CoordAlphabetic[CityAlphabetic.indexOf(cityValue)][1]),
                     radius: parseInt(radiusValue), //parseInt() reqired for variable radius
                     map: map,
                     fillColor: '#1ee01a',
@@ -349,7 +355,7 @@
                 });
 
                 //Print out record of selection
-                console.log("City "+cityValue+" located at: Latitide: "+Coord[City.indexOf(cityValue)][0]+", Longitude: "+Coord[City.indexOf(cityValue)][1]+".\n");
+                console.log("City "+cityValue+" located at: Latitide: "+CoordAlphabetic[CityAlphabetic.indexOf(cityValue)][0]+", Longitude: "+CoordAlphabetic[CityAlphabetic.indexOf(cityValue)][1]+".\n");
                 console.log("FusionLayer Query is: "+layer.query.where+".");
 
                 //Recenter
@@ -365,7 +371,7 @@
             //Function to recenter google maps element on the selected city.
             function centerOnCity(){
                 if(cityValue!="Any City"){
-                    map.setCenter(new google.maps.LatLng(Coord[City.indexOf(cityValue)][0], Coord[City.indexOf(cityValue)][1]));
+                    map.setCenter(new google.maps.LatLng(CoordAlphabetic[CityAlphabetic.indexOf(cityValue)][0], CoordAlphabetic[CityAlphabetic.indexOf(cityValue)][1]));
                     map.setZoom(11);
                 }else{
                     map.setCenter(new google.maps.LatLng(49.248775, -122.9805312));
@@ -436,7 +442,7 @@
                         </optgroup>
                         <optgroup label="British Columbia">
                             <!--cities, alphabetic-->
-                            <option value="100 Mile House">100 Mile House [1]</option>
+                            <option value="100_Mile_House">100 Mile House [1]</option>
                             <option value="Abbotsford">Abbotsford [1]</option>
                             <option value="Aldergrove">Aldergrove </option>
                             <option value="Burnaby">Burnaby [2]</option>

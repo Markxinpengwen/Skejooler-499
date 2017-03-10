@@ -515,6 +515,7 @@
         <div class="response">
         <!--New Form Table-->
         <table class="tableForm">
+            {{ Form::open() }}
             <tr>
                 <th colspan = "2"><h1>Step 2 - Complete Your Exam Form</h1></th>
             </tr>
@@ -700,6 +701,7 @@
                 <td></td>
                 <td>{!! Form::submit('Book Exam!'); !!}</td>
             </tr>
+            {{ Form::close() }}
         </table>
         </div>
 

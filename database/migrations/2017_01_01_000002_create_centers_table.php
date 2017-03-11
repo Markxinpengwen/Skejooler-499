@@ -22,25 +22,25 @@ class CreateCentersTable extends Migration
             ["cid", "cid", "Integer", true, "", 6, 6, true],
             ["name", "name", "String", true, "", 0, 256, true],
             ["center_email", "center_email", "Email", false, "", 0, 256, false],
-            ["phone", "phone", "Mobile", false, "", 0, 20, false],
-            ["description", "description", "Textarea", false, "", 0, 1000, false],
+            ["phone", "phone", "Mobile", false, "0", 0, 20, false], //new default value
+            ["description", "description", "Textarea", false, "No Description Given", 0, 1000, false], //new default
             ["canSupportOnlineExam", "canSupportOnlineExam", "Radio", false, "0", 0, 0, false, ["0","1"]],
-            ["cost", "cost", "Currency", false, "", 0, 11, false],
-            ["street_address", "street_address", "String", false, "", 3, 100, true],
-            ["city", "city", "String", false, "", 3, 100, true],
+            ["cost", "cost", "Currency", false, 0.0, 0, 11, false], //new default
+            ["street_address", "street_address", "String", false, "No Address Listed", 3, 100, true],
+            ["city", "city", "String", false, "No City Listed", 3, 100, true],
             ["province", "province", "Dropdown", false, "British_Columbia", 0, 0, true, ["British_Columbia","Alberta","Sasketchewan","Manitoba","Ontario","Quebec","Nova_Scotia","Newfoundland_and_Labrador","New_Brunswick","Prince_Edward_Island","Yukon","Northwest_Territories","Nunavut"]],
             ["country", "country", "Dropdown", false, "Canada", 0, 0, true, ["Canada"]],
-            ["postal_code", "postal_code", "String", false, "", 5, 6, true],
+            ["postal_code", "postal_code", "String", false, "000000", 5, 6, true], //New default
             ["longitude", "longitude", "Float", false, "0.000000", 8, 11, false],
             ["latitude", "latitude", "Float", false, "0.000000", 8, 11, false]
         ]);
-		
-		/*
-		Row Format:
-		["field_name_db", "Label", "UI Type", "Unique", "Default_Value", "min_length", "max_length", "Required", "Pop_values"]
+  
+  /*
+  Row Format:
+  ["field_name_db", "Label", "UI Type", "Unique", "Default_Value", "min_length", "max_length", "Required", "Pop_values"]
         Module::generate("Module_Name", "Table_Name", "view_column_name" "Fields_Array");
         
-		Module::generate("Books", 'books', 'name', [
+  Module::generate("Books", 'books', 'name', [
             ["address",     "Address",      "Address",  false, "",          0,  1000,   true],
             ["restricted",  "Restricted",   "Checkbox", false, false,       0,  0,      false],
             ["price",       "Price",        "Currency", false, 0.0,         0,  0,      true],
@@ -68,7 +68,7 @@ class CreateCentersTable extends Migration
             ["short_intro", "Introduction", "TextField",false, "",          5,  250,    true],
             ["website",     "Website",      "URL",      false, "http://dwij.in", 0, 0,  false],
         ]);
-		*/
+  */
     }
 
     /**

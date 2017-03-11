@@ -23,7 +23,7 @@ class RequestsTableSeederLA extends Seeder
 		$NUM_REQUESTS = 25;
 		$DEFAULT_AUTO_INCREMENT = 20000;
 		$FAKER_SEED = 1234;
-		$MINIMUM_DATE= "1970-01-01 00:00:00";
+		$MINIMUM_DATE= "1970-01-02 00:00:01";
 		$DEFAULT_CODE = "DFLT 000";
 
 		//Variables

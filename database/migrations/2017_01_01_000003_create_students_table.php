@@ -20,12 +20,12 @@ class CreateStudentsTable extends Migration
     {
         Module::generate("Students", 'students', 'sid', 'fa-building-o', [
             ["sid", "sid", "Integer", true, "", 5, 7, true],
-            ["firstName", "firstName", "String", false, "", 0, 256, true],
-			["lastName", "lastName", "String", false, "", 0, 256, true],
-			["institution", "institution", "Integer", false, "", 5, 7, false],
+            ["firstName", "firstName", "String", false, "First", 0, 256, true],
+			["lastName", "lastName", "String", false, "Last", 0, 256, true],
+			["institution", "institution", "Integer", false, "0", 5, 7, false], //new default
             ["sex", "sex", "Dropdown", false, "not_declared", 0, 0, false, ["not_declared","male","female","transgender"]],
 			["age", "age", "Integer", false, 0, 0, 110, false],
-			["phone", "phone", "Mobile", false, "00000000000", 0, 15, false] //15 digits?
+			["phone", "phone", "Mobile", false, "0", 0, 15, false] //new default
         ]);
 		
 		/*

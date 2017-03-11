@@ -10,6 +10,7 @@ use App\Models\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -74,7 +75,7 @@ class RegisterController extends Controller
         Eloquent::unguard();
         if($data['utype'] == 'student') {
             $employee = Employee::create([
-                'name' => $data['name'],
+//                'name' => $data['name'],
                 'designation' => "Super Admin",
                 'mobile' => "8888888888",
                 'mobile2' => "",
@@ -89,18 +90,32 @@ class RegisterController extends Controller
                 'date_left' => date("Y-m-d"),
                 'salary_cur' => 0,
             ]);
-
+            $options = [
+                'cost' => 10,
+                'salt' => str_random(22) //22 required minimum //str_random safe? random_bytes
+            ];
+            //Acquire initial auto_increment values from database (for students, users, and centers) and then print them.
+            $USERS_DEFAULT_AUTO_INCREMENT = 1000000;
+            $result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'users'"));
+            $result = json_decode(json_encode($result), true);
+            $uid = $result[0]['Auto_increment'];
+            if($uid==0){
+                DB::update("ALTER TABLE Users AUTO_INCREMENT = ".$USERS_DEFAULT_AUTO_INCREMENT.";");
+                $uid = $USERS_DEFAULT_AUTO_INCREMENT;
+                echo "Alter user auto increament to ".$USERS_DEFAULT_AUTO_INCREMENT;
+            }
             $user = User::create([
-                'name' => $data['name'],
+//                'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => bcrypt($data['password']),
-                'context_id' => $employee->id,
-                'type' => "student",
+                'uid'=>$uid,
+                'password' => password_hash($data['password'], PASSWORD_DEFAULT, $options),
+                'salt' => $options['salt'],
+                'type' => "center",
             ]);
         }
         else{
             $employee = Employee::create([
-                'name' => $data['name'],
+//                'name' => $data['name'],
                 'designation' => "center",
                 'mobile' => "8888888888",
                 'mobile2' => "",
@@ -115,14 +130,29 @@ class RegisterController extends Controller
                 'date_left' => date("Y-m-d"),
                 'salary_cur' => 0,
             ]);
-
+            $options = [
+                'cost' => 10,
+                'salt' => str_random(22) //22 required minimum //str_random safe? random_bytes
+            ];
+            //Acquire initial auto_increment values from database (for students, users, and centers) and then print them.
+            $USERS_DEFAULT_AUTO_INCREMENT = 1000000;
+            $result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'users'"));
+            $result = json_decode(json_encode($result), true);
+            $uid = $result[0]['Auto_increment'];
+            if($uid==0){
+                DB::update("ALTER TABLE Users AUTO_INCREMENT = ".$USERS_DEFAULT_AUTO_INCREMENT.";");
+                $uid = $USERS_DEFAULT_AUTO_INCREMENT;
+                echo "Alter user auto increament to ".$USERS_DEFAULT_AUTO_INCREMENT;
+            }
             $user = User::create([
-                'name' => $data['name'],
+//                'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => bcrypt($data['password']),
-                'context_id' => $employee->id,
+                'uid'=>$uid,
+                'password' => password_hash($data['password'], PASSWORD_DEFAULT, $options),
+                'salt' => $options['salt'],
                 'type' => "center",
             ]);
+            DB::insert('insert into centers (cid,center_email) values (?,?,)',[$uid,$data['email']]);
         }
         $role = Role::where('name', 'SUPER_ADMIN')->first();
         $user->attachRole($role);

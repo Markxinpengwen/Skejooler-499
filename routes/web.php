@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/test', 'NameController@index');
 //Route::get('/center', 'UserController@center');
 //Route::get('/student', 'UserController@student');
 /* ================== Homepage + Admin Routes ================== */

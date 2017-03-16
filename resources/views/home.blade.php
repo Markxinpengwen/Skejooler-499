@@ -55,20 +55,21 @@
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/register') }}">Register</a></li>
-                @else
-                <!--
-                    redirect basic on user type
-                 -->
-                    @if(Auth::user()->type == 'center')
-                        <li><a href="{{ url('/center') }}">{{ Auth::user()->name }}</a></li>
-                        <li><a href="{{ url('/logout') }}">Log out</a></li>
-                    @elseif(Auth::user()->type == 'student')
-                        <li><a href="{{ url('/student') }}">{{ Auth::user()->name }}</a></li>
-                        <li><a href="{{ url('/logout') }}">Log out</a></li>
-                    @else
-                        <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a></li>
-                        <li><a href="{{ url('/logout') }}">Log out</a></li>
-                    @endif
+                {{--@else--}}
+                {{--<!----}}
+                    {{--redirect basic on user type--}}
+                    {{--modified in controller:vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesUsers.php--}}
+                 {{---->--}}
+                    {{--@if(Auth::user()->type == 'center')--}}
+                        {{--<li><a href="{{ url('/center') }}">{{ Auth::user()->name }}</a></li>--}}
+                        {{--<li><a href="{{ url('/logout') }}">Log out</a></li>--}}
+                    {{--@elseif(Auth::user()->type == 'student')--}}
+                        {{--<li><a href="{{ url('/student') }}">{{ Auth::user()->type }}</a></li>--}}
+                        {{--<li><a href="{{ url('/logout') }}">Log out</a></li>--}}
+                    {{--@else--}}
+                        {{--<li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a></li>--}}
+                        {{--<li><a href="{{ url('/logout') }}">Log out</a></li>--}}
+                    {{--@endif--}}
                 @endif
             </ul>
         </div><!--/.nav-collapse -->

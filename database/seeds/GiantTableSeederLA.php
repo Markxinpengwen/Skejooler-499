@@ -145,7 +145,7 @@ class GiantTableSeederLA extends Seeder
 			$centers[$i] = [
 				'cid' => 0, //determined later
 				'name' =>  "".$name. " Center",
-                'email' => "".str_replace($REGEX_PATTERN,$REGEX_REPLACE,$name)."@example.org",
+                'center_email' => "".str_replace($REGEX_PATTERN,$REGEX_REPLACE,$name)."@example.org",
 				'phone' => substr($faker->e164PhoneNumber,-11),
 				'description' => $faker->bs() .$faker->bs() .$faker->bs(),
 				'canSupportOnlineExam' => rand(0,1),
@@ -201,7 +201,7 @@ class GiantTableSeederLA extends Seeder
 			$users[$i] = [
 				'uid' => $id, //remember id is incremented below //!@#changed to 'uid'
 				'email' => $email,
-                'name' => $uname, //@!# workaround for Mark.
+                //'name' => $uname, //@!# workaround for Mark.//Now depricated by Brett and Mark
 				'salt' => $options['salt'],
 				'password' => password_hash($password, PASSWORD_DEFAULT, $options),
 				'type' => $type,
@@ -235,7 +235,7 @@ class GiantTableSeederLA extends Seeder
                     'id' => $users[$i]['uid'], //!@#here
 				    'uid' => $users[$i]['uid'], //!@#changed to 'uid'
 					'email' => $users[$i]['email'],
-                    'name' => $users[$i]['name'],
+                    //'name' => $users[$i]['name'],
 					'salt' => $users[$i]['salt'],
 					'password' => $users[$i]['password'],
 					'type' => $users[$i]['type'],
@@ -257,7 +257,7 @@ class GiantTableSeederLA extends Seeder
 					[					
 						'cid' => $centers[$i]['cid'],
 						'name' => $centers[$i]['name'],
-                        'email' => $centers[$i]['email'],
+                        'center_email' => $centers[$i]['center_email'],
 						'phone' => $centers[$i]['phone'],
 						'description' => $centers[$i]['description'],
 						'canSupportOnlineExam' => $centers[$i]['canSupportOnlineExam'],

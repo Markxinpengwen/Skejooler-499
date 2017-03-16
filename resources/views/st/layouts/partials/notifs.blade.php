@@ -108,7 +108,9 @@
 							<img src="{{ Gravatar::fallback(asset('la-assets/img/user2-160x160.jpg'))->get(Auth::user()->email) }}" class="user-image" alt="User Image"/>
 							<!-- hidden-xs hides the username on small devices so only the image appears. -->
 							<span class="hidden-xs">{{ Auth::user()->name }}</span>
+							<span class="hidden-xs">{{action('NameController@index')}}</span>
 						</a>
+						<a href="{{action('NameController@index')}}">name</a>
 						<ul class="dropdown-menu">
 							<!-- The user image in the menu -->
 							<li class="user-header">

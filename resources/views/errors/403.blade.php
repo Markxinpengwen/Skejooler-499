@@ -51,10 +51,9 @@
                 <div class="title">Unauthorized access</div>
 				@if(Auth::guest())
 					<a href="{{ url('/') }}">Homepage</a> | 
-					<a href="javascript:history.back()">Go Back</a>
+
 				@else
-					<a href="{{ url(config('laraadmin.adminRoute')) }}">Dashboard.</a> | 
-					<a href="javascript:history.back()">Go Back</a>
+					<a href="javascript:history.back()">Go back</a>
 				@endif
             </div>
         </div>

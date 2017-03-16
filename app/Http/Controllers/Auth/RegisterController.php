@@ -74,22 +74,6 @@ class RegisterController extends Controller
         // TODO: This is Not Standard. Need to find alternative
         Eloquent::unguard();
         if($data['utype'] == 'student') {
-            $employee = Employee::create([
-//                'name' => $data['name'],
-                'designation' => "Super Admin",
-                'mobile' => "8888888888",
-                'mobile2' => "",
-                'email' => $data['email'],
-                'gender' => 'Male',
-                'dept' => "1",
-                'city' => "Pune",
-                'address' => "Karve nagar, Pune 411030",
-                'about' => "About user / biography",
-                'date_birth' => date("Y-m-d"),
-                'date_hire' => date("Y-m-d"),
-                'date_left' => date("Y-m-d"),
-                'salary_cur' => 0,
-            ]);
             $options = [
                 'cost' => 10,
                 'salt' => str_random(22) //22 required minimum //str_random safe? random_bytes
@@ -110,26 +94,11 @@ class RegisterController extends Controller
                 'uid'=>$uid,
                 'password' => password_hash($data['password'], PASSWORD_DEFAULT, $options),
                 'salt' => $options['salt'],
-                'type' => "center",
+                'type' => "student",
             ]);
+            DB::insert('insert into students (sid,firstName,age) values (?,?,?)',[$uid,$data['name'],10]);
         }
         else{
-            $employee = Employee::create([
-//                'name' => $data['name'],
-                'designation' => "center",
-                'mobile' => "8888888888",
-                'mobile2' => "",
-                'email' => $data['email'],
-                'gender' => 'Male',
-                'dept' => "1",
-                'city' => "Pune",
-                'address' => "Karve nagar, Pune 411030",
-                'about' => "About user / biography",
-                'date_birth' => date("Y-m-d"),
-                'date_hire' => date("Y-m-d"),
-                'date_left' => date("Y-m-d"),
-                'salary_cur' => 0,
-            ]);
             $options = [
                 'cost' => 10,
                 'salt' => str_random(22) //22 required minimum //str_random safe? random_bytes
@@ -152,7 +121,7 @@ class RegisterController extends Controller
                 'salt' => $options['salt'],
                 'type' => "center",
             ]);
-            DB::insert('insert into centers (cid,center_email) values (?,?,)',[$uid,$data['email']]);
+            DB::insert('insert into centers (cid,name,center_email,cost) values (?,?,?,?)',[$uid,$data['name'],$data['email'],10]);
         }
         $role = Role::where('name', 'SUPER_ADMIN')->first();
         $user->attachRole($role);

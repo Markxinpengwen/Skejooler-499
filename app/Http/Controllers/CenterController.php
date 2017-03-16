@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Input as Input;
 use App\Centers as Centers;
+use Validator;
+use Eloquent;
+use Illuminate\Support\Facades\Auth;
 
 class CenterController extends Controller
 {
-    protected $cid = 1;
+   protected $cid = 1;
 
     /**
      * Display a listing of the resource.
@@ -17,7 +20,13 @@ class CenterController extends Controller
      */
     public function index()
     {
-        return CenterController::showProfile();
+        if(Auth::user()->type == "center"){
+            return CenterController::showProfile();
+        }
+        else{
+            return view('errors/403');
+        }
+
     }
 
     /**

@@ -26,15 +26,14 @@ class NameController extends Controller
             $array = DB::select('select firstName from students where sid = ? ',[$uid]);
             $array = json_decode(json_encode($array), true);
             $name = $array[0]['firstName'];
-            echo $name;
+            return view('/student')->with('name', $name);
         }
         elseif(Auth::user()->type == "center"){
             $array = DB::select('select name from centers where cid = ? ', [$uid]);
             $array = json_decode(json_encode($array), true);
             $name = $array[0]['name'];
-            echo $name;
+            return view('/st/layouts/partials/notifs')->with('name', $name);
         }
-        return view('/test');
     }
 
     public function update(Request $request)

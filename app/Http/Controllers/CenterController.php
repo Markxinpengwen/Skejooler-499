@@ -33,7 +33,6 @@ class CenterController extends Controller
         // find correct Center
         $center = Centers::where('cid', Auth::id())->first();
 
-
         return view('center/profile')->with('center', $center);
     }
 
@@ -70,6 +69,7 @@ class CenterController extends Controller
         // determine is user is allowed to update profile
         if($c->authorize($cid))
         {
+            //var_dump($c->validate($tempcenter));
             // find correct Center to update
             if($c->validate($tempcenter))
             {
@@ -95,7 +95,7 @@ class CenterController extends Controller
             else
             {
                 //invalid input
-                redirect(); //->with('errors', $c->error());
+                redirect();
             }
         }
         else
@@ -106,10 +106,7 @@ class CenterController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Display the schedule view with the correct request values based on the user ID
      */
     public function showSchedule()
     {
@@ -157,14 +154,18 @@ class CenterController extends Controller
         // determine is user is allowed to update profile
         if($c->authorize($cid))
         {
+            $center = Centers::where('cid', Auth::id())->first();
+
             // find correct Center to update
             if($c->validate($tempcenter))
             {
-                $center = Centers::where('cid', Auth::id())->first();
-
                 // update center
                 $center->name = $tempcenter['name'];
-                $center->email = $tempcenter['email'];
+
+                if($center->email != $tempcenter['email'])
+                {
+                    $center->email = $tempcenter['email'];
+                }
                 $center->phone = $tempcenter['phone'];
                 $center->description = $tempcenter['description'];
                 $center->canSupportOnlineExam = $tempcenter['canSupportOnlineExam'];

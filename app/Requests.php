@@ -18,7 +18,16 @@ class Requests extends BaseModel
 
     // TODO rules
     protected $rules = array(
-
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
     );
 
     // TODO authorize statement

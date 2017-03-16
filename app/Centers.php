@@ -12,18 +12,21 @@ class Centers extends BaseModel
     //TODO rules
     protected $rules = array(
         'name' => 'required|string',
-        'email' => 'email',
-        'phone' => 'numeric',
-        'description' => '',
-        'canSupportOnlineExam' => 'boolean',
-        'cost' => 'numeric',
-        'street_address' => 'string',
-        'city' => 'string',
+        'email' => 'email', //TODO delete
+        //'center_email' => 'email',
+        'phone' => 'numeric|between', // TODO needs a valid change into mobile 0 - 20 accepts valid characters
+        'description' => '', // text area 0 - 1000
+        'canSupportOnlineExam' => 'boolean', //boolean
+        'cost' => 'numeric', // 15 digits total, 2 past decimal OR 0 - 11 digits
+        'street_address' => 'string', // 3 - 100
+        'city' => 'string', //3 - 100
         'province' => 'string',
         'country' => 'string',
-        'postal_code' => 'between:6,6',
-        'longitude' => '',
-        'latitude' => ''
+        'postal_code' => 'between:5,6|string',
+    );
+
+    protected $rules2 = array(
+        'email' => 'unique:centers|email',
     );
 
     // TODO authorize statement

@@ -11,9 +11,8 @@ class BaseModel extends Model
 
     protected $errors;
 
-    public function validate($data, $email)
+    public function validate($data)
     {
-        //if()
         $validator = Validator::make($data, $this->rules);
         if($validator->fails())
         {

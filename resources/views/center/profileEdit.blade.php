@@ -46,8 +46,8 @@
         </tr>
 
         <tr>
-            <td>{{ Form::label('email', 'Email:') }}</td>
-            <td>{{ Form::email('email', $center->email) }}</td>
+            <td>{{ Form::label('center_email', 'Email:') }}</td>
+            <td>{{ Form::email('center_email', $center->center_email) }}</td>
         </tr>
 
         {{--TODO - add website--}}

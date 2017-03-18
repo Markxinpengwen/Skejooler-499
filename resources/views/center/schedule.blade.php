@@ -17,11 +17,12 @@
             <tr>
                 {{ Form::open(array('action' => 'CenterController@showSchedule')) }}
                 {{--TODO add hidden value for editting{{ Form::hidden('id', $id) }}--}}
-                <td align = "center">{{ $u->preferred_date_1 }}</td>
-                <td align = "center">{{ $u->preferred_date_2 }}</td>
+                <td align = "center">{{ $u->scheduled_date }}</td>
                 <td align = "center">{{ $u->course_code }}</td>
                 <td align = "center">{{ $u->exam_medium }}</td>
                 <td align = "center">{{ $u->exam_type }}</td>
+                {{ Form::hidden('student', $u->student) }}
+                {{ Form::hidden('center', $u->center) }}
                 <td align = "center">{{ Form::submit('View Details') }}</td>
             </tr>
         @endforeach
@@ -47,8 +48,7 @@
             <tr>
                 {{ Form::open(array('action' => 'CenterController@showSchedule')) }}
                 {{--TODO add hidden value for editting{{ Form::hidden('id', $id) }}--}}
-                <td align = "center">{{ $pa->preferred_date_1 }}</td>
-                <td align = "center">{{ $pa->preferred_date_2 }}</td>
+                <td align = "center">{{ $pa->scheduled_date }}</td>
                 <td align = "center">{{ $pa->course_code }}</td>
                 <td align = "center">{{ $pa->exam_medium }}</td>
                 <td align = "center">{{ $pa->exam_type }}</td>

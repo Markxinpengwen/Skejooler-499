@@ -77,7 +77,7 @@ class CenterController extends Controller
 
                 // update center
                 $center->name = $tempcenter['name'];
-                $center->email = $tempcenter['email'];
+                $center->center_email = $tempcenter['center_email'];
                 $center->phone = $tempcenter['phone'];
                 $center->description = $tempcenter['description'];
                 $center->canSupportOnlineExam = $tempcenter['canSupportOnlineExam'];
@@ -86,7 +86,7 @@ class CenterController extends Controller
                 $center->city = $tempcenter['city'];
                 $center->province = $tempcenter['province'];
                 $center->country = $tempcenter['country'];
-                //$center->postal_code => $tempcenter['postal_code'];
+                $center->postal_code = $tempcenter['postal_code'];
 
                 // save new values to DB
                 $center->save();
@@ -113,7 +113,7 @@ class CenterController extends Controller
         // find correct Center
         $upcoming = Requests::where('center', Auth::id())->where('approval_status', 1)->get();
         $pending = Requests::where('center', Auth::id())->where('approval_status', 0)->get();
-        $past = Requests::where('center', Auth::id())->get();// TODO need the correct DB values i.e. date of exam
+        $past = Requests::where('center', Auth::id())->where('scheduled_date', '>', '0')->get(); // TODO need the correct DB values i.e. date of exam
 
         return view('center/schedule')
             ->with('upcoming', $upcoming)
@@ -132,7 +132,7 @@ class CenterController extends Controller
         // find correct Center
         $center = Centers::where('cid', Auth::id())->first();
 
-        return view('center/profileEdit')->with('center', $center);
+        return view('center/request')->with('center', $center);
     }
 
     /**
@@ -149,7 +149,7 @@ class CenterController extends Controller
         $tempcenter = Input::all();
         $cid = $tempcenter['cid'];
 
-        //echo "validate - "; var_dump($c->validate($tempcenter));
+        echo "validate - "; var_dump($c->validate($tempcenter));
 
         // determine is user is allowed to update profile
         if($c->authorize($cid))
@@ -161,11 +161,7 @@ class CenterController extends Controller
             {
                 // update center
                 $center->name = $tempcenter['name'];
-
-                if($center->email != $tempcenter['email'])
-                {
-                    $center->email = $tempcenter['email'];
-                }
+                $center->center_email = $tempcenter['center_email'];
                 $center->phone = $tempcenter['phone'];
                 $center->description = $tempcenter['description'];
                 $center->canSupportOnlineExam = $tempcenter['canSupportOnlineExam'];
@@ -174,7 +170,7 @@ class CenterController extends Controller
                 $center->city = $tempcenter['city'];
                 $center->province = $tempcenter['province'];
                 $center->country = $tempcenter['country'];
-                //$center->postal_code => $tempcenter['postal_code'];
+                $center->postal_code = $tempcenter['postal_code'];
 
                 // save new values to DB
                 $center->save();

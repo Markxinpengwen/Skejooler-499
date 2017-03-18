@@ -2,15 +2,43 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Students extends Model
+class Students extends BaseModel
 {
+
     protected $table = "students";
     protected $primaryKey = "sid";
+    public $timestamps = true;
 
-    public function students()
+    //TODO rules
+    protected $rules = array(
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+    );
+
+    // TODO authorize statement
+    public function authorize($id)
     {
-        return $this->hasMany('students');
+        return true;
+    }
+
+    // TODO customized error messages
+    public function messages()
+    {
+        return [
+            '' => '',
+        ];
+    }
+
+    public function centers()
+    {
+        return $this->hasMany('centers');
     }
 }

@@ -31,7 +31,7 @@ class Requests extends BaseModel
     );
 
     // TODO authorize statement
-    public function authorize($id)
+    public function authorize($rid, $cid)
     {
         return true;
     }
@@ -46,6 +46,6 @@ class Requests extends BaseModel
 
     public function centers()
     {
-        return $this->hasMany('centers');
+        return $this->hasMany('requests');
     }
 }

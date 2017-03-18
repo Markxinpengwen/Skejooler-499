@@ -2,91 +2,86 @@
 
 namespace App\Http\Controllers;
 
-use FontLib\Table\Type\name;
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Input as Input;
 use Illuminate\Support\Facades\Auth as Auth;
 use App\Centers as Centers;
+use App\Students as Students;
 use App\Requests as Requests;
+use App\User as Users;
 
 class CenterController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Displays the default.
      */
     public function index()
     {
         return CenterController::showProfile();
     }
 
+    //---------------------------------------------------------------------------------------
+    // PROFILE
+    //---------------------------------------------------------------------------------------
+
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $cid
-     * @return \Illuminate\Http\Response
+     * Displays the Center's profile.
      */
     public function showProfile()
     {
         // find correct Center
-        $center = Centers::where('cid', Auth::id())->first();
+        $center = Centers::where('cid', Auth::id())
+            ->first();
 
-        return view('center/profile')->with('center', $center);
+        return view('center/profile')
+            ->with('center', $center);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param
-     * @return
+     * Show the form for editing the Center's Profile.
      */
     public function editProfile()
     {
         // find correct Center
-        $center = Centers::where('cid', Auth::id())->first();
+        $center = Centers::where('cid', Auth::id())
+            ->first();
 
-        return view('center/profileEdit')->with('center', $center);
+        return view('center/profileEdit')
+            ->with('center', $center);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $cid
-     * @return \Illuminate\Http\Response
+     * Update the Center's Profile in the database.
+     * TODO use center as timezone
      */
     public function updateProfile()
     {
         $c = new Centers();
-        // grab center info to be updated
-        $tempcenter = Input::all();
-        $cid = $tempcenter['cid'];
 
-        //echo "validate - "; var_dump($c->validate($tempcenter));
+        // grab center info to be updated
+        $tempCenter = Input::all();
+        $cid = $tempCenter['cid'];
 
         // determine is user is allowed to update profile
         if($c->authorize($cid))
         {
-            //var_dump($c->validate($tempcenter));
             // find correct Center to update
-            if($c->validate($tempcenter))
+            if($c->validate($tempCenter))
             {
-                $center = Centers::where('cid', Auth::id())->first();
+                $center = Centers::where('cid', Auth::id())
+                    ->first();
 
                 // update center
-                $center->name = $tempcenter['name'];
-                $center->center_email = $tempcenter['center_email'];
-                $center->phone = $tempcenter['phone'];
-                $center->description = $tempcenter['description'];
-                $center->canSupportOnlineExam = $tempcenter['canSupportOnlineExam'];
-                $center->cost = $tempcenter['cost'];
-                $center->street_address = $tempcenter['street_address'];
-                $center->city = $tempcenter['city'];
-                $center->province = $tempcenter['province'];
-                $center->country = $tempcenter['country'];
-                $center->postal_code = $tempcenter['postal_code'];
+                $center->name = $tempCenter['name'];
+                $center->center_email = $tempCenter['center_email'];
+                $center->phone = $tempCenter['phone'];
+                $center->description = $tempCenter['description'];
+                $center->canSupportOnlineExam = $tempCenter['canSupportOnlineExam'];
+                $center->cost = $tempCenter['cost'];
+                $center->street_address = $tempCenter['street_address'];
+                $center->city = $tempCenter['city'];
+                $center->province = $tempCenter['province'];
+                $center->country = $tempCenter['country'];
+                $center->postal_code = $tempCenter['postal_code'];
 
                 // save new values to DB
                 $center->save();
@@ -94,97 +89,161 @@ class CenterController extends Controller
             }
             else
             {
-                //invalid input
+                // invalid input
                 redirect();
             }
         }
         else
         {
-            //wrong user???
+            // wrong user
             redirect();
         }
     }
 
+    //---------------------------------------------------------------------------------------
+    // SCHEDULE
+    //---------------------------------------------------------------------------------------
+
     /**
-     * Display the schedule view with the correct request values based on the user ID
+     * Display the Center's schedule.
      */
     public function showSchedule()
     {
-        // find correct Center
-        $upcoming = Requests::where('center', Auth::id())->where('approval_status', 1)->get();
-        $pending = Requests::where('center', Auth::id())->where('approval_status', 0)->get();
-        $past = Requests::where('center', Auth::id())->where('scheduled_date', '>', '0')->get(); // TODO need the correct DB values i.e. date of exam
+        //
+        $upcoming = Requests::where('center', Auth::id())
+            ->where('center_approval', 1)
+            ->where('student_approval', 1)
+            //->where('scheduled_date', '<=', date("Y-m-d h:i:s"))
+            ->get(); //TODO get correct current datetime
+        $pendingCenter = Requests::where('center', Auth::id())
+            ->where('center_approval', 0)
+            //->where('student_approval', 1) TODO remove comments
+            ->get();
+        $pendingStudent = Requests::where('center', Auth::id())
+            ->where('student_approval', 0)
+            //->where('center_approval', 1) TODO remove comments
+            ->get();
+        $denied = Requests::where('center', Auth::id())
+            ->where('student_approval', -1)
+            ->get();
+        $past = Requests::where('center', Auth::id())
+            ->where('center_approval', 1)
+            ->where('student_approval', 1)
+            //->where('scheduled_date', '>', currentdate)
+            ->get(); // TODO get correct current datetime
 
         return view('center/schedule')
             ->with('upcoming', $upcoming)
-            ->with('pending', $pending)
+            ->with('pendingCenter', $pendingCenter)
+            ->with('pendingStudent', $pendingStudent)
+            ->with('denied', $denied)
             ->with('past', $past);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param
-     * @return
-     */
-    public function editSchedule()
-    {
-        // find correct Center
-        $center = Centers::where('cid', Auth::id())->first();
+    //---------------------------------------------------------------------------------------
+    // REQUEST
+    //---------------------------------------------------------------------------------------
 
-        return view('center/request')->with('center', $center);
+    /**
+     * Displays the Center's specified request.
+     */
+    public function showRequest()
+    {
+        $temp = Input::all();
+
+        $rid = $temp['rid'];
+        $sid = $temp['student'];
+
+        // find correct Request and Student information
+        $student = Students::where('sid', $sid)
+            ->first();
+        $request = Requests::where('rid', $rid)
+            ->where('center', Auth::id())
+            ->where('student', $sid)
+            ->first();
+
+        //$student_email = Users::where('uid', $sid)->get('email');
+
+        // TODO - determine if request is editable
+        //if($temp['scheduled_date'] > current date)
+
+        return view('center/request')
+            ->with('student', $student)
+            ->with('request', $request);
+            //->with('student_email', $student_email);
+            //->with('editable', $editable);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $cid
-     * @return \Illuminate\Http\Response
+     * Show the form for editing the Center's specified request.
      */
-    public function updateSchedule()
+    public function editRequest()
     {
-        $c = new Centers();
-        // grab center info to be updated
-        $tempcenter = Input::all();
-        $cid = $tempcenter['cid'];
+        $temp = Input::all();
 
-        echo "validate - "; var_dump($c->validate($tempcenter));
+        $rid = $temp['rid'];
+        $sid = $temp['student'];
+
+        // find correct Request
+        $request = Requests::where('rid', $rid)
+            ->where('center', Auth::id())
+            ->where('student', $sid)
+            ->first();
+
+        return view('center/requestEdit')
+            ->with('request', $request);
+    }
+
+    /**
+     * Update the Center's Request in the database.
+     */
+    public function updateRequest()
+    {
+        $r = new Requests();
+        // grab center info to be updated
+        $tempRequest = Input::all();
+        $rid = $tempRequest['rid'];
+        $cid = $tempRequest['center'];
+        $sid = $tempRequest['student'];
 
         // determine is user is allowed to update profile
-        if($c->authorize($cid))
+        if($r->authorize($rid, $cid))
         {
-            $center = Centers::where('cid', Auth::id())->first();
+            $request = Requests::where('rid', Auth::id())
+                ->first();
 
             // find correct Center to update
-            if($c->validate($tempcenter))
+            if($r->validate($tempRequest))
             {
-                // update center
-                $center->name = $tempcenter['name'];
-                $center->center_email = $tempcenter['center_email'];
-                $center->phone = $tempcenter['phone'];
-                $center->description = $tempcenter['description'];
-                $center->canSupportOnlineExam = $tempcenter['canSupportOnlineExam'];
-                $center->cost = $tempcenter['cost'];
-                $center->street_address = $tempcenter['street_address'];
-                $center->city = $tempcenter['city'];
-                $center->province = $tempcenter['province'];
-                $center->country = $tempcenter['country'];
-                $center->postal_code = $tempcenter['postal_code'];
+                // update request
+                //$request->name = $['name'];
+                //$request-> = $[''];
+                //$request-> = $[''];
+                //$request-> = $[''];
+                //$request-> = $[''];
+                //$request-> = $[''];
+                //$request-> = $[''];
+                //$request-> = $[''];
+                //$request-> = $[''];
+                //$request-> = $[''];
+                //$request-> = $[''];
+                //$request-> = $[''];
+                //$request-> = $[''];
 
                 // save new values to DB
-                $center->save();
-                return CenterController::showProfile();
+                $request->save();
+
+                return CenterController::showRequest();
             }
             else
             {
-                //invalid input
-                redirect(); //->with('errors', $c->error());
+                // invalid input
+                redirect(); //->with('errors', $r->error());
             }
         }
         else
         {
-            //wrong user???
+            // wrong user
             redirect();
         }
     }

@@ -13,6 +13,6 @@ Route::post('/center/profile', 'CenterController@updateProfile');
  * Schedule / request view structure
  */
 Route::get('/center/schedule', 'CenterController@showSchedule');
-Route::get('/center/request', 'CenterController@showRequest');
+Route::post('/center/request', 'CenterController@showRequest');
 Route::post('/center/requestEdit', 'CenterController@editRequest');
-Route::post('/center/request', 'CenterController@updateRequest');
+Route::post('/center/schedule', 'CenterController@updateRequest');

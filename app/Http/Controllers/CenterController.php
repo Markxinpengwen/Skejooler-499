@@ -111,24 +111,25 @@ class CenterController extends Controller
     {
         //
         $upcoming = Requests::where('center', Auth::id())
-            ->where('center_approval', 1)
-            ->where('student_approval', 1)
+            ->where('center_approval', 2)
+            ->where('student_approval', 2)
             //->where('scheduled_date', '<=', date("Y-m-d h:i:s"))
             ->get(); //TODO get correct current datetime
         $pendingCenter = Requests::where('center', Auth::id())
-            ->where('center_approval', 0)
-            //->where('student_approval', 1) TODO remove comments
+            ->where('center_approval', 1)
+            //->where('student_approval', 2) TODO remove comments
             ->get();
         $pendingStudent = Requests::where('center', Auth::id())
-            ->where('student_approval', 0)
-            //->where('center_approval', 1) TODO remove comments
+            ->where('student_approval', 1)
+            //->where('center_approval', 2) TODO remove comments
             ->get();
         $denied = Requests::where('center', Auth::id())
-            ->where('student_approval', -1)
+            //->where('center_approval', 1)
+            ->where('student_approval', 0)
             ->get();
         $past = Requests::where('center', Auth::id())
-            ->where('center_approval', 1)
-            ->where('student_approval', 1)
+            ->where('center_approval', 2)
+            ->where('student_approval', 2)
             //->where('scheduled_date', '>', currentdate)
             ->get(); // TODO get correct current datetime
 
@@ -190,8 +191,12 @@ class CenterController extends Controller
             ->where('student', $sid)
             ->first();
 
+        $student = Students::where('sid', $sid)
+            ->first();
+
         return view('center/requestEdit')
-            ->with('request', $request);
+            ->with('request', $request)
+            ->with('student', $student);
     }
 
     /**
@@ -209,7 +214,12 @@ class CenterController extends Controller
         // determine is user is allowed to update profile
         if($r->authorize($rid, $cid))
         {
-            $request = Requests::where('rid', Auth::id())
+            $request = Requests::where('rid', $rid)
+                ->where('center', Auth::id())
+                ->where('student', $sid)
+                ->first();
+
+            $student = Students::where('sid', $sid)
                 ->first();
 
             // find correct Center to update
@@ -233,7 +243,9 @@ class CenterController extends Controller
                 // save new values to DB
                 $request->save();
 
-                return CenterController::showRequest();
+                return CenterController::showRequest()
+                    ->with('request', $request)
+                    ->with('student', $student);
             }
             else
             {

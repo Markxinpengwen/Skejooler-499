@@ -40,14 +40,53 @@
 
         <tr>
             <th>Scheduled Date:</th>
-            <td>{{ $request->scheduled_date }}</td>
+            <td>{{ $request->scheduled_date or "Not Scheduled" }}</td>
+        </tr>
+
+        <tr>
+            <th>Preferred Date 1:</th>
+            <td>{{ $request->preferred_date_1 }}</td>
+        </tr>
+
+        <tr>
+            <th>Preferred Date 2:</th>
+            <td>{{ $request->preferred_date_2 }}</td>
+        </tr>
+
+        <tr>
+            <th>Course Code:</th>
+            <td>{{ $request->course_code }}</td>
+        </tr>
+
+        <tr>
+            <th>Additional Requirements:</th>
+            <td>{{ $request->additional_requirements }}</td>
+        </tr>
+
+        <tr>
+            <th>Exam Type:</th>
+            <td>{{ $request->exam_type }}</td>
+        </tr>
+
+        <tr>
+            <th>Exam Medium:</th>
+            <td>{{ $request->exam_medium }}</td>
+        </tr>
+
+        <tr>
+            <th>Student Notes:</th>
+            <td>{{ $request->student_notes }}</td>
+        </tr>
+
+        <tr>
+            <th>Center Notes:</th>
+            <td>{{ $request->center_notes }}</td>
         </tr>
 
         {{--@if($editable)--}}
             {{ Form::open(array('action' => 'CenterController@editRequest')) }}
             {{ Form::hidden('rid', $request->rid) }}
             {{ Form::hidden('student', $student->sid) }}
-
 
             <tr>
                 <td></td>

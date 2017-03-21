@@ -20,7 +20,7 @@ class RequestsTableSeederLA extends Seeder
 		//-------------------------------------------------------------------------------------
 		
 		//Constants
-		$NUM_REQUESTS = 25;
+		$NUM_REQUESTS = 50; // number of centers * 10
 		$DEFAULT_AUTO_INCREMENT = 20000;
 		$FAKER_SEED = 1234;
 		$MINIMUM_DATE= "1970-01-02 00:00:01";
@@ -130,6 +130,9 @@ class RequestsTableSeederLA extends Seeder
 						$medium="Other";
 						break;					
 				};
+				//resquest center/student approval status switch (-1,0,1) X (-1,0,1)
+                $cenApv = "0";
+                $stuApv = "0";
 				$requests[$i] = [
 					//Request Identifiers
 					'rid' => ($rid+$i),
@@ -154,9 +157,9 @@ class RequestsTableSeederLA extends Seeder
 					'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					'exam_type' => $type,
 					'exam_medium' => $medium,
-					'student_approval' => "0",
+					'student_approval' => $stuApv,
                     'student_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
-                    'center_approval' => "0",
+                    'center_approval' => $cenApv,
                     'center_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					//Request Metainformation
 					//'remember_token' => str_random(100),
@@ -202,6 +205,72 @@ class RequestsTableSeederLA extends Seeder
 						$medium="Other";
 						break;					
 				};
+                //resquest center/student approval status switch (-1,0,1) X (-1,0,1)
+                $cenApv = "0";
+                $stuApv = "0";
+                //print("idx=".$idx."."); //test
+                switch($idx%5) {
+                    //Non-arbitrary Order
+                    /*
+                     * Never be two unseens (1,1)
+                     * Never be double deny (should be deleted) (0,0)
+                     *
+                     * Never be a deny and approved (0,2) and (2,0)
+                     *      Switched to (2, 1) and (1,2)
+                     */
+                    case 0:
+                        //ctr yes st yes
+                        $cenApv = "2";
+                        $stuApv = "2";
+                        break;
+                    case 1:
+                        //ctr yes std unseen
+                        $cenApv = "2";
+                        $stuApv = "1";
+                        break;
+                    case 2:
+                        //ctr unseen std yes
+                        $cenApv = "1";
+                        $stuApv = "2";
+                        break;
+                    case 3:
+                        //ctr no std unseen
+                        $cenApv = "0";
+                        $stuApv = "1";
+                        break;
+                    case 4:
+                        //ctr unseen, std no
+                        $cenApv = "1";
+                        $stuApv = "0";
+                        break;
+                    default:
+                        $cenApv = "2";
+                        $stuApv = "2";
+                        break;
+                }
+                    //Arbitary order
+                    //switch(idx%9){
+//                    case 0:
+//                        $cenApv = "1"; $stuApv = "0"; break;
+//                    case 1:
+//                        $cenApv = "1"; $stuApv = "1"; break;
+//                    case 2:
+//                        $cenApv = "1"; $stuApv = "2"; break;
+//                    case 3:
+//                        $cenApv = "2"; $stuApv = "0"; break;
+//                    case 4:
+//                        $cenApv = "2"; $stuApv = "1"; break;
+//                    case 5:
+//                        $cenApv = "2"; $stuApv = "2"; break;
+//                    case 6:
+//                        $cenApv = "0"; $stuApv = "0"; break;
+//                    case 7:
+//                        $cenApv = "0"; $stuApv = "1"; break;
+//                    case 8:
+//                        $cenApv = "0"; $stuApv = "2"; break;
+//                    default:
+//                        $cenApv = "1"; $stuApv = "1"; break;
+//                }
 				$requests[$i-1] = [
 					//Request Identifiers
 					'rid' => ($rid+$i-1),
@@ -225,9 +294,9 @@ class RequestsTableSeederLA extends Seeder
                     'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					'exam_type' => $type,
 					'exam_medium' => $medium,
-                    'student_approval' => "0",
+                    'student_approval' => $stuApv,
                     'student_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
-                    'center_approval' => "0",
+                    'center_approval' => $cenApv,
                     'center_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 					//Request Metainformation
 					//'remember_token' => str_random(100),

@@ -10,6 +10,7 @@ use App\Models\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -73,56 +74,54 @@ class RegisterController extends Controller
         // TODO: This is Not Standard. Need to find alternative
         Eloquent::unguard();
         if($data['utype'] == 'student') {
-            $employee = Employee::create([
-                'name' => $data['name'],
-                'designation' => "Super Admin",
-                'mobile' => "8888888888",
-                'mobile2' => "",
-                'email' => $data['email'],
-                'gender' => 'Male',
-                'dept' => "1",
-                'city' => "Pune",
-                'address' => "Karve nagar, Pune 411030",
-                'about' => "About user / biography",
-                'date_birth' => date("Y-m-d"),
-                'date_hire' => date("Y-m-d"),
-                'date_left' => date("Y-m-d"),
-                'salary_cur' => 0,
-            ]);
-
+            $options = [
+                'cost' => 10,
+                'salt' => str_random(22) //22 required minimum //str_random safe? random_bytes
+            ];
+            //Acquire initial auto_increment values from database (for students, users, and centers) and then print them.
+            $USERS_DEFAULT_AUTO_INCREMENT = 1000000;
+            $result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'users'"));
+            $result = json_decode(json_encode($result), true);
+            $uid = $result[0]['Auto_increment'];
+            if($uid==0){
+                DB::update("ALTER TABLE Users AUTO_INCREMENT = ".$USERS_DEFAULT_AUTO_INCREMENT.";");
+                $uid = $USERS_DEFAULT_AUTO_INCREMENT;
+                echo "Alter user auto increament to ".$USERS_DEFAULT_AUTO_INCREMENT;
+            }
             $user = User::create([
-                'name' => $data['name'],
+//                'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => bcrypt($data['password']),
-                'context_id' => $employee->id,
+                'uid'=>$uid,
+                'password' => password_hash($data['password'], PASSWORD_DEFAULT, $options),
+                'salt' => $options['salt'],
                 'type' => "student",
             ]);
+            DB::insert('insert into students (sid,firstName,age) values (?,?,?)',[$uid,$data['name'],10]);
         }
         else{
-            $employee = Employee::create([
-                'name' => $data['name'],
-                'designation' => "center",
-                'mobile' => "8888888888",
-                'mobile2' => "",
-                'email' => $data['email'],
-                'gender' => 'Male',
-                'dept' => "1",
-                'city' => "Pune",
-                'address' => "Karve nagar, Pune 411030",
-                'about' => "About user / biography",
-                'date_birth' => date("Y-m-d"),
-                'date_hire' => date("Y-m-d"),
-                'date_left' => date("Y-m-d"),
-                'salary_cur' => 0,
-            ]);
-
+            $options = [
+                'cost' => 10,
+                'salt' => str_random(22) //22 required minimum //str_random safe? random_bytes
+            ];
+            //Acquire initial auto_increment values from database (for students, users, and centers) and then print them.
+            $USERS_DEFAULT_AUTO_INCREMENT = 1000000;
+            $result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'users'"));
+            $result = json_decode(json_encode($result), true);
+            $uid = $result[0]['Auto_increment'];
+            if($uid==0){
+                DB::update("ALTER TABLE Users AUTO_INCREMENT = ".$USERS_DEFAULT_AUTO_INCREMENT.";");
+                $uid = $USERS_DEFAULT_AUTO_INCREMENT;
+                echo "Alter user auto increament to ".$USERS_DEFAULT_AUTO_INCREMENT;
+            }
             $user = User::create([
-                'name' => $data['name'],
+//                'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => bcrypt($data['password']),
-                'context_id' => $employee->id,
+                'uid'=>$uid,
+                'password' => password_hash($data['password'], PASSWORD_DEFAULT, $options),
+                'salt' => $options['salt'],
                 'type' => "center",
             ]);
+            DB::insert('insert into centers (cid,name,center_email,cost) values (?,?,?,?)',[$uid,$data['name'],$data['email'],10]);
         }
         $role = Role::where('name', 'SUPER_ADMIN')->first();
         $user->attachRole($role);

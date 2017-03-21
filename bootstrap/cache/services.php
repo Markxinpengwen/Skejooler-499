@@ -28,6 +28,7 @@
     24 => 'App\\Providers\\EventServiceProvider',
     25 => 'App\\Providers\\RouteServiceProvider',
     26 => 'Collective\\Html\\HtmlServiceProvider',
+    27 => 'Dwij\\Laraadmin\\LAProvider',
   ),
   'eager' => 
   array (
@@ -45,6 +46,7 @@
     11 => 'App\\Providers\\AuthServiceProvider',
     12 => 'App\\Providers\\EventServiceProvider',
     13 => 'App\\Providers\\RouteServiceProvider',
+    14 => 'Dwij\\Laraadmin\\LAProvider',
   ),
   'deferred' => 
   array (

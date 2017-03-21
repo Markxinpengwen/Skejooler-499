@@ -58,15 +58,30 @@
                 @else
                 <!--
                     redirect basic on user type
+                    modified in controller:vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesUsers.php
                  -->
+                    <?php
+                    $uid = Auth::user()->uid;
+                    if(Auth::user()->type == "student"){
+                        $array = DB::select('select firstName from students where sid = ? ',[$uid]);
+                        $array = json_decode(json_encode($array), true);
+                        $name = $array[0]['firstName'];
+                    }
+
+                    elseif(Auth::user()->type == "center"){
+                        $array = DB::select('select name from centers where cid = ? ', [$uid]);
+                        $array = json_decode(json_encode($array), true);
+                        $name = $array[0]['name'];
+                    }
+                    ?>
                     @if(Auth::user()->type == 'center')
-                        <li><a href="{{ url('/center') }}">{{ Auth::user()->name }}</a></li>
+                        <li><a href="{{ url('/center') }}">{{ $name }}</a></li>
                         <li><a href="{{ url('/logout') }}">Log out</a></li>
                     @elseif(Auth::user()->type == 'student')
-                        <li><a href="{{ url('/student') }}">{{ Auth::user()->name }}</a></li>
+                        <li><a href="{{ url('/student') }}">{{ $name }}</a></li>
                         <li><a href="{{ url('/logout') }}">Log out</a></li>
                     @else
-                        <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a></li>
+                        <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ $name }}</a></li>
                         <li><a href="{{ url('/logout') }}">Log out</a></li>
                     @endif
                 @endif

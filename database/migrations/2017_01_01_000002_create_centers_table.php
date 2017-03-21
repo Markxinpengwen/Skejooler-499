@@ -34,13 +34,13 @@ class CreateCentersTable extends Migration
             ["longitude", "longitude", "Float", false, "0.000000", 8, 11, false],
             ["latitude", "latitude", "Float", false, "0.000000", 8, 11, false]
         ]);
-		
-		/*
-		Row Format:
-		["field_name_db", "Label", "UI Type", "Unique", "Default_Value", "min_length", "max_length", "Required", "Pop_values"]
+  
+  /*
+  Row Format:
+  ["field_name_db", "Label", "UI Type", "Unique", "Default_Value", "min_length", "max_length", "Required", "Pop_values"]
         Module::generate("Module_Name", "Table_Name", "view_column_name" "Fields_Array");
         
-		Module::generate("Books", 'books', 'name', [
+  Module::generate("Books", 'books', 'name', [
             ["address",     "Address",      "Address",  false, "",          0,  1000,   true],
             ["restricted",  "Restricted",   "Checkbox", false, false,       0,  0,      false],
             ["price",       "Price",        "Currency", false, 0.0,         0,  0,      true],
@@ -68,7 +68,7 @@ class CreateCentersTable extends Migration
             ["short_intro", "Introduction", "TextField",false, "",          5,  250,    true],
             ["website",     "Website",      "URL",      false, "http://dwij.in", 0, 0,  false],
         ]);
-		*/
+  */
     }
 
     /**

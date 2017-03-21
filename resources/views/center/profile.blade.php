@@ -3,6 +3,7 @@
 @section('title', 'Profile')
 
 @section('main-content')
+
     <table>
         {{ Form::open(array('action' => 'CenterController@editProfile')) }}
 

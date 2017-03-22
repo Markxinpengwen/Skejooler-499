@@ -37,8 +37,8 @@ class Students extends BaseModel
         ];
     }
 
-    public function centers()
+    public function students()
     {
-        return $this->hasMany('centers');
+        return $this->hasMany('students');
     }
 }

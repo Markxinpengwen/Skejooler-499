@@ -8,7 +8,7 @@
 
         {{ Form::hidden('cid', $center->cid) }}
 
-        <tr><th colspan = "2"><hr>General Info</th></tr>
+        <tr><th colspan = "2"><h1>General Info</h1></th></tr>
 
         <tr>
             <td>{{ Form::label('cname', 'Name:') }}</td>
@@ -38,7 +38,7 @@
             <td>{{ Form::text('cost', $center->cost) }}</td>
         </tr>
 
-        <tr><th colspan = "2"><hr>Contact</th></tr>
+        <tr><th colspan = "2"><hr><h1>Contact</h1></th></tr>
 
         <tr>
             <td>{{ Form::label('phone', 'Phone Number:') }}</td>
@@ -56,7 +56,7 @@
             {{--<td>{{ Form::text('website') }}</td>--}}
         {{--</tr>--}}
 
-        <tr><th colspan = "2"><hr>Address</th></tr>
+        <tr><th colspan = "2"><hr><h1>Address</h1></th></tr>
 
         <tr>
             <td>{{ Form::label('street_address', 'Street Address:') }}</td>

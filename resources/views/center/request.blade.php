@@ -5,7 +5,7 @@
 @section('main-content')
     <table>
         {{ $request->scheduled_date ." > ". date("Y-m-d h:i:s") }} {{--TODO delete--}}
-        <tr><th colspan = "2"><hr>Student Info</th></tr>
+        <tr><th colspan = "2"><hr><h1>Student Info</h1></th></tr>
 
         <tr>
             <th>Name:</th>
@@ -37,7 +37,7 @@
             <td>{{ str_replace("_", " ", $student->sex) }}</td>
         </tr>
 
-        <tr><th colspan = "2"><hr>Exam Info</th></tr>
+        <tr><th colspan = "2"><hr><h1>Exam Info</h1></th></tr>
 
         <tr>
             <th>Scheduled Date:</th>

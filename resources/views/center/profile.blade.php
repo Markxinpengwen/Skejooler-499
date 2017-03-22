@@ -4,7 +4,7 @@
 
 @section('main-content')
     <table>
-        <tr><th colspan = "2">General Info</th></tr>
+        <tr><th colspan = "2"><h1>General Info</h1></th></tr>
         <tr><td></td></tr>
 
         <tr>
@@ -34,7 +34,7 @@
             <td>{{'$'}}{{ $center->cost or "Exam cost not found" }}</td>
         </tr>
 
-        <tr><th colspan = "2"><hr>Contact</th></tr>
+        <tr><th colspan = "2"><hr><h1>Contact</h1></th></tr>
 
         <tr>
             <th>Phone Number:</th>
@@ -52,7 +52,7 @@
             {{--<td>{{ $center->website or "Website not found" }}</td>--}}
         {{--</tr>--}}
 
-        <tr><th colspan = "2"><hr>Address</th></tr>
+        <tr><th colspan = "2"><hr><h1>Address</h1></th></tr>
 
         <tr>
             <th>Street Address:</th>

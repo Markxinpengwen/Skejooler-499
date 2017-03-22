@@ -10,7 +10,7 @@
         {{ Form::hidden('center', $request->center) }}
         {{ Form::hidden('student', $request->student) }}
 
-        <tr><th colspan = "2"><hr>Student Info</th></tr>
+        <tr><th colspan = "2"><hr><h1>Student Info</h1></th></tr>
 
         <tr>
             <th>Name:</th>
@@ -42,7 +42,7 @@
             <td>{{ str_replace("_", " ", $student->sex) }}</td>
         </tr>
 
-        <tr><th colspan = "2"><hr>Exam Info</th></tr>
+        <tr><th colspan = "2"><hr><h1>Exam Info</h1></th></tr>
 
         <tr>
             <td>{{ Form::label('scheduled_date', 'Scheduled Date:') }}</td>

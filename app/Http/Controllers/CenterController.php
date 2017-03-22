@@ -16,7 +16,7 @@ class CenterController extends Controller
      */
     public function index()
     {
-        return CenterController::showProfile();
+        return CenterController::showSchedule();
     }
 
     //---------------------------------------------------------------------------------------
@@ -117,14 +117,18 @@ class CenterController extends Controller
             ->get(); //TODO get correct current datetime
         $pendingCenter = Requests::where('center', Auth::id())
             ->where('center_approval', 1)
-            //->where('student_approval', 2) TODO remove comments
+            ->where('student_approval', 2)
             ->get();
         $pendingStudent = Requests::where('center', Auth::id())
+            ->where('center_approval', 2)
             ->where('student_approval', 1)
-            //->where('center_approval', 2) TODO remove comments
             ->get();
-        $denied = Requests::where('center', Auth::id())
-            //->where('center_approval', 1)
+        $deniedCenter = Requests::where('center', Auth::id())
+            ->where('center_approval', 0)
+            ->where('student_approval', 1)
+            ->get();
+        $deniedStudent = Requests::where('center', Auth::id())
+            ->where('center_approval', 1)
             ->where('student_approval', 0)
             ->get();
         $past = Requests::where('center', Auth::id())
@@ -137,7 +141,8 @@ class CenterController extends Controller
             ->with('upcoming', $upcoming)
             ->with('pendingCenter', $pendingCenter)
             ->with('pendingStudent', $pendingStudent)
-            ->with('denied', $denied)
+            ->with('deniedCenter', $deniedCenter)
+            ->with('deniedStudent', $deniedStudent)
             ->with('past', $past);
     }
 
@@ -163,16 +168,25 @@ class CenterController extends Controller
             ->where('student', $sid)
             ->first();
 
-        //$student_email = Users::where('uid', $sid)->get('email');
+        // grab student email from user table
+        $student_email = Users::where('uid', $sid)
+            ->first();
 
-        // TODO - determine if request is editable
-        //if($temp['scheduled_date'] > current date)
+        // determine if editable
+        if($request->scheduled_date > date("Y-m-d h:i:sa"))
+        {
+            $editable = true;
+        }
+        else
+        {
+            $editable = false;
+        }
 
         return view('center/request')
             ->with('student', $student)
-            ->with('request', $request);
-            //->with('student_email', $student_email);
-            //->with('editable', $editable);
+            ->with('request', $request)
+            ->with('student_email', $student_email->email)
+            ->with('editable', $editable);
     }
 
     /**
@@ -185,18 +199,22 @@ class CenterController extends Controller
         $rid = $temp['rid'];
         $sid = $temp['student'];
 
-        // find correct Request
+        // find correct Request and Student information
+        $student = Students::where('sid', $sid)
+            ->first();
         $request = Requests::where('rid', $rid)
             ->where('center', Auth::id())
             ->where('student', $sid)
             ->first();
 
-        $student = Students::where('sid', $sid)
+        // grab student email from user table
+        $student_email = Users::where('uid', $sid)
             ->first();
 
         return view('center/requestEdit')
             ->with('request', $request)
-            ->with('student', $student);
+            ->with('student', $student)
+            ->with('student_email', $student_email->email);
     }
 
     /**
@@ -208,37 +226,65 @@ class CenterController extends Controller
         // grab center info to be updated
         $tempRequest = Input::all();
         $rid = $tempRequest['rid'];
-        $cid = $tempRequest['center'];
-        $sid = $tempRequest['student'];
+        $center = $tempRequest['center'];
+        $student = $tempRequest['student'];
 
         // determine is user is allowed to update profile
-        if($r->authorize($rid, $cid))
+        if($r->authorize($rid, $center))
         {
             $request = Requests::where('rid', $rid)
                 ->where('center', Auth::id())
-                ->where('student', $sid)
+                ->where('student', $student)
                 ->first();
 
-            $student = Students::where('sid', $sid)
+            $student = Students::where('sid', $student)
                 ->first();
 
             // find correct Center to update
             if($r->validate($tempRequest))
             {
                 // update request
-                //$request->name = $['name'];
-                //$request-> = $[''];
-                //$request-> = $[''];
-                //$request-> = $[''];
-                //$request-> = $[''];
-                //$request-> = $[''];
-                //$request-> = $[''];
-                //$request-> = $[''];
-                //$request-> = $[''];
-                //$request-> = $[''];
-                //$request-> = $[''];
-                //$request-> = $[''];
-                //$request-> = $[''];
+                $request->scheduled_date = $tempRequest['scheduled_date'];
+                $request->center_notes = $tempRequest['center_notes'];
+                $request->center_approval = $tempRequest['center_approval'];
+
+                if($request->center_approval == 2)
+                {
+                    switch ($request->student_approval)
+                    {
+                        case 2:
+                            break;
+                        case 1:
+                            break;
+                        case 0:
+                            break;
+                    }
+                }
+                elseif($request->center_approval == 1)
+                {
+                    switch ($request->student_approval)
+                    {
+                        case 2:
+                            break;
+                        case 1:
+                            break;
+                        case 0:
+                            break;
+                    }
+                }
+
+                elseif($request->center_approval == 0)
+                {
+                    switch ($request->student_approval)
+                    {
+                        case 2:
+                            break;
+                        case 1:
+                            break;
+                        case 0:
+                            break;
+                    }
+                }
 
                 // save new values to DB
                 $request->save();

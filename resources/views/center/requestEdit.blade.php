@@ -29,7 +29,7 @@
 
         <tr>
             <th>Email:</th>
-            {{--TODO <td>{{ $student-> }}</td>--}}
+            <td>{{ $student_email }}</td>
         </tr>
 
         <tr>
@@ -39,7 +39,7 @@
 
         <tr>
             <th>Sex:</th>
-            <td>{{ $student->sex }}</td>
+            <td>{{ str_replace("_", " ", $student->sex) }}</td>
         </tr>
 
         <tr><th colspan = "2"><hr>Exam Info</th></tr>
@@ -91,18 +91,32 @@
 
         <tr>
             <th>Student Approval Status:</th>
-            <td>{{ $request->student_approval }}</td>
+            <td>
+                @if($request->student_approval == 2)
+                    Approved
+                @elseif($request->student_approval == 1)
+                    Undecided
+                @elseif($request->student_approval == 0)
+                    Denied
+                @endif
+            </td>
         </tr>
 
         <tr>
             <td>{{ Form::label('center_approval', 'Center Approval Status:') }}</td>
             <td>
-                @if($request->center_approval == 1)
-                    Yes{{ Form::radio('center_approval', '1', true) }}
-                    No{{ Form::radio('center_approval', '0') }}
+                @if($request->center_approval == 2)
+                    Approve{{ Form::radio('center_approval', '2', true) }}
+                    Undecided{{ Form::radio('center_approval', '1') }}
+                    Deny{{ Form::radio('center_approval', '0') }}
+                @elseif($request->center_approval == 1)
+                    Approve{{ Form::radio('center_approval', '2') }}
+                    Undecided{{ Form::radio('center_approval', '1', true) }}
+                    Deny{{ Form::radio('center_approval', '0')}}
                 @elseif($request->center_approval == 0)
-                    Yes{{ Form::radio('center_approval', '1') }}
-                    No{{ Form::radio('center_approval', '0', true)}}
+                    Approve{{ Form::radio('center_approval', '2') }}
+                    Undecided{{ Form::radio('center_approval', '1') }}
+                    Deny{{ Form::radio('center_approval', '0', true)}}
                 @endif
             </td>
         </tr>

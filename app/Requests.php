@@ -13,7 +13,7 @@ class Requests extends BaseModel
 {
 
     protected $table = "requests";
-    protected $primaryKey = "cid"; // TODO add functionality for multiple primary keys
+    protected $primaryKey = "rid"; // TODO add functionality for multiple primary keys
     public $timestamps = true;
 
     // TODO rules

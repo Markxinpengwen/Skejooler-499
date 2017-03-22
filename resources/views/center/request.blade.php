@@ -4,6 +4,7 @@
 
 @section('main-content')
     <table>
+        {{ $request->scheduled_date ." > ". date("Y-m-d h:i:s") }} {{--TODO delete--}}
         <tr><th colspan = "2"><hr>Student Info</th></tr>
 
         <tr>
@@ -23,7 +24,7 @@
 
         <tr>
             <th>Email:</th>
-            {{--TODO <td>{{ $student-> }}</td>--}}
+            <td>{{ $student_email }}</td>
         </tr>
 
         <tr>
@@ -33,7 +34,7 @@
 
         <tr>
             <th>Sex:</th>
-            <td>{{ $student->sex }}</td>
+            <td>{{ str_replace("_", " ", $student->sex) }}</td>
         </tr>
 
         <tr><th colspan = "2"><hr>Exam Info</th></tr>
@@ -83,7 +84,33 @@
             <td>{{ $request->center_notes }}</td>
         </tr>
 
-        {{--@if($editable)--}}
+        <tr>
+            <th>Student Approval Status:</th>
+            <td>
+                @if($request->student_approval == 2)
+                    Approved
+                @elseif($request->student_approval == 1)
+                    Undecided
+                @elseif($request->student_approval == 0)
+                    Denied
+                @endif
+            </td>
+        </tr>
+
+        <tr>
+            <th>Center Approval Status:</th>
+            <td>
+                @if($request->center_approval == 2)
+                    Approved
+                @elseif($request->center_approval == 1)
+                    Undecided
+                @elseif($request->center_approval == 0)
+                    Denied
+                @endif
+            </td>
+        </tr>
+
+        @if($editable)
             {{ Form::open(array('action' => 'CenterController@editRequest')) }}
             {{ Form::hidden('rid', $request->rid) }}
             {{ Form::hidden('student', $student->sid) }}
@@ -94,6 +121,6 @@
             </tr>
 
             {{ Form::close() }}
-        {{--@endif--}}
+        @endif
     </table>
 @stop

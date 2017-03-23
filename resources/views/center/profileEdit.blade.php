@@ -50,7 +50,7 @@
             </tr>
 
             <tr>
-                <th>{{ Form::label('center_email', 'Email:') }}</th>
+                <th>{{ Form::label('center_email', 'Center Email:') }}</th>
                 <td>{{ Form::email('center_email', $center->center_email) }}</td>
             </tr>
 

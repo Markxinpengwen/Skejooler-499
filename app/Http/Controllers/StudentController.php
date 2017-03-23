@@ -16,6 +16,9 @@ class StudentController extends Controller
      */
     public function index()
     {
+        // TODO - write condition logic to
+        //if no requests made -> requestForm
+        //if first time -> profile
         return StudentController::showSchedule();
     }
 
@@ -29,13 +32,13 @@ class StudentController extends Controller
     public function showProfile()
     {
         // find correct Center
-        $student = Student::where('sid', Auth::id())
+        $student = Students::where('sid', Auth::id())
             ->first();
 
         $user = Users::where('uid', Auth::id())
         ->first();
 
-        return view('student/profileEdit')
+        return view('student/profile')
             ->with('student', $student)
             ->with('login_email', $user->email);
     }
@@ -75,12 +78,16 @@ class StudentController extends Controller
             // find correct Center to update
             if($s->validate($tempStudent))
             {
-                $student = Student::where('sid', Auth::id())
+                $student = Students::where('sid', Auth::id())
                     ->first();
 
                 // update center
-//                $student-> = $tempStudent['']; //TODO add all db values to update
-
+                $student->firstName = $tempStudent['firstName'];
+                $student->lastName = $tempStudent['lastName'];
+                $student->sex = $tempStudent['sex'];
+                $student->age = $tempStudent['age'];
+                $student->institution = $tempStudent['institution'];
+                $student->phone = $tempStudent['phone'];
 
                 // save new values to DB
                 $student->save();
@@ -104,12 +111,11 @@ class StudentController extends Controller
     //---------------------------------------------------------------------------------------
 
     /**
-     * Display the Center's schedule.
+     * Display the Student's schedule.
      */
     public function showSchedule()
     {
-        //
-        $upcoming = Requests::where('cid', Auth::id())
+        $upcoming = Requests::where('sid', Auth::id())
             ->where('student_approval', 2)
             ->where('center_approval', 2)
             ->where('scheduled_date', '>=', date("Y-m-d h:i:s"))
@@ -117,35 +123,35 @@ class StudentController extends Controller
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get(); //TODO get correct current datetime
-        $pendingStudent = Requests::where('cid', Auth::id())
+        $pendingStudent = Requests::where('sid', Auth::id())
             ->where('student_approval', 1)
             ->where('center_approval', 2)
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
-        $pendingCenter = Requests::where('cid', Auth::id())
+        $pendingCenter = Requests::where('sid', Auth::id())
             ->where('student_approval', 2)
             ->where('center_approval', 1)
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
-        $deniedStudent = Requests::where('cid', Auth::id())
+        $deniedStudent = Requests::where('sid', Auth::id())
             ->where('student_approval', 0)
             ->where('center_approval', 1)
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
-        $deniedCenter = Requests::where('cid', Auth::id())
+        $deniedCenter = Requests::where('sid', Auth::id())
             ->where('student_approval', 1)
             ->where('center_approval', 0)
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
-        $past = Requests::where('cid', Auth::id())
+        $past = Requests::where('sid', Auth::id())
             ->where('student_approval', 2)
             ->where('center_approval', 2)
             ->where('scheduled_date', '<', date("Y-m-d h:i:s"))
@@ -154,7 +160,7 @@ class StudentController extends Controller
             ->orderby('preferred_date_2', 'asc')
             ->get(); // TODO get correct current datetime
 
-        return view('center/schedule')
+        return view('student/schedule')
             ->with('upcoming', $upcoming)
             ->with('pendingStudent', $pendingStudent)
             ->with('pendingCenter', $pendingCenter)
@@ -167,7 +173,7 @@ class StudentController extends Controller
     //---------------------------------------------------------------------------------------
 
     /**
-     * Displays the Center's specified request.
+     * Displays the Student's specified request.
      */
     public function showRequest()
     {
@@ -189,7 +195,7 @@ class StudentController extends Controller
             ->first();
 
         // determine if editable
-        if($request->scheduled_date > date("Y-m-d h:i:sa"))
+        if($request->scheduled_date > date("Y-m-d h:i:sa") || $request->scheduled_date == "1970-01-02 00:00:01")
         {
             $editable = true;
         }
@@ -206,7 +212,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Show the form for editing the Center's specified request.
+     * Show the form for editing the Student's specified request.
      */
     public function editRequest()
     {
@@ -227,7 +233,7 @@ class StudentController extends Controller
         $user = Users::where('uid', $cid)
             ->first();
 
-        return view('center/requestEdit')
+        return view('student/requestEdit')
             ->with('request', $request)
             ->with('center', $center)
             ->with('center_email', $user->email);
@@ -236,7 +242,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Update the Center's Request in the database.
+     * Update the Student's Request in the database.
      */
     public function updateRequest()
     {
@@ -262,14 +268,14 @@ class StudentController extends Controller
             // find correct Center to update
             if($r->validate($tempRequest))
             {
-                if($request->scheduled_date != $tempRequest['scheduled_date'])
-                {
-                    $dateChanged = 1;
-                }
-                else
-                {
-                    $dateChanged = 0;
-                }
+//                if($request->scheduled_date != $tempRequest['scheduled_date'])
+//                {
+//                    $dateChanged = 1;
+//                }
+//                else
+//                {
+                    $dateChanged = 0; // TODO - student cant change scheduled date... need diff value
+//                }
 
                 $approvals = $r->decision(intval($dateChanged),
                     intval($request->student_approval.$request->center_approval),
@@ -292,8 +298,13 @@ class StudentController extends Controller
                 else
                 {
                     // update request
-                    $request->scheduled_date = $tempRequest['scheduled_date'];
-                    $request->student_notes = $tempRequest['student_notes']; // TODO add all values to be updated in request
+                    $request->preferred_Date_1 = $tempRequest['preferred_date_1'];
+                    $request->preferred_Date_2 = $tempRequest['preferred_date_2'];
+                    $request->course_code = $tempRequest['course_code'];
+                    $request->additional_requirements = $tempRequest['additional_requirements'];
+                    $request->exam_type = $tempRequest['exam_type'];
+                    $request->exam_medium = $tempRequest['exam_medium'];
+                    $request->student_notes = $tempRequest['student_notes'];
 
                     $request->student_approval = $approvals[0];
                     $request->center_approval = $approvals[1];
@@ -305,7 +316,6 @@ class StudentController extends Controller
                         ->with('request', $request)
                         ->with('center', $center);
                 }
-
             }
             else
             {

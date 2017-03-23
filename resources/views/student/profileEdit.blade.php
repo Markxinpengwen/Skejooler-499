@@ -1,26 +1,21 @@
-@extends('layouts.dashboard')
+@extends('st.layouts.app')
 
 @section('title', 'Profile')
 
-@section('content')
-
-    <!--This Profile code was initially writen by Brett Schaad, but later modified by Barrett for the Student view-->
-
-    <!--Profile Edit Table -->
+@section('main-content')
 
     <table>
 
         {{ Form::open(array('action' => 'StudentController@updateProfile')) }}
 
             <tr><th colspan = "2"><h1>General Info</h1></th></tr>
-
             <tr>
-                <th> {{ Form::label('firstName', 'Student First Name:') }} </th>
+                <th> {{ Form::label('firstName', 'First Name:') }} </th>
                 <td> {{ Form::text('firstName', $student->firstName) }} </td>
             </tr>
 
             <tr>
-                <th> {{ Form::label('lastName', 'Student Last Name:') }} </th>
+                <th> {{ Form::label('lastName', 'Last Name:') }} </th>
                 <td> {{ Form::text('lastName', $student->lastName) }} </td>
             </tr>
 
@@ -55,6 +50,8 @@
                 <th>Login Email:</th>
                 <td>{{ $login_email or "Email not found" }}</td>
             </tr>
+
+            {{ Form::hidden('sid', $student->sid) }}
 
             <tr>
                 <th></th>

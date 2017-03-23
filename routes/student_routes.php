@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/student', 'CenterController@index');
+Route::get('/student', 'StudentController@index');
 
 /**
  * Profile view structure
@@ -21,4 +21,4 @@ Route::post('/student/schedule', 'StudentController@updateRequest');
  * Request form view structure
  */
 Route::get('/student/examRequestForm', 'StudentController@showSchedule');
-Route::post('/student/schedule', 'StudentController@makeRequest');
+Route::post('/student/examRequestForm', 'StudentController@makeRequest');

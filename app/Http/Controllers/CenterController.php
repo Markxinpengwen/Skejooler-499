@@ -16,6 +16,8 @@ class CenterController extends Controller
      */
     public function index()
     {
+        // TODO - write condition logic to
+        //if first time -> profile
         return CenterController::showSchedule();
     }
 
@@ -52,7 +54,7 @@ class CenterController extends Controller
         $user = Users::where('uid', Auth::id())
             ->first();
 
-        return view('center/profile')
+        return view('center/profileEdit')
             ->with('center', $center)
             ->with('login_email', $user->email);
     }
@@ -199,7 +201,7 @@ class CenterController extends Controller
             ->first();
 
         // determine if editable
-        if($request->scheduled_date > date("Y-m-d h:i:sa"))
+        if($request->scheduled_date > date("Y-m-d h:i:sa") || $request->scheduled_date == "1970-01-02 00:00:01")
         {
             $editable = true;
         }
@@ -282,8 +284,8 @@ class CenterController extends Controller
                 }
 
                 $approvals = $r->decision(intval($dateChanged),
-                    intval($request->student_approval.$request->center_approval),
-                    intval($tempRequest['student_approval'].$request->center_approval));
+                    intval($request->center_approval.$request->student_approval),
+                    intval($tempRequest['center_approval'].$request->student_approval));
 
                 if($approvals[0] == 3 && $approvals[1] == 3)
                 {

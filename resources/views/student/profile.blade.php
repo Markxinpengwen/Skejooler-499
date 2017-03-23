@@ -19,11 +19,6 @@
         </tr>
 
         <tr>
-            <th>Institution Number:</th>
-            <td>{{ $student->institution or "Institution Number not found" }}</td>
-        </tr>
-
-        <tr>
             <th>Gender:</th>
             <td>{{ $student->sex or "Gender not found" }}</td>
         </tr>
@@ -31,6 +26,11 @@
         <tr>
             <th>Age:</th>
             <td>{{ $student->age or "Age not found" }}</td>
+        </tr>
+
+        <tr>
+            <th>Institution Number:</th>
+            <td>{{ $student->institution or "Institution Number not found" }}</td>
         </tr>
 
         <tr><th colspan = "2"><hr><h1>Contact</h1></th></tr>
@@ -41,7 +41,7 @@
         </tr>
 
         <tr>
-            <th>Login Email:</th> TODO
+            <th>Login Email:</th>
             <td>{{ $login_email or "Email not found" }}</td>
         </tr>
 

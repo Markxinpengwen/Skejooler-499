@@ -6,12 +6,10 @@
     <table>
     {{ Form::open(array('action' => 'CenterController@updateProfile')) }}
 
-        {{ Form::hidden('cid', $center->cid) }}
-
         <tr><th colspan = "2"><h1>General Info</h1></th></tr>
 
         <tr>
-            <td>{{ Form::label('cname', 'Name:') }}</td>
+            <td>{{ Form::label('name', 'Name:') }}</td>
             <td>{{ Form::text('name', $center->name) }}</td>
         </tr>
 
@@ -84,7 +82,7 @@
                 'Yukon' => 'Yukon',
                 'Northwest_Territories' => 'Northwest Territories',
                 'Nunavut' => 'Nunavut'
-                ], $center['province']
+                ], $center->province
                 ) }}</td>
         </tr>
 
@@ -92,7 +90,7 @@
             <td>{{ Form::label('country', 'Country:') }}</td>
             <td>{{ Form::select('country', [
                 'Canada' => 'Canada'
-                ], $center['country']) }}</td>
+                ], $center->country) }}</td>
         </tr>
 
         <tr>
@@ -111,6 +109,8 @@
             <td>{{ Form::label('latitude', 'Latitude:') }}</td>
             <td>{{ Form::text('latitude', $center->latitude) }}</td>
         </tr>
+
+        {{ Form::hidden('cid', $center->cid) }}
 
         <tr>
             <td></td>

@@ -6,9 +6,6 @@
 
     <table>
         {{ Form::open(array('action' => 'CenterController@updateRequest')) }}
-        {{ Form::hidden('rid', $request->rid) }}
-        {{ Form::hidden('center', $request->center) }}
-        {{ Form::hidden('student', $request->student) }}
 
         <tr><th colspan = "2"><hr><h1>Student Info</h1></th></tr>
 
@@ -120,6 +117,10 @@
                 @endif
             </td>
         </tr>
+
+        {{ Form::hidden('rid', $request->rid) }}
+        {{ Form::hidden('cid', $request->cid) }}
+        {{ Form::hidden('sid', $request->sid) }}
 
         <tr>
             <td></td>

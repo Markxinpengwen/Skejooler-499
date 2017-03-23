@@ -21,15 +21,21 @@
         @foreach($upcoming as $u)
             <tr>
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
-                    <td align = "center">{{ $u->scheduled_date }}</td>
+                    <td align = "center">
+                        @if($u->scheduled_date == "1970-01-02 00:00:01")
+                            {{ "Date not scheduled" }}
+                        @else
+                            {{ $u->scheduled_date }}
+                        @endif
+                    </td>
                     <td align = "center">{{ $u->preferred_date_1 }}</td>
                     <td align = "center">{{ $u->preferred_date_2 }}</td>
                     <td align = "center">{{ $u->course_code }}</td>
                     <td align = "center">{{ $u->exam_medium }}</td>
                     <td align = "center">{{ $u->exam_type }}</td>
                     {{ Form::hidden('rid', $u->rid) }}
-                    {{ Form::hidden('student', $u->student) }}
-                    {{ Form::hidden('center', $u->center) }}
+                    {{ Form::hidden('sid', $u->sid) }}
+                    {{ Form::hidden('cid', $u->cid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $u->rid }}</td>
                 {{ Form::close() }}
@@ -50,15 +56,21 @@
         @foreach($pendingCenter as $pc)
             <tr>
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
-                    <td align = "center">{{ $pc->scheduled_date }}</td>
+                    <td align = "center">
+                        @if($pc->scheduled_date == "1970-01-02 00:00:01")
+                            {{ "Date not scheduled" }}
+                        @else
+                            {{ $pc->scheduled_date }}
+                        @endif
+                    </td>
                     <td align = "center">{{ $pc->preferred_date_1 }}</td>
                     <td align = "center">{{ $pc->preferred_date_2 }}</td>
                     <td align = "center">{{ $pc->course_code }}</td>
                     <td align = "center">{{ $pc->exam_medium }}</td>
                     <td align = "center">{{ $pc->exam_type }}</td>
                     {{ Form::hidden('rid', $pc->rid) }}
-                    {{ Form::hidden('student', $pc->student) }}
-                    {{ Form::hidden('center', $pc->center) }}
+                    {{ Form::hidden('sid', $pc->sid) }}
+                    {{ Form::hidden('cid', $pc->cid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $pc->rid }}</td>
                 {{ Form::close() }}
@@ -79,15 +91,21 @@
         @foreach($pendingStudent as $ps)
             <tr>
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
-                    <td align = "center">{{ $ps->scheduled_date }}</td>
+                    <td align = "center">
+                        @if($ps->scheduled_date == "1970-01-02 00:00:01")
+                            {{ "Date not scheduled" }}
+                        @else
+                            {{ $ps->scheduled_date }}
+                        @endif
+                    </td>
                     <td align = "center">{{ $ps->preferred_date_1 }}</td>
                     <td align = "center">{{ $ps->preferred_date_2 }}</td>
                     <td align = "center">{{ $ps->course_code }}</td>
                     <td align = "center">{{ $ps->exam_medium }}</td>
                     <td align = "center">{{ $ps->exam_type }}</td>
                     {{ Form::hidden('rid', $ps->rid) }}
-                    {{ Form::hidden('student', $ps->student) }}
-                    {{ Form::hidden('center', $ps->center) }}
+                    {{ Form::hidden('sid', $ps->sid) }}
+                    {{ Form::hidden('cid', $ps->cid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $ps->rid }}</td>
                 {{ Form::close() }}
@@ -108,15 +126,21 @@
          @foreach($deniedStudent as $ds)
             <tr>
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
-                    <td align = "center">{{ $ps->scheduled_date }}</td>
+                    <td align = "center">
+                        @if($ds->scheduled_date == "1970-01-02 00:00:01")
+                            {{ "Date not scheduled" }}
+                        @else
+                            {{ $ds->scheduled_date }}
+                        @endif
+                    </td>
                     <td align = "center">{{ $ds->preferred_date_1 }}</td>
                     <td align = "center">{{ $ds->preferred_date_2 }}</td>
                     <td align = "center">{{ $ds->course_code }}</td>
                     <td align = "center">{{ $ds->exam_medium }}</td>
                     <td align = "center">{{ $ds->exam_type }}</td>
                     {{ Form::hidden('rid', $ds->rid) }}
-                    {{ Form::hidden('student', $ds->student) }}
-                    {{ Form::hidden('center', $ds->center) }}
+                    {{ Form::hidden('sid', $ds->sid) }}
+                    {{ Form::hidden('cid', $ds->cid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $ds->rid }}</td>
                 {{ Form::close() }}
@@ -137,15 +161,21 @@
         @foreach($deniedCenter as $dc)
             <tr>
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
-                    <td align = "center">{{ $dc->scheduled_date }}</td>
+                    <td align = "center">
+                        @if($dc->scheduled_date == "1970-01-02 00:00:01")
+                            {{ "Date not scheduled" }}
+                        @else
+                            {{ $dc->scheduled_date }}
+                        @endif
+                    </td>
                     <td align = "center">{{ $dc->preferred_date_1 }}</td>
                     <td align = "center">{{ $dc->preferred_date_2 }}</td>
                     <td align = "center">{{ $dc->course_code }}</td>
                     <td align = "center">{{ $dc->exam_medium }}</td>
                     <td align = "center">{{ $dc->exam_type }}</td>
                     {{ Form::hidden('rid', $dc->rid) }}
-                    {{ Form::hidden('student', $dc->student) }}
-                    {{ Form::hidden('center', $dc->center) }}
+                    {{ Form::hidden('sid', $dc->sid) }}
+                    {{ Form::hidden('cid', $dc->cid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $dc->rid }}</td>
                 {{ Form::close() }}
@@ -166,15 +196,21 @@
         @foreach($past as $pa)
             <tr>
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
-                    <td align = "center">{{ $pa->scheduled_date }}</td>
+                    <td align = "center">
+                        @if($pa->scheduled_date == "1970-01-02 00:00:01")
+                            {{ "Date not scheduled" }}
+                        @else
+                            {{ $pa->scheduled_date }}
+                        @endif
+                    </td>
                     <td align = "center">{{ $pa->preferred_date_1 }}</td>
                     <td align = "center">{{ $pa->preferred_date_2 }}</td>
                     <td align = "center">{{ $pa->course_code }}</td>
                     <td align = "center">{{ $pa->exam_medium }}</td>
                     <td align = "center">{{ $pa->exam_type }}</td>
                     {{ Form::hidden('rid', $pa->rid) }}
-                    {{ Form::hidden('student', $pa->student) }}
-                    {{ Form::hidden('center', $pa->center) }}
+                    {{ Form::hidden('sid', $pa->sid) }}
+                    {{ Form::hidden('cid', $pa->cid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $pa->rid }}</td>
                 {{ Form::close() }}

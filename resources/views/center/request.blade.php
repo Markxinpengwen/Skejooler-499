@@ -113,7 +113,7 @@
         @if($editable)
             {{ Form::open(array('action' => 'CenterController@editRequest')) }}
             {{ Form::hidden('rid', $request->rid) }}
-            {{ Form::hidden('student', $student->sid) }}
+            {{ Form::hidden('sid', $student->sid) }}
 
             <tr>
                 <td></td>

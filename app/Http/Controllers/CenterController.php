@@ -161,7 +161,7 @@ class CenterController extends Controller
             ->with('pendingStudent', $pendingStudent)
             ->with('deniedCenter', $deniedCenter)
             ->with('deniedStudent', $deniedStudent)
-            ->with('past', $past);
+            ->with('past', $past); // TODO fix code ordering for easy reading
     }
 
     //---------------------------------------------------------------------------------------
@@ -266,14 +266,16 @@ class CenterController extends Controller
             {
                 if($request->scheduled_date != $tempRequest['scheduled_date'])
                 {
-                    //echo"1";
-                    $approvals = $r->decision(1, intval($request->center_approval.$request->student_approval), intval($tempRequest['center_approval'].$request->student_approval));
+                    $dateChanged = 1;
                 }
                 else
                 {
-                    //echo"0";
-                    $approvals = $r->decision(0, intval($request->center_approval.$request->student_approval), intval($tempRequest['center_approval'].$request->student_approval));
+                    $dateChanged = 0;
                 }
+
+                $approvals = $r->decision(intval($dateChanged),
+                    intval($request->student_approval.$request->center_approval),
+                    intval($tempRequest['student_approval'].$request->center_approval));
 
                 if($approvals[0] == 3 && $approvals[1] == 3)
                 {

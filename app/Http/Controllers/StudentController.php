@@ -2,97 +2,341 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Input as Input;
+use Illuminate\Support\Facades\Auth as Auth;
+use App\Centers as Centers;
 use App\Students as Students;
+use App\Requests as Requests;
+use App\User as Users;
 
 class StudentController extends Controller
 {
-    protected $sid = 1;
-
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Displays the default.
      */
     public function index()
     {
-        return StudentController::showProfile();
+        return StudentController::showSchedule();
     }
 
+    //---------------------------------------------------------------------------------------
+    // PROFILE
+    //---------------------------------------------------------------------------------------
+
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $sid
-     * @return \Illuminate\Http\Response
+     * Displays the Student's profile.
      */
     public function showProfile()
     {
-        // find correct Student
-        $student = Students::find($this->sid);
+        // find correct Center
+        $student = Student::where('sid', Auth::id())
+            ->first();
 
-        return view('st/profile')->with('student', $student);
+        return view('student/profile')
+            ->with('student', $student);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $sid
-     * @return \Illuminate\Http\Response
+     * Show the form for editing the Student's Profile.
      */
     public function editProfile()
     {
-        // find correct Student
-        $student = Students::find($this->sid);
+        // find correct Center
+        $student = Students::where('sid', Auth::id())
+            ->first();
 
-        return view('st/profileEdit')->with('student', $student);
+        return view('student/profileEdit')
+            ->with('student', $student);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $sid
-     * @return \Illuminate\Http\Response
+     * Update the Student's Profile in the database.
+     * TODO use center as timezone
      */
     public function updateProfile()
     {
-        // grab student info to be updated
-        $tempstudent = Input::all();
+        $s = new Students();
 
-        // find correct Student to update
-        $student = Students::find($this->sid);
+        // grab center info to be updated
+        $tempStudent = Input::all();
+        $sid = $tempStudent['sid'];
 
-        //TODO - validate
+        // determine is user is allowed to update profile
+        if($s->authorize($sid))
+        {
+            // find correct Center to update
+            if($s->validate($tempStudent))
+            {
+                $student = Student::where('sid', Auth::id())
+                    ->first();
 
-        // update student
-        $student->name = $tempstudent['name'];
-        $student->email = $tempstudent['email'];
-        $student->phone = $tempstudent['phone'];
-        $student->description = $tempstudent['description'];
-        //$student->canSupportOnlineExam = $tempstudent['canSupportOnlineExam'];
-        $student->cost = $tempstudent['cost'];
-        $student->street_name = $tempstudent['street_name'];
-        $student->city = $tempstudent['city'];
-        $student->province = $tempstudent['province'];
-        $student->country = $tempstudent['country'];
-        //$student->postal_code => $tempstudent['postal_code'];
+                // update center
+//                $student-> = $tempStudent['']; //TODO add all db values to update
 
-        // save new values to DB
-        $student->save();
 
-        return StudentController::showProfile();
+                // save new values to DB
+                $student->save();
+                return StudentController::showProfile();
+            }
+            else
+            {
+                // invalid input
+                redirect();
+            }
+        }
+        else
+        {
+            // wrong user
+            redirect();
+        }
     }
 
-    /*
-     * Validates and stores input into session
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+    //---------------------------------------------------------------------------------------
+    // SCHEDULE
+    //---------------------------------------------------------------------------------------
+
+    /**
+     * Display the Center's schedule.
      */
-    public function storeProfile(Request $request)
+    public function showSchedule()
     {
+        //
+        $upcoming = Requests::where('cid', Auth::id())
+            ->where('student_approval', 2)
+            ->where('center_approval', 2)
+            ->where('scheduled_date', '>=', date("Y-m-d h:i:s"))
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
+            ->get(); //TODO get correct current datetime
+        $pendingStudent = Requests::where('cid', Auth::id())
+            ->where('student_approval', 1)
+            ->where('center_approval', 2)
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
+            ->get();
+        $pendingCenter = Requests::where('cid', Auth::id())
+            ->where('student_approval', 2)
+            ->where('center_approval', 1)
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
+            ->get();
+        $deniedStudent = Requests::where('cid', Auth::id())
+            ->where('student_approval', 0)
+            ->where('center_approval', 1)
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
+            ->get();
+        $deniedCenter = Requests::where('cid', Auth::id())
+            ->where('student_approval', 1)
+            ->where('center_approval', 0)
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
+            ->get();
+        $past = Requests::where('cid', Auth::id())
+            ->where('student_approval', 2)
+            ->where('center_approval', 2)
+            ->where('scheduled_date', '<', date("Y-m-d h:i:s"))
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
+            ->get(); // TODO get correct current datetime
 
+        return view('center/schedule')
+            ->with('upcoming', $upcoming)
+            ->with('pendingStudent', $pendingStudent)
+            ->with('pendingCenter', $pendingCenter)
+            ->with('deniedStudent', $deniedStudent)
+            ->with('deniedCenter', $deniedCenter)
+            ->with('past', $past); //TODO fix code ordering for easy reading
+    }
+    //---------------------------------------------------------------------------------------
+    // REQUEST
+    //---------------------------------------------------------------------------------------
+
+    /**
+     * Displays the Center's specified request.
+     */
+    public function showRequest()
+    {
+        $temp = Input::all();
+
+        $rid = $temp['rid'];
+        $cid = $temp['cid'];
+
+        // find correct Request and Student information
+        $center = Centers::where('cid', $cid)
+            ->first();
+        $request = Requests::where('rid', $rid)
+            ->where('sid', Auth::id())
+            ->where('cid', $cid)
+            ->first();
+
+        // grab student email from user table
+        $user = Users::where('uid', $cid)
+            ->first();
+
+        // determine if editable
+        if($request->scheduled_date > date("Y-m-d h:i:sa"))
+        {
+            $editable = true;
+        }
+        else
+        {
+            $editable = false;
+        }
+
+        return view('student/request')
+            ->with('center', $center)
+            ->with('request', $request)
+            ->with('center_email', $user->email)
+            ->with('editable', $editable);
     }
 
+    /**
+     * Show the form for editing the Center's specified request.
+     */
+    public function editRequest()
+    {
+        $temp = Input::all();
+
+        $rid = $temp['rid'];
+        $cid = $temp['cid'];
+
+        // find correct Request and Student information
+        $center = Centers::where('cid', $cid)
+            ->first();
+        $request = Requests::where('rid', $rid)
+            ->where('sid', Auth::id())
+            ->where('cid', $cid)
+            ->first();
+
+        // grab student email from user table
+        $user = Users::where('uid', $cid)
+            ->first();
+
+        return view('center/requestEdit')
+            ->with('request', $request)
+            ->with('center', $center)
+            ->with('center_email', $user->email);
+
+        //TODO - write logic so that invalid states can be avoided passing a variable to the view to determine which radio options appear
+    }
+
+    /**
+     * Update the Center's Request in the database.
+     */
+    public function updateRequest()
+    {
+        $r = new Requests();
+
+        // grab center info to be updated
+        $tempRequest = Input::all();
+        $rid = $tempRequest['rid'];
+        $sid = $tempRequest['sid'];
+        $cid = $tempRequest['cid'];
+
+        // determine is user is allowed to update profile
+        if($r->authorize($rid, $sid))
+        {
+            $request = Requests::where('rid', $rid)
+                ->where('sid', Auth::id())
+                ->where('cid', $cid)
+                ->first();
+
+            $center = Centers::where('cid', $cid)
+                ->first();
+
+            // find correct Center to update
+            if($r->validate($tempRequest))
+            {
+                if($request->scheduled_date != $tempRequest['scheduled_date'])
+                {
+                    $dateChanged = 1;
+                }
+                else
+                {
+                    $dateChanged = 0;
+                }
+
+                $approvals = $r->decision(intval($dateChanged),
+                    intval($request->student_approval.$request->center_approval),
+                    intval($tempRequest['student_approval'].$request->center_approval));
+
+                if($approvals[0] == 3 && $approvals[1] == 3)
+                {
+                    //nothing changes prevented operation
+                }
+                elseif($approvals[0] == 4 && $approvals[1] == 4)
+                {
+                    $this->deleteRequest($rid, $sid, $cid);
+
+                    return StudentController::showSchedule();
+                }
+                elseif($approvals[0] == 8 && $approvals[1] == 8)
+                {
+                    // TODO ignored for now -> to fix in decision table or by avoidance on previous TODO
+                }
+                else
+                {
+                    // update request
+                    $request->scheduled_date = $tempRequest['scheduled_date'];
+                    $request->student_notes = $tempRequest['student_notes']; // TODO add all values to be updated in request
+
+                    $request->student_approval = $approvals[0];
+                    $request->center_approval = $approvals[1];
+
+                    // save new values to DB
+                    $request->save();
+
+                    return StudentController::showRequest()
+                        ->with('request', $request)
+                        ->with('center', $center);
+                }
+
+            }
+            else
+            {
+                // invalid input
+                redirect(); //->with('errors', $r->error());
+            }
+        }
+        else
+        {
+            // wrong user
+            redirect();
+        }
+    }
+
+    /**
+     * Delete the Center's Request in the database.
+     */
+    public function deleteRequest($rid, $sid, $cid)
+    {
+        $r = new Requests();
+
+        if($r->authorize($rid, $sid))
+        {
+            $request = Requests::where('rid', $rid)
+                ->where('sid', Auth::id())
+                ->where('cid', $cid)
+                ->first();
+
+            $request->delete();
+        }
+        else
+        {
+            // wrong user
+            redirect();
+        }
+    }
+
+    public function makeRequest()
+    {
+        //TODO - form input then make new request
+    }
 }

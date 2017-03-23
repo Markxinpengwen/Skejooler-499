@@ -353,8 +353,46 @@ class StudentController extends Controller
         }
     }
 
+    //---------------------------------------------------------------------------------------
+    // BOOKING FORM
+    //---------------------------------------------------------------------------------------
+
+    public function showExamRequestForm()
+    {
+        return view('student/examRequestForm');
+    }
+
     public function makeRequest()
     {
-        //TODO - form input then make new request
+        // grab center info to be updated
+        $tempRequest = Input::all();
+
+        $request = new Requests();
+
+        // find correct Center to update
+        if($request->validate($tempRequest))
+        {
+            // update request
+            $request->preferred_Date_1 = $tempRequest['preferred_date_1'];
+            $request->preferred_Date_2 = $tempRequest['preferred_date_2'];
+            $request->course_code = $tempRequest['course_code'];
+            $request->additional_requirements = $tempRequest['additional_requirements'];
+            $request->exam_type = $tempRequest['exam_type'];
+            $request->exam_medium = $tempRequest['exam_medium'];
+            $request->student_notes = $tempRequest['student_notes'];
+
+            $request->student_approval = 2;
+            $request->center_approval = 1;
+
+            // save new values to DB
+            $request->save();
+
+            return StudentController::showSchedule();
+        }
+        else
+        {
+            // invalid input
+            redirect(); //->with('errors', $r->error());
+        }
     }
 }

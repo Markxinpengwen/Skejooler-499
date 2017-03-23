@@ -293,11 +293,10 @@ class StaticRequestsTableSeederLA extends Seeder
                             break;
                     }
 
-                    echo "\nBefore request ".(($k))." with studentIndex ".($h+1)." and centerIndex ".($i+1)." and J = ".$j."."; //t
-    //                if(!isset($requests[(($i*5)+$j+1)])){
-    //                    echo "Req ".(($i*5)+$j+1)." not set.";
-    //                    $requests[(($i*5)+$j+1)] = array();
-    //                }
+                    //Test Print Request info
+                    //echo "\nBefore request ".(($k))." with studentIndex ".($h+1)." and centerIndex ".($i+1)." and J = ".$j."."; //t
+
+                    //Set Request array
                     $requests[($k-1)]= [
                         //Request Identifiers
                         'rid' => ($rid + ($k-1)),

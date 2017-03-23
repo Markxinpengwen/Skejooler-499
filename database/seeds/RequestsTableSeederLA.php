@@ -18,7 +18,7 @@ class RequestsTableSeederLA extends Seeder
 		//-------------------------------------------------------------------------------------
 		//STEP 1) SETUP
 		//-------------------------------------------------------------------------------------
-		
+
 		//Constants
 		$NUM_REQUESTS = 50; // number of centers * 10
 		$DEFAULT_AUTO_INCREMENT = 20000;
@@ -38,10 +38,10 @@ class RequestsTableSeederLA extends Seeder
         if($input=="y" || $input=="Y"){
             $faker->seed($FAKER_SEED);
         }
-		
+
 		//Print
 		echo "RequestSeeder] Creating ".$NUM_REQUESTS." Requests from students.\n";
-		
+
 		//Acquire initial RID auto_increment value from database, and then print.
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Requests'"));
         $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
@@ -52,13 +52,13 @@ class RequestsTableSeederLA extends Seeder
 			$rid = $DEFAULT_AUTO_INCREMENT;
 			echo "\nRequests next Auto_Increment value was 0.\n\tSetting to default value of ".$rid.".\n";
 		}
-		
+
 		//Students and Centers empty check
 		if (count($num_students) == 0 || count($num_centers) == 0){
 			echo "\n\nNO STUDENTS AND/OR NO CENTERS TO WORK WITH. TERMINATING...\n";
 			return;
 		}
-		
+
 		//Count number of students, and collect/shuffle SID's
 		$students;
 		$result = DB::select(DB::raw("SELECT count(*) AS 'count' FROM students;"));
@@ -75,7 +75,7 @@ class RequestsTableSeederLA extends Seeder
 		shuffle($students);
 
 		unset($result);
-		
+
 		//Count number of Centers, and collect Center's records
 		$centers;
 		$result = DB::select(DB::raw("SELECT count(*) AS 'count' FROM centers;"));
@@ -93,12 +93,12 @@ class RequestsTableSeederLA extends Seeder
 		//$centers = $centers->toArray(); //No longer needed with LA Workaround
 
 		unset($result);
-		
-		
+
+
 		//--------------------------------------------------------------------------------
 		//STEP 2) CREATING REQUEST VALUES
 		//--------------------------------------------------------------------------------
-		
+
 		//If number of requests can be satisfied without modular math
 		if(count($students)>=$NUM_REQUESTS && count($centers)>=$NUM_REQUESTS) {
 			//For the randomized students list, assign a center to request
@@ -116,7 +116,7 @@ class RequestsTableSeederLA extends Seeder
 						break;
 					case 2:
 						$type="Other";
-						break;					
+						break;
 				};
 				$medium="";
 				switch(rand(0,2)){
@@ -128,7 +128,7 @@ class RequestsTableSeederLA extends Seeder
 						break;
 					case 2:
 						$medium="Other";
-						break;					
+						break;
 				};
 				//resquest center/student approval status switch (-1,0,1) X (-1,0,1)
                 $cenApv = "0";
@@ -136,8 +136,8 @@ class RequestsTableSeederLA extends Seeder
 				$requests[$i] = [
 					//Request Identifiers
 					'rid' => ($rid+$i),
-					'student' => $students[$i],
-					'center' => $centers[$i]['cid'],
+					'sid' => $students[$i],
+					'cid' => $centers[$i]['cid'],
 //					'center_name' => $centers[$i]['name'],
 //					'center_street_name' => $centers[$i]['street_name'],
 //					'center_city' => $centers[$i]['city'],
@@ -172,14 +172,14 @@ class RequestsTableSeederLA extends Seeder
 			//rid = rid + i
 			//s = (r%s)-1
 			//c= (r%c)-1
-			
+
 			//For the randomized students list, assign a center to request
 			$requests = array();
 			$i = 1;
 			for($i = 1;$i<=$NUM_REQUESTS;$i++){
 				$idx=($i%$num_centers);
 				//echo "\nFor Request: ".($rid+$i-1)." (".$rid."+".$i."-1), the idx value is: ".$idx.". Grabs element centers[".$idx."].";
-				
+
 				//Define enumerated variables and switch assignments
 				$type="";
 				switch(rand(0,2)){
@@ -191,7 +191,7 @@ class RequestsTableSeederLA extends Seeder
 						break;
 					case 2:
 						$type="Other";
-						break;					
+						break;
 				};
 				$medium="";
 				switch(rand(0,2)){
@@ -203,7 +203,7 @@ class RequestsTableSeederLA extends Seeder
 						break;
 					case 2:
 						$medium="Other";
-						break;					
+						break;
 				};
                 //resquest center/student approval status switch (-1,0,1) X (-1,0,1)
                 $cenApv = "0";
@@ -248,35 +248,14 @@ class RequestsTableSeederLA extends Seeder
                         $stuApv = "2";
                         break;
                 }
-                    //Arbitary order
-                    //switch(idx%9){
-//                    case 0:
-//                        $cenApv = "1"; $stuApv = "0"; break;
-//                    case 1:
-//                        $cenApv = "1"; $stuApv = "1"; break;
-//                    case 2:
-//                        $cenApv = "1"; $stuApv = "2"; break;
-//                    case 3:
-//                        $cenApv = "2"; $stuApv = "0"; break;
-//                    case 4:
-//                        $cenApv = "2"; $stuApv = "1"; break;
-//                    case 5:
-//                        $cenApv = "2"; $stuApv = "2"; break;
-//                    case 6:
-//                        $cenApv = "0"; $stuApv = "0"; break;
-//                    case 7:
-//                        $cenApv = "0"; $stuApv = "1"; break;
-//                    case 8:
-//                        $cenApv = "0"; $stuApv = "2"; break;
-//                    default:
-//                        $cenApv = "1"; $stuApv = "1"; break;
-//                }
+
+                //Create (i-1)th request
 				$requests[$i-1] = [
 					//Request Identifiers
 					'rid' => ($rid+$i-1),
-					//'student' => $students[($i%$num_students)-1], //??
-					'student' => (($num_students < $NUM_REQUESTS)? $students[($i%$num_students)] : $students[($i%$num_students)-1] ),
-					'center' => $centers[$idx]['cid'],
+					//'sid' => $students[($i%$num_students)-1], //??
+					'sid' => (($num_students < $NUM_REQUESTS)? $students[($i%$num_students)] : $students[($i%$num_students)-1] ),
+					'cid' => $centers[$idx]['cid'],
 //					'center_name' => $centers[$idx]['name'],
 //					'center_street_name' => $centers[$idx]['street_name'],
 //					'center_city' => $centers[$idx]['city'],
@@ -304,25 +283,25 @@ class RequestsTableSeederLA extends Seeder
 					'updated_at' => $faker->dateTimeThisMonth($max = 'now')
 				];
 			}//for
-			
-		}			
+
+		}
 		echo "\nGenerated ".$NUM_REQUESTS." Requests.";
 		unset($i);
-		
+
 		//--------------------------------------------------------------------------------
 		//STEP 3) SUBMITTING REQUESTS VALUES TO DATABASE
 		//--------------------------------------------------------------------------------
-		
+
 		//Now we submit all of the values into the database
 		$i = 0;
 		for($i = 0; $i < count($requests); $i++) {
 			//Submit Requests
 			DB::table('requests')->insert(
-				[					
+				[
 					//Request Identifiers
 					'rid' => $requests[$i]['rid'],
-					'student' => $requests[$i]['student'],
-					'center' => $requests[$i]['center'],
+					'sid' => $requests[$i]['sid'],
+					'cid' => $requests[$i]['cid'],
 //					'center_name' => $requests[$i]['center_name'],
 //					'center_street_name' => $requests[$i]['center_street_name'],
 //					'center_city' => $requests[$i]['center_city'],
@@ -350,37 +329,37 @@ class RequestsTableSeederLA extends Seeder
 					'updated_at' => $requests[$i]['updated_at']
 				]
 			);
-			echo "\n\t- Request ".$requests[$i]['rid'].": S-".$requests[$i]['student']." to C-".$requests[$i]['center'].".";
+			echo "\n\t- Request ".$requests[$i]['rid'].": S-".$requests[$i]['sid']." to C-".$requests[$i]['cid'].".";
 		}
 		echo "\n";
-		
+
     }//run
-	
+
 }
 
 /*
 OLD CODE:
 
-//Acquire Valid Students SID's, shuffle for random order	
+//Acquire Valid Students SID's, shuffle for random order
 		// I\S\Collection
 		$students = DB::table('students')->take($NUM_REQUESTS)->pluck('sid');
 		echo "A) Class of students is: ".get_class($students).".\n";
-		var_dump($students);	
+		var_dump($students);
 		//Array
 		//$list = $students[0]; //integer, apparently
 		$list = $students->toArray();
 		shuffle($list);
 		echo "\ndunping list:\n";
-		var_dump($list);		
+		var_dump($list);
 		//TEST: Print
 		echo "\n\nTEst PRinting Students Table Select Results:\n";
 		foreach($list as $s){
 			echo $s.".\n";
 		}
-		
+
 //Acquire Valid Centers data
 		//$centers = DB::table('centers')->pluck('cid');
-		$centers = DB::table('centers')->take($NUM_REQUESTS)->get();		
+		$centers = DB::table('centers')->take($NUM_REQUESTS)->get();
 		$centers = $centers->toArray();
 		var_dump($centers);
 		//TEst print

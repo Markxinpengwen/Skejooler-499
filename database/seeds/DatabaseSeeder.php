@@ -192,9 +192,10 @@ class DatabaseSeeder extends Seeder
 		$this->call(GiantTableSeederLA::class);
 		echo "DatabaseSeeder] \t\t- Complete\n";
 		
-		//Call Request Seeder:
+		//Call (New Static) Request Seeder:
 		echo "DatabaseSeeder] \tRequest Seeder\n";
-		$this->call(RequestsTableSeederLA::class);
+		//$this->call(RequestsTableSeederLA::class);
+		$this->call(StaticRequestsTableSeederLA::class);
 		echo "DatabaseSeeder] \t\t- Complete\n";
 
 		//End Run Mehtod

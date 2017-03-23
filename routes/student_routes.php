@@ -20,5 +20,5 @@ Route::post('/student/schedule', 'StudentController@updateRequest');
 /**
  * Request form view structure
  */
-Route::get('/student/examRequestForm', 'StudentController@showSchedule');
+Route::get('/student/examRequestForm', 'StudentController@showExamRequestForm');
 Route::post('/student/examRequestForm', 'StudentController@makeRequest');

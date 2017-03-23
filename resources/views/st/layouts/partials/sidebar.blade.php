@@ -50,7 +50,7 @@
             <!-- Optionally, you can add icons to the links -->
             <li><a href="{{url('/student') }}"></i> <span>Dashboard</span></a></li>
             <li><a href="{{url('/student/profile') }}"></i> <span>Profile</span></a></li>
-            <li><a href="{{url('/student/profileEdit') }}"></i> <span>profileEdit</span></a></li>
+            <li><a href="{{url('/student/schedule') }}"></i> <span>schedule</span></a></li>
 
 
             <?php

@@ -32,8 +32,12 @@ class CenterController extends Controller
         $center = Centers::where('cid', Auth::id())
             ->first();
 
+        $user = Users::where('uid', Auth::id())
+            ->first();
+
         return view('center/profile')
-            ->with('center', $center);
+            ->with('center', $center)
+            ->with('login_email', $user->email);
     }
 
     /**
@@ -45,8 +49,12 @@ class CenterController extends Controller
         $center = Centers::where('cid', Auth::id())
             ->first();
 
-        return view('center/profileEdit')
-            ->with('center', $center);
+        $user = Users::where('uid', Auth::id())
+            ->first();
+
+        return view('center/profile')
+            ->with('center', $center)
+            ->with('login_email', $user->email);
     }
 
     /**
@@ -110,49 +118,49 @@ class CenterController extends Controller
     public function showSchedule()
     {
         //
-        $upcoming = Requests::where('center', Auth::id())
+        $upcoming = Requests::where('cid', Auth::id())
             ->where('center_approval', 2)
             ->where('student_approval', 2)
-            //->where('scheduled_date', '<=', date("Y-m-d h:i:s"))
-            ->orderby('scheduled_date', 'desc')
-            ->orderby('preferred_date_1', 'desc')
-            ->orderby('preferred_date_2', 'desc')
+            ->where('scheduled_date', '>=', date("Y-m-d h:i:s"))
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
             ->get(); //TODO get correct current datetime
-        $pendingCenter = Requests::where('center', Auth::id())
+        $pendingCenter = Requests::where('cid', Auth::id())
             ->where('center_approval', 1)
             ->where('student_approval', 2)
-            ->orderby('scheduled_date', 'desc')
-            ->orderby('preferred_date_1', 'desc')
-            ->orderby('preferred_date_2', 'desc')
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
             ->get();
-        $pendingStudent = Requests::where('center', Auth::id())
+        $pendingStudent = Requests::where('cid', Auth::id())
             ->where('center_approval', 2)
             ->where('student_approval', 1)
-            ->orderby('scheduled_date', 'desc')
-            ->orderby('preferred_date_1', 'desc')
-            ->orderby('preferred_date_2', 'desc')
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
             ->get();
-        $deniedCenter = Requests::where('center', Auth::id())
+        $deniedCenter = Requests::where('cid', Auth::id())
             ->where('center_approval', 0)
             ->where('student_approval', 1)
-            ->orderby('scheduled_date', 'desc')
-            ->orderby('preferred_date_1', 'desc')
-            ->orderby('preferred_date_2', 'desc')
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
             ->get();
-        $deniedStudent = Requests::where('center', Auth::id())
+        $deniedStudent = Requests::where('cid', Auth::id())
             ->where('center_approval', 1)
             ->where('student_approval', 0)
-            ->orderby('scheduled_date', 'desc')
-            ->orderby('preferred_date_1', 'desc')
-            ->orderby('preferred_date_2', 'desc')
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
             ->get();
-        $past = Requests::where('center', Auth::id())
+        $past = Requests::where('cid', Auth::id())
             ->where('center_approval', 2)
             ->where('student_approval', 2)
-            //->where('scheduled_date', '>', currentdate)
-            ->orderby('scheduled_date', 'desc')
-            ->orderby('preferred_date_1', 'desc')
-            ->orderby('preferred_date_2', 'desc')
+            ->where('scheduled_date', '<', date("Y-m-d h:i:s"))
+            ->orderby('scheduled_date', 'asc')
+            ->orderby('preferred_date_1', 'asc')
+            ->orderby('preferred_date_2', 'asc')
             ->get(); // TODO get correct current datetime
 
         return view('center/schedule')
@@ -161,7 +169,7 @@ class CenterController extends Controller
             ->with('pendingStudent', $pendingStudent)
             ->with('deniedCenter', $deniedCenter)
             ->with('deniedStudent', $deniedStudent)
-            ->with('past', $past);
+            ->with('past', $past); // TODO fix code ordering for easy reading
     }
 
     //---------------------------------------------------------------------------------------
@@ -176,18 +184,18 @@ class CenterController extends Controller
         $temp = Input::all();
 
         $rid = $temp['rid'];
-        $sid = $temp['student'];
+        $sid = $temp['sid'];
 
         // find correct Request and Student information
         $student = Students::where('sid', $sid)
             ->first();
         $request = Requests::where('rid', $rid)
-            ->where('center', Auth::id())
-            ->where('student', $sid)
+            ->where('cid', Auth::id())
+            ->where('sid', $sid)
             ->first();
 
         // grab student email from user table
-        $student_email = Users::where('uid', $sid)
+        $user = Users::where('uid', $sid)
             ->first();
 
         // determine if editable
@@ -203,7 +211,7 @@ class CenterController extends Controller
         return view('center/request')
             ->with('student', $student)
             ->with('request', $request)
-            ->with('student_email', $student_email->email)
+            ->with('student_email', $user->email)
             ->with('editable', $editable);
     }
 
@@ -215,24 +223,24 @@ class CenterController extends Controller
         $temp = Input::all();
 
         $rid = $temp['rid'];
-        $sid = $temp['student'];
+        $sid = $temp['sid'];
 
         // find correct Request and Student information
         $student = Students::where('sid', $sid)
             ->first();
         $request = Requests::where('rid', $rid)
-            ->where('center', Auth::id())
-            ->where('student', $sid)
+            ->where('cid', Auth::id())
+            ->where('sid', $sid)
             ->first();
 
         // grab student email from user table
-        $student_email = Users::where('uid', $sid)
+        $user = Users::where('uid', $sid)
             ->first();
 
         return view('center/requestEdit')
             ->with('request', $request)
             ->with('student', $student)
-            ->with('student_email', $student_email->email);
+            ->with('student_email', $user->email);
 
         //TODO - write logic so that invalid states can be avoided passing a variable to the view to determine which radio options appear
     }
@@ -247,15 +255,15 @@ class CenterController extends Controller
         // grab center info to be updated
         $tempRequest = Input::all();
         $rid = $tempRequest['rid'];
-        $cid = $tempRequest['center'];
-        $sid = $tempRequest['student'];
+        $cid = $tempRequest['cid'];
+        $sid = $tempRequest['sid'];
 
         // determine is user is allowed to update profile
         if($r->authorize($rid, $cid))
         {
             $request = Requests::where('rid', $rid)
-                ->where('center', Auth::id())
-                ->where('student', $sid)
+                ->where('cid', Auth::id())
+                ->where('sid', $sid)
                 ->first();
 
             $student = Students::where('sid', $sid)
@@ -266,14 +274,16 @@ class CenterController extends Controller
             {
                 if($request->scheduled_date != $tempRequest['scheduled_date'])
                 {
-                    //echo"1";
-                    $approvals = $r->decision(1, intval($request->center_approval.$request->student_approval), intval($tempRequest['center_approval'].$request->student_approval));
+                    $dateChanged = 1;
                 }
                 else
                 {
-                    //echo"0";
-                    $approvals = $r->decision(0, intval($request->center_approval.$request->student_approval), intval($tempRequest['center_approval'].$request->student_approval));
+                    $dateChanged = 0;
                 }
+
+                $approvals = $r->decision(intval($dateChanged),
+                    intval($request->student_approval.$request->center_approval),
+                    intval($tempRequest['student_approval'].$request->center_approval));
 
                 if($approvals[0] == 3 && $approvals[1] == 3)
                 {
@@ -330,8 +340,8 @@ class CenterController extends Controller
         if($r->authorize($rid, $cid))
         {
             $request = Requests::where('rid', $rid)
-                ->where('center', Auth::id())
-                ->where('student', $sid)
+                ->where('cid', Auth::id())
+                ->where('sid', $sid)
                 ->first();
 
             $request->delete();

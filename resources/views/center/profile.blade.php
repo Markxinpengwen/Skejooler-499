@@ -5,8 +5,8 @@
 @section('main-content')
 
     <table>
+
         <tr><th colspan = "2"><h1>General Info</h1></th></tr>
-        <tr><td></td></tr>
 
         <tr>
             <th>Name:</th>
@@ -43,7 +43,12 @@
         </tr>
 
         <tr>
-            <th>Email:</th>
+            <th>Login Email:</th>
+            <td>{{ $login_email or "Email not found" }}</td>
+        </tr>
+
+        <tr>
+            <th>Center Email:</th>
             <td>{{ $center->center_email or "Email not found" }}</td>
         </tr>
 
@@ -93,10 +98,11 @@
         </tr>
 
         {{ Form::open(array('action' => 'CenterController@editProfile')) }}
+
         {{ Form::hidden('cid', $center->cid) }}
 
         <tr>
-            <td></td>
+            <th></th>
             <td>{{ Form::submit('Edit') }}</td>
         </tr>
 

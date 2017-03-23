@@ -6,16 +6,9 @@
     <table>
     {{ Form::open(array('action' => 'CenterController@updateProfile')) }}
 
-        {{--TODO - delete--}}
-        <tr><th colspan = "2">Unchangeable</th></tr>
+        {{ Form::hidden('cid', $center->cid) }}
 
-        {{--TODO - delete--}}
-        <tr>
-            <td>{{ Form::label('cid', 'Center ID:') }}</td>
-            <td>{{ Form::number('cid', $center->cid) }}</td>
-        </tr>
-
-        <tr><th colspan = "2"><hr>General Info</th></tr>
+        <tr><th colspan = "2"><h1>General Info</h1></th></tr>
 
         <tr>
             <td>{{ Form::label('cname', 'Name:') }}</td>
@@ -29,9 +22,15 @@
 
         <tr>
             <td>{{ Form::label('canSupportOnlineExam', 'Online Exam Support:') }}</td>
-            {{--TODO if/else to determine radio fill--}}
-            <td>Yes{{ Form::radio('canSupportOnlineExam-yes') }}
-                No{{ Form::radio('canSupportOnlineExam-no') }}</td>
+            <td>
+                @if($center->canSupportOnlineExam == 1)
+                    Yes{{ Form::radio('canSupportOnlineExam', '1', true) }}
+                    No{{ Form::radio('canSupportOnlineExam', '0') }}
+                @elseif($center->canSupportOnlineExam == 0)
+                    Yes{{ Form::radio('canSupportOnlineExam', '1') }}
+                    No{{ Form::radio('canSupportOnlineExam', '0', true)}}
+                @endif
+            </td>
         </tr>
 
         <tr>
@@ -39,7 +38,7 @@
             <td>{{ Form::text('cost', $center->cost) }}</td>
         </tr>
 
-        <tr><th colspan = "2"><hr>Contact</th></tr>
+        <tr><th colspan = "2"><hr><h1>Contact</h1></th></tr>
 
         <tr>
             <td>{{ Form::label('phone', 'Phone Number:') }}</td>
@@ -47,20 +46,21 @@
         </tr>
 
         <tr>
-            <td>{{ Form::label('email', 'Email:') }}</td>
-            <td>{{ Form::email('email', $center->email) }}</td>
+            <td>{{ Form::label('center_email', 'Email:') }}</td>
+            <td>{{ Form::email('center_email', $center->center_email) }}</td>
         </tr>
 
-        <tr>
-            <td>{{ Form::label('website', 'Website:') }}</td>
-            <td>{{ Form::text('website') }}</td>
-        </tr>
+        {{--TODO - add website--}}
+        {{--<tr>--}}
+            {{--<td>{{ Form::label('website', 'Website:') }}</td>--}}
+            {{--<td>{{ Form::text('website') }}</td>--}}
+        {{--</tr>--}}
 
-        <tr><th colspan = "2"><hr>Address</th></tr>
+        <tr><th colspan = "2"><hr><h1>Address</h1></th></tr>
 
         <tr>
-            <td>{{ Form::label('street_name', 'Street Name:') }}</td>
-            <td>{{ Form::text('street_name', $center->street_name) }}</td>
+            <td>{{ Form::label('street_address', 'Street Address:') }}</td>
+            <td>{{ Form::text('street_address', $center->street_address) }}</td>
         </tr>
 
         <tr>

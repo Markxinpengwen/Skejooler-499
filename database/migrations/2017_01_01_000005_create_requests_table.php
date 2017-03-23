@@ -25,8 +25,8 @@ class CreateRequestsTable extends Migration
 
         Module::generate("Requests", 'requests', 'rid', 'fa-building-o', [
             ["rid", "rid", "Integer", true, "", 6, 6, true],
-			["student", "student", "Integer", false, "", 6, 6, true], //first bool (iUnique) to false
-			["center", "center", "Integer", false, "", 6, 6, true], //first bool (iUnique) to false
+			["sid", "sid", "Integer", false, "", 6, 6, true], //unique false
+			["cid", "cid", "Integer", false, "", 6, 6, true], //unique false
 			["preferred_date_1", "preferred_date_1", "Datetime", false, $MINIMUM_DATE, 0, 0, true],
 			["preferred_date_2", "preferred_date_2", "Datetime", false, $MINIMUM_DATE, 0, 0, true],
             ["scheduled_date", "scheduled_date", "Datetime", false, $MINIMUM_DATE, 0, 0, true],

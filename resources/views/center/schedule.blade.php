@@ -33,9 +33,9 @@
                     <td align = "center">{{ $u->course_code }}</td>
                     <td align = "center">{{ $u->exam_medium }}</td>
                     <td align = "center">{{ $u->exam_type }}</td>
-                    {{ Form::hidden('rid', $ds->rid) }}
-                    {{ Form::hidden('cid', $ds->cid) }}
-                    {{ Form::hidden('sid', $ds->sid) }}
+                    {{ Form::hidden('rid', $u->rid) }}
+                    {{ Form::hidden('cid', $u->cid) }}
+                    {{ Form::hidden('sid', $u->sid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $u->rid }}</td>
                 {{ Form::close() }}
@@ -68,9 +68,9 @@
                     <td align = "center">{{ $pc->course_code }}</td>
                     <td align = "center">{{ $pc->exam_medium }}</td>
                     <td align = "center">{{ $pc->exam_type }}</td>
-                    {{ Form::hidden('rid', $ds->rid) }}
-                    {{ Form::hidden('cid', $ds->cid) }}
-                    {{ Form::hidden('sid', $ds->sid) }}
+                    {{ Form::hidden('rid', $pc->rid) }}
+                    {{ Form::hidden('cid', $pc->cid) }}
+                    {{ Form::hidden('sid', $pc->sid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $pc->rid }}</td>
                 {{ Form::close() }}
@@ -103,9 +103,9 @@
                     <td align = "center">{{ $ps->course_code }}</td>
                     <td align = "center">{{ $ps->exam_medium }}</td>
                     <td align = "center">{{ $ps->exam_type }}</td>
-                    {{ Form::hidden('rid', $ds->rid) }}
-                    {{ Form::hidden('cid', $ds->cid) }}
-                    {{ Form::hidden('sid', $ds->sid) }}
+                    {{ Form::hidden('rid', $ps->rid) }}
+                    {{ Form::hidden('cid', $ps->cid) }}
+                    {{ Form::hidden('sid', $ps->sid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $ps->rid }}</td>
                 {{ Form::close() }}
@@ -173,9 +173,9 @@
                     <td align = "center">{{ $dc->course_code }}</td>
                     <td align = "center">{{ $dc->exam_medium }}</td>
                     <td align = "center">{{ $dc->exam_type }}</td>
-                    {{ Form::hidden('rid', $ds->rid) }}
-                    {{ Form::hidden('cid', $ds->cid) }}
-                    {{ Form::hidden('sid', $ds->sid) }}
+                    {{ Form::hidden('rid', $dc->rid) }}
+                    {{ Form::hidden('cid', $dc->cid) }}
+                    {{ Form::hidden('sid', $dc->sid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $dc->rid }}</td>
                 {{ Form::close() }}

@@ -111,7 +111,7 @@ class StudentController extends Controller
     //---------------------------------------------------------------------------------------
 
     /**
-     * Display the Center's schedule.
+     * Display the Student's schedule.
      */
     public function showSchedule()
     {
@@ -173,7 +173,7 @@ class StudentController extends Controller
     //---------------------------------------------------------------------------------------
 
     /**
-     * Displays the Center's specified request.
+     * Displays the Student's specified request.
      */
     public function showRequest()
     {
@@ -195,7 +195,7 @@ class StudentController extends Controller
             ->first();
 
         // determine if editable
-        if($request->scheduled_date > date("Y-m-d h:i:sa"))
+        if($request->scheduled_date > date("Y-m-d h:i:sa") || $request->scheduled_date == "1970-01-02 00:00:01")
         {
             $editable = true;
         }
@@ -212,7 +212,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Show the form for editing the Center's specified request.
+     * Show the form for editing the Student's specified request.
      */
     public function editRequest()
     {
@@ -242,7 +242,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Update the Center's Request in the database.
+     * Update the Student's Request in the database.
      */
     public function updateRequest()
     {
@@ -268,14 +268,14 @@ class StudentController extends Controller
             // find correct Center to update
             if($r->validate($tempRequest))
             {
-                if($request->scheduled_date != $tempRequest['scheduled_date'])
-                {
-                    $dateChanged = 1;
-                }
-                else
-                {
-                    $dateChanged = 0;
-                }
+//                if($request->scheduled_date != $tempRequest['scheduled_date'])
+//                {
+//                    $dateChanged = 1;
+//                }
+//                else
+//                {
+                    $dateChanged = 0; // TODO - student cant change scheduled date... need diff value
+//                }
 
                 $approvals = $r->decision(intval($dateChanged),
                     intval($request->student_approval.$request->center_approval),
@@ -301,7 +301,7 @@ class StudentController extends Controller
                     $request->preferred_Date_1 = $tempRequest['preferred_date_1'];
                     $request->preferred_Date_2 = $tempRequest['preferred_date_2'];
                     $request->course_code = $tempRequest['course_code'];
-                    $request->additional_requirements = $tempRequest['additonal_requirements'];
+                    $request->additional_requirements = $tempRequest['additional_requirements'];
                     $request->exam_type = $tempRequest['exam_type'];
                     $request->exam_medium = $tempRequest['exam_medium'];
                     $request->student_notes = $tempRequest['student_notes'];

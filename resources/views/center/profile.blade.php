@@ -3,6 +3,7 @@
 @section('title', 'Profile')
 
 @section('main-content')
+
     <table>
         <tr><th colspan = "2"><h1>General Info</h1></th></tr>
         <tr><td></td></tr>

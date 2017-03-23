@@ -14,11 +14,73 @@
         </tr>
 
         <tr>
-            <th>Email:</th>
+            <th>Description:</th>
+            <td>{{ $center->description or "Description not found" }}</td>
+        </tr>
+
+        <tr>
+            <th>Online Exam Support:</th>
+            <td>
+                @if($center->canSupportOnlineExam == 1)
+                    Yes
+                @elseif($center->canSupportOnlineExam == 0)
+                    No
+                @else
+                    Online support not found
+                @endif</td>
+        </tr>
+
+        <tr>
+            <th>Exam Cost:</th>
+            <td>{{'$'}}{{ $center->cost or "Exam cost not found" }}</td>
+        </tr>
+
+        <tr>
+            <th>Phone Number:</th>
+            <td>{{ $center->phone or "Phone number not found" }}</td>
+        </tr>
+
+        <tr>
+            <th>Center Email:</th>
             <td>{{ $center_email }}</td>
         </tr>
 
-        {{--TODO add rest of center info--}}
+        <tr>
+            <th>Street Address:</th>
+            <td>{{ $center->street_address or "Street address not found" }}</td>
+        </tr>
+
+        <tr>
+            <th>City:</th>
+            <td>{{ $center->city or "City not found" }}</td>
+        </tr>
+
+        <tr>
+            <th>Province:</th>
+            <td>{{ str_replace("_", " ", $center->province) }}</td>
+        </tr>
+
+        <tr>
+            <th>Country:</th>
+            <td>{{ $center->country or "Country not found" }}</td>
+        </tr>
+
+        <tr>
+            <th>Postal Code:</th>
+            <td>{{ $center->postal_code }}</td>
+        </tr>
+
+        {{--TODO - delete--}}
+        <tr>
+            <th>Longitude:</th>
+            <td>{{ $center->longitude }}</td>
+        </tr>
+
+        {{--TODO - delete--}}
+        <tr>
+            <th>Latitude:</th>
+            <td>{{ $center->latitude }}</td>
+        </tr>
 
         <tr><th colspan = "2"><hr><h1>Exam Info</h1></th></tr>
 

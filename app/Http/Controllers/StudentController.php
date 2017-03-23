@@ -82,8 +82,12 @@ class StudentController extends Controller
                     ->first();
 
                 // update center
-//                $student-> = $tempStudent['']; //TODO add all db values to update
-
+                $student->firstName = $tempStudent['firstName'];
+                $student->lastName = $tempStudent['lastName'];
+                $student->sex = $tempStudent['sex'];
+                $student->age = $tempStudent['age'];
+                $student->institution = $tempStudent['institution'];
+                $student->phone = $tempStudent['phone'];
 
                 // save new values to DB
                 $student->save();
@@ -294,8 +298,13 @@ class StudentController extends Controller
                 else
                 {
                     // update request
-                    $request->scheduled_date = $tempRequest['scheduled_date'];
-                    $request->student_notes = $tempRequest['student_notes']; // TODO add all values to be updated in request
+                    $request->preferred_Date_1 = $tempRequest['preferred_date_1'];
+                    $request->preferred_Date_2 = $tempRequest['preferred_date_2'];
+                    $request->course_code = $tempRequest['course_code'];
+                    $request->additional_requirements = $tempRequest['additonal_requirements'];
+                    $request->exam_type = $tempRequest['exam_type'];
+                    $request->exam_medium = $tempRequest['exam_medium'];
+                    $request->student_notes = $tempRequest['student_notes'];
 
                     $request->student_approval = $approvals[0];
                     $request->center_approval = $approvals[1];
@@ -307,7 +316,6 @@ class StudentController extends Controller
                         ->with('request', $request)
                         ->with('center', $center);
                 }
-
             }
             else
             {

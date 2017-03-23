@@ -14,18 +14,8 @@
         </tr>
 
         <tr>
-            <th>Institution:</th>
-            <td>{{ $student->institution }}</td>
-        </tr>
-
-        <tr>
-            <th>Phone:</th>
-            <td>{{ $student->phone }}</td>
-        </tr>
-
-        <tr>
-            <th>Email:</th>
-            <td>{{ $student_email }}</td>
+            <th>Gender:</th>
+            <td>{{ str_replace("_", " ", $student->sex) }}</td>
         </tr>
 
         <tr>
@@ -34,9 +24,20 @@
         </tr>
 
         <tr>
-            <th>Sex:</th>
-            <td>{{ str_replace("_", " ", $student->sex) }}</td>
+            <th>Institution Number:</th>
+            <td>{{ $student->institution }}</td>
         </tr>
+
+        <tr>
+            <th>Phone Number:</th>
+            <td>{{ $student->phone }}</td>
+        </tr>
+
+        <tr>
+            <th>Email:</th>
+            <td>{{ $student_email }}</td>
+        </tr>
+
 
         <tr><th colspan = "2"><hr><h1>Exam Info</h1></th></tr>
 

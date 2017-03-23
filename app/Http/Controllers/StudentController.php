@@ -32,8 +32,12 @@ class StudentController extends Controller
         $student = Student::where('sid', Auth::id())
             ->first();
 
-        return view('student/profile')
-            ->with('student', $student);
+        $user = Users::where('uid', Auth::id())
+        ->first();
+
+        return view('student/profileEdit')
+            ->with('student', $student)
+            ->with('login_email', $user->email);
     }
 
     /**
@@ -45,8 +49,12 @@ class StudentController extends Controller
         $student = Students::where('sid', Auth::id())
             ->first();
 
+        $user = Users::where('uid', Auth::id())
+            ->first();
+
         return view('student/profileEdit')
-            ->with('student', $student);
+            ->with('student', $student)
+            ->with('login_email', $user->email);
     }
 
     /**

@@ -3,8 +3,9 @@
 @section('title', 'Request')
 
 @section('main-content')
+
     <table>
-        {{ $request->scheduled_date ." > ". date("Y-m-d h:i:s") }} {{--TODO delete--}}
+
         <tr><th colspan = "2"><hr><h1>Student Info</h1></th></tr>
 
         <tr>
@@ -111,7 +112,9 @@
         </tr>
 
         @if($editable)
+
             {{ Form::open(array('action' => 'CenterController@editRequest')) }}
+
             {{ Form::hidden('rid', $request->rid) }}
             {{ Form::hidden('sid', $student->sid) }}
 
@@ -121,6 +124,9 @@
             </tr>
 
             {{ Form::close() }}
+
         @endif
+
     </table>
+
 @stop

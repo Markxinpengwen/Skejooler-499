@@ -32,8 +32,12 @@ class CenterController extends Controller
         $center = Centers::where('cid', Auth::id())
             ->first();
 
+        $user = Users::where('uid', Auth::id())
+            ->first();
+
         return view('center/profile')
-            ->with('center', $center);
+            ->with('center', $center)
+            ->with('login_email', $user->email);
     }
 
     /**
@@ -45,8 +49,12 @@ class CenterController extends Controller
         $center = Centers::where('cid', Auth::id())
             ->first();
 
-        return view('center/profileEdit')
-            ->with('center', $center);
+        $user = Users::where('uid', Auth::id())
+            ->first();
+
+        return view('center/profile')
+            ->with('center', $center)
+            ->with('login_email', $user->email);
     }
 
     /**

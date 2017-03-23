@@ -5,6 +5,7 @@
 @section('main-content')
 
     <table>
+
         {{ Form::open(array('action' => 'CenterController@updateRequest')) }}
 
         <tr><th colspan = "2"><hr><h1>Student Info</h1></th></tr>
@@ -128,5 +129,7 @@
         </tr>
 
         {{ Form::close() }}
+
     </table>
+
 @stop

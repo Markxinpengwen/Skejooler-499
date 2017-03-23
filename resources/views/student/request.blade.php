@@ -3,39 +3,22 @@
 @section('title', 'Request')
 
 @section('main-content')
+
     <table>
-        {{ $request->scheduled_date ." > ". date("Y-m-d h:i:s") }} {{--TODO delete--}}
-        <tr><th colspan = "2"><hr><h1>Student Info</h1></th></tr>
+
+        <tr><th colspan = "2"><hr><h1>Center Info</h1></th></tr>
 
         <tr>
             <th>Name:</th>
-            <td>{{ $student->firstName }} {{ $student->lastName }}</td>
-        </tr>
-
-        <tr>
-            <th>Institution:</th>
-            <td>{{ $student->institution }}</td>
-        </tr>
-
-        <tr>
-            <th>Phone:</th>
-            <td>{{ $student->phone }}</td>
+            <td>{{ $center->name }}</td>
         </tr>
 
         <tr>
             <th>Email:</th>
-            <td>{{ $student_email }}</td>
+            <td>{{ $center_email }}</td>
         </tr>
 
-        <tr>
-            <th>Age:</th>
-            <td>{{ $student->age }}</td>
-        </tr>
-
-        <tr>
-            <th>Sex:</th>
-            <td>{{ str_replace("_", " ", $student->sex) }}</td>
-        </tr>
+        {{--TODO add rest of center info--}}
 
         <tr><th colspan = "2"><hr><h1>Exam Info</h1></th></tr>
 
@@ -75,26 +58,13 @@
         </tr>
 
         <tr>
-            <th>Student Notes:</th>
-            <td>{{ $request->student_notes }}</td>
-        </tr>
-
-        <tr>
             <th>Center Notes:</th>
             <td>{{ $request->center_notes }}</td>
         </tr>
 
         <tr>
-            <th>Student Approval Status:</th>
-            <td>
-                @if($request->student_approval == 2)
-                    Approved
-                @elseif($request->student_approval == 1)
-                    Undecided
-                @elseif($request->student_approval == 0)
-                    Denied
-                @endif
-            </td>
+            <th>Student Notes:</th>
+            <td>{{ $request->student_notes }}</td>
         </tr>
 
         <tr>
@@ -110,10 +80,25 @@
             </td>
         </tr>
 
+        <tr>
+            <th>Student Approval Status:</th>
+            <td>
+                @if($request->student_approval == 2)
+                    Approved
+                @elseif($request->student_approval == 1)
+                    Undecided
+                @elseif($request->student_approval == 0)
+                    Denied
+                @endif
+            </td>
+        </tr>
+
         @if($editable)
-            {{ Form::open(array('action' => 'CenterController@editRequest')) }}
+
+            {{ Form::open(array('action' => 'StudentController@editRequest')) }}
+
             {{ Form::hidden('rid', $request->rid) }}
-            {{ Form::hidden('sid', $student->sid) }}
+            {{ Form::hidden('cid', $center->cid) }}
 
             <tr>
                 <td></td>
@@ -121,6 +106,9 @@
             </tr>
 
             {{ Form::close() }}
+
         @endif
+
     </table>
+
 @stop

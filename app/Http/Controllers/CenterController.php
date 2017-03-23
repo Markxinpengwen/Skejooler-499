@@ -233,6 +233,8 @@ class CenterController extends Controller
             ->with('request', $request)
             ->with('student', $student)
             ->with('student_email', $student_email->email);
+
+        //TODO - write logic so that invalid states can be avoided passing a variable to the view to determine which radio options appear
     }
 
     /**
@@ -285,7 +287,7 @@ class CenterController extends Controller
                 }
                 elseif($approvals[0] == 8 && $approvals[1] == 8)
                 {
-                    // TODO ignored for now -> to fix in decision table
+                    // TODO ignored for now -> to fix in decision table or by avoidance on previous TODO
                 }
                 else
                 {

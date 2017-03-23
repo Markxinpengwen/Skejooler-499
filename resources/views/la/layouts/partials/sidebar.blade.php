@@ -11,7 +11,7 @@
                     <img src="{{ Gravatar::fallback(asset('la-assets/img/user2-160x160.jpg'))->get(Auth::user()->email) }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>{{ Auth::user()->name }}</p>
+                    <p>Admin</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
@@ -33,9 +33,14 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="header">MODULES</li>
+            <li class="header">FUNCTIONS</li>
             <!-- Optionally, you can add icons to the links -->
-            <li><a href="{{ url(config('laraadmin.adminRoute')) }}"><i class='fa fa-home'></i> <span>Dashboard</span></a></li>
+            <li><a href="{{url('/admin') }}"></i> <span>Users</span></a></li>
+            <li><a href="{{url('la/students') }}"></i> <span>Students</span></a></li>
+            <li><a href="{{url('la/centers') }}"></i> <span>Centers</span></a></li>
+            {{--<li><a href="{{url('la/requests') }}"></i> <span>Requests</span></a></li>--}}
+
+
             <?php
             $menuItems = Dwij\Laraadmin\Models\Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();
             ?>

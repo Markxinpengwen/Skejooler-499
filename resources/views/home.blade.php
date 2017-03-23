@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -80,7 +81,7 @@
                         <li><a href="{{ url('/student') }}">{{ $name }}</a></li>
                         <li><a href="{{ url('/logout') }}">Log out</a></li>
                     @else
-                        <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ $name }}</a></li>
+                        <li><a href="{{ url(config('laraadmin.adminRoute')) }}">Admin</a></li>
                         <li><a href="{{ url('/logout') }}">Log out</a></li>
                     @endif
                 @endif

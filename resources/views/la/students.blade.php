@@ -1,26 +1,28 @@
 @extends('la.layouts.app')
 
 {{--@section('htmlheader_title') Dashboard @endsection--}}
-@section('contentheader_title') Users @endsection
+@section('contentheader_title') Students @endsection
 {{--@section('contentheader_description') Requests Overview @endsection--}}
 
 @section('main-content')
 <!-- Main content -->
         <section class="content">
-
-			<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add User</button>
-
+			<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Student</button>
 			<?php
-			$array = DB::select('SELECT * FROM users');
+			$array = DB::select('SELECT * FROM students');
 			$array = json_decode(json_encode($array), true);
 			?>
 				<table class="table table-striped table-hover">
 					<thead>
 					<tr>
 						<th>id</th>
-						<th>uid</th>
-						<th>email</th>
-						<th>type</th>
+						<th>sid</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Institution</th>
+						<th>Sex</th>
+						<th>Age</th>
+						<th>Phone</th>
 					</tr>
 					</thead>
 
@@ -28,9 +30,13 @@
 					@foreach($array as $attr)
 						<tr>
 							<td>{{$attr['id']}}</td>
-							<td>{{$attr['uid']}}</td>
-							<td>{{$attr['email']}}</td>
-							<td>{{$attr['type']}}</td>
+							<td>{{$attr['sid']}}</td>
+							<td>{{$attr['firstName']}}</td>
+							<td>{{$attr['lastName']}}</td>
+							<td>{{$attr['institution']}}</td>
+							<td>{{$attr['sex']}}</td>
+							<td>{{$attr['age']}}</td>
+							<td>{{$attr['phone']}}</td>
 							<td>
 								<a href="" role="button" class="btn btn-primary btn-xs">Update</a>
 								<a href="" role="button" class="btn btn-danger btn-xs">Delete</a>

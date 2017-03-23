@@ -48,9 +48,9 @@
         <ul class="sidebar-menu">
             <li class="header">FUNCTIONS</li>
             <!-- Optionally, you can add icons to the links -->
-            <li><a href="{{url('/studentS') }}"></i> <span>Dashboard</span></a></li>
+            <li><a href="{{url('/student') }}"></i> <span>Dashboard</span></a></li>
             <li><a href="{{url('/student/profile') }}"></i> <span>Profile</span></a></li>
-            <li><a href="{{url('/student/schedule') }}"></i> <span>Schedule</span></a></li>
+            <li><a href="{{url('/student/profileEdit') }}"></i> <span>profileEdit</span></a></li>
 
 
             <?php

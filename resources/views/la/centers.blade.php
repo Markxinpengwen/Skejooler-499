@@ -1,26 +1,36 @@
 @extends('la.layouts.app')
 
 {{--@section('htmlheader_title') Dashboard @endsection--}}
-@section('contentheader_title') Users @endsection
+@section('contentheader_title') Centers @endsection
 {{--@section('contentheader_description') Requests Overview @endsection--}}
 
 @section('main-content')
 <!-- Main content -->
         <section class="content">
-
-			<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add User</button>
-
+			<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Center</button>
 			<?php
-			$array = DB::select('SELECT * FROM users');
+			$array = DB::select('SELECT * FROM centers');
 			$array = json_decode(json_encode($array), true);
 			?>
 				<table class="table table-striped table-hover">
 					<thead>
 					<tr>
 						<th>id</th>
-						<th>uid</th>
-						<th>email</th>
-						<th>type</th>
+						<th>cid</th>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Phone</th>
+						<th>Description</th>
+						<th>Online Exam</th>
+						<th>Cost</th>
+						<th>Address</th>
+						<th>City</th>
+						<th>Province</th>
+						<th>Country</th>
+						<th>Postal Code</th>
+						<th>Longitude</th>
+						<th>Latitude</th>
+
 					</tr>
 					</thead>
 
@@ -28,9 +38,20 @@
 					@foreach($array as $attr)
 						<tr>
 							<td>{{$attr['id']}}</td>
-							<td>{{$attr['uid']}}</td>
-							<td>{{$attr['email']}}</td>
-							<td>{{$attr['type']}}</td>
+							<td>{{$attr['cid']}}</td>
+							<td>{{$attr['name']}}</td>
+							<td>{{$attr['center_email']}}</td>
+							<td>{{$attr['phone']}}</td>
+							<td>{{$attr['description']}}</td>
+							<td>{{$attr['canSupportOnlineExam']}}</td>
+							<td>{{$attr['cost']}}</td>
+							<td>{{$attr['street_address']}}</td>
+							<td>{{$attr['city']}}</td>
+							<td>{{$attr['province']}}</td>
+							<td>{{$attr['country']}}</td>
+							<td>{{$attr['postal_code']}}</td>
+							<td>{{$attr['longitude']}}</td>
+							<td>{{$attr['latitude']}}</td>
 							<td>
 								<a href="" role="button" class="btn btn-primary btn-xs">Update</a>
 								<a href="" role="button" class="btn btn-danger btn-xs">Delete</a>

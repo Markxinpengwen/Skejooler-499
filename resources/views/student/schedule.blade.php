@@ -1,8 +1,9 @@
-@extends("cn.layouts.app")
+@extends("st.layouts.app")
 
 @section('title', 'Schedule')
 
 @section('main-content')
+
     <table width = "100%">
 
         <tr><td><hr></td></tr>
@@ -20,7 +21,7 @@
 
         @foreach($upcoming as $u)
             <tr>
-                {{ Form::open(array('action' => 'CenterController@showRequest')) }}
+                {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">
                         @if($u->scheduled_date == "1970-01-02 00:00:01")
                             {{ "Date not scheduled" }}
@@ -55,7 +56,7 @@
 
         @foreach($pendingStudent as $ps)
             <tr>
-                {{ Form::open(array('action' => 'CenterController@showRequest')) }}
+                {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">
                         @if($ps->scheduled_date == "1970-01-02 00:00:01")
                             {{ "Date not scheduled" }}
@@ -90,7 +91,7 @@
 
         @foreach($pendingCenter as $pc)
             <tr>
-                {{ Form::open(array('action' => 'CenterController@showRequest')) }}
+                {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                 <td align = "center">
                     @if($pc->scheduled_date == "1970-01-02 00:00:01")
                         {{ "Date not scheduled" }}
@@ -125,7 +126,7 @@
 
         @foreach($deniedCenter as $dc)
             <tr>
-                {{ Form::open(array('action' => 'CenterController@showRequest')) }}
+                {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">
                         @if($dc->scheduled_date == "1970-01-02 00:00:01")
                             {{ "Date not scheduled" }}
@@ -160,7 +161,7 @@
 
         @foreach($deniedStudent as $ds)
             <tr>
-                {{ Form::open(array('action' => 'CenterController@showRequest')) }}
+                {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                 <td align = "center">
                     @if($ds->scheduled_date == "1970-01-02 00:00:01")
                         {{ "Date not scheduled" }}
@@ -195,7 +196,7 @@
 
         @foreach($past as $pa)
             <tr>
-                {{ Form::open(array('action' => 'CenterController@showRequest')) }}
+                {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">
                         @if($pa->scheduled_date == "1970-01-02 00:00:01")
                             {{ "Date not scheduled" }}
@@ -218,4 +219,5 @@
         @endforeach
 
     </table>
+
 @stop

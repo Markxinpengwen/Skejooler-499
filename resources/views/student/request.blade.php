@@ -1,4 +1,4 @@
-@extends("cn.layouts.app")
+@extends("st.layouts.app")
 
 @section('title', 'Request')
 

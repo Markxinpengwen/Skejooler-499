@@ -41,7 +41,7 @@
         </tr>
 
         <tr>
-            <th>Login Email:</th> TODO
+            <th>Login Email:</th>
             <td>{{ $login_email or "Email not found" }}</td>
         </tr>
 

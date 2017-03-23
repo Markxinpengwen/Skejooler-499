@@ -16,6 +16,9 @@ class StudentController extends Controller
      */
     public function index()
     {
+        // TODO - write condition logic to
+        //if no requests made -> requestForm
+        //if first time -> profile
         return StudentController::showSchedule();
     }
 
@@ -29,13 +32,13 @@ class StudentController extends Controller
     public function showProfile()
     {
         // find correct Center
-        $student = Student::where('sid', Auth::id())
+        $student = Students::where('sid', Auth::id())
             ->first();
 
         $user = Users::where('uid', Auth::id())
         ->first();
 
-        return view('student/profileEdit')
+        return view('student/profile')
             ->with('student', $student)
             ->with('login_email', $user->email);
     }
@@ -75,7 +78,7 @@ class StudentController extends Controller
             // find correct Center to update
             if($s->validate($tempStudent))
             {
-                $student = Student::where('sid', Auth::id())
+                $student = Students::where('sid', Auth::id())
                     ->first();
 
                 // update center
@@ -108,8 +111,7 @@ class StudentController extends Controller
      */
     public function showSchedule()
     {
-        //
-        $upcoming = Requests::where('cid', Auth::id())
+        $upcoming = Requests::where('sid', Auth::id())
             ->where('student_approval', 2)
             ->where('center_approval', 2)
             ->where('scheduled_date', '>=', date("Y-m-d h:i:s"))
@@ -117,35 +119,35 @@ class StudentController extends Controller
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get(); //TODO get correct current datetime
-        $pendingStudent = Requests::where('cid', Auth::id())
+        $pendingStudent = Requests::where('sid', Auth::id())
             ->where('student_approval', 1)
             ->where('center_approval', 2)
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
-        $pendingCenter = Requests::where('cid', Auth::id())
+        $pendingCenter = Requests::where('sid', Auth::id())
             ->where('student_approval', 2)
             ->where('center_approval', 1)
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
-        $deniedStudent = Requests::where('cid', Auth::id())
+        $deniedStudent = Requests::where('sid', Auth::id())
             ->where('student_approval', 0)
             ->where('center_approval', 1)
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
-        $deniedCenter = Requests::where('cid', Auth::id())
+        $deniedCenter = Requests::where('sid', Auth::id())
             ->where('student_approval', 1)
             ->where('center_approval', 0)
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
-        $past = Requests::where('cid', Auth::id())
+        $past = Requests::where('sid', Auth::id())
             ->where('student_approval', 2)
             ->where('center_approval', 2)
             ->where('scheduled_date', '<', date("Y-m-d h:i:s"))
@@ -154,7 +156,7 @@ class StudentController extends Controller
             ->orderby('preferred_date_2', 'asc')
             ->get(); // TODO get correct current datetime
 
-        return view('center/schedule')
+        return view('student/schedule')
             ->with('upcoming', $upcoming)
             ->with('pendingStudent', $pendingStudent)
             ->with('pendingCenter', $pendingCenter)
@@ -227,7 +229,7 @@ class StudentController extends Controller
         $user = Users::where('uid', $cid)
             ->first();
 
-        return view('center/requestEdit')
+        return view('student/requestEdit')
             ->with('request', $request)
             ->with('center', $center)
             ->with('center_email', $user->email);

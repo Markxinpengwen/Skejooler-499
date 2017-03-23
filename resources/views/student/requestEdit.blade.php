@@ -1,4 +1,4 @@
-@extends("cn.layouts.app")
+@extends("st.layouts.app")
 
 @section('title', 'Request')
 
@@ -6,7 +6,7 @@
 
     <table>
 
-        {{ Form::open(array('action' => 'CenterController@updateRequest')) }}
+        {{ Form::open(array('action' => 'StudentController@updateRequest')) }}
 
         <tr><th colspan = "2"><hr><h1>Center Info</h1></th></tr>
 
@@ -25,43 +25,44 @@
         <tr><th colspan = "2"><hr><h1>Exam Info</h1></th></tr>
 
         <tr>
-            <td>{{ Form::label('scheduled_date', 'Scheduled Date:') }}</td>
-            <td>{{ Form::datetime('scheduled_date', $request->scheduled_date) }}</td>
+            <th>Scheduled Date:</th>
+            <td>{{ $request->scheduled_date }}</td>
         </tr>
 
         <tr>
-            <th>Preferred Date 1:</th>
-            <td>{{ $request->preferred_date_1 }}</td>
+            <td>{{ Form::label('preferred_date_1', 'Preferred Date 1:') }}</td>
+            <td>{{ Form::datetime('preferred_date_1', $request->preferred_date_1) }}</td>
         </tr>
 
         <tr>
-            <th>Preferred Date 2:</th>
-            <td>{{ $request->preferred_date_2 }}</td>
+            <td>{{ Form::label('preferred_date_2', 'Preferred Date 12') }}</td>
+            <td>{{ Form::datetime('preferred_date_2', $request->preferred_date_2) }}</td>
         </tr>
 
         <tr>
-            <th>Course Code:</th>
-            <td>{{ $request->course_code }}</td>
+            <td>{{ Form::label('course_code', 'Course Code:') }}</td>
+            <td>{{ Form::datetime('course_code', $request->course_code) }}</td>
         </tr>
 
         <tr>
-            <th>Additional Requirements:</th>
-            <td>{{ $request->additional_requirements }}</td>
+            <td>{{ Form::label('additional_requirements', 'Additional Requirements:') }}</td>
+            <td>{{ Form::datetime('additional_requirements', $request->additional_requirements) }}</td>
         </tr>
 
         <tr>
-            <th>Exam Type:</th>
-            <td>{{ $request->exam_type }}</td>
+            <td>{{ Form::label('exam_type', 'Exam Type:') }}</td>
+            <td>{{ Form::datetime('exam_type', $request->exam_type) }}</td>
         </tr>
 
         <tr>
-            <th>Exam Medium:</th>
-            <td>{{ $request->exam_medium }}</td>
+            <td>{{ Form::label('exam_medium', 'Exam Medium:') }}</td>
+            <td>{{ Form::datetime('exam_medium', $request->exam_medium) }}</td>
         </tr>
+
 
         <tr>
             <th>Center Notes:</th>
-            <td>{{ $request->centert_notes }}</td>
+            <td>{{ $request->center_notes }}</td>
         </tr>
 
         <tr>

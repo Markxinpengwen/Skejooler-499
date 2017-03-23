@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/student', 'CenterController@index');
+Route::get('/student', 'StudentController@index');
 
 /**
  * Profile view structure

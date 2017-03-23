@@ -16,6 +16,8 @@ class CenterController extends Controller
      */
     public function index()
     {
+        // TODO - write condition logic to
+        //if first time -> profile
         return CenterController::showSchedule();
     }
 

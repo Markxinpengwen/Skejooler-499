@@ -33,6 +33,9 @@ class GiantTableSeederLA extends Seeder
 		$USERS_DEFAULT_AUTO_INCREMENT = 10000;
 		$STUDENTS_DEFAULT_AUTO_INCREMENT = 10000;
 		$CENTERS_DEFAULT_AUTO_INCREMENT = 10000;
+
+		//Minimum date
+        $MINIMUM_DATE= "1970-01-02 00:00:01";
 		
 		//Print
 		echo "GiantTableSeeder] Seeding ".($NUM_STUDENTS+$NUM_CENTERS+$NUM_ADMINS). " Users: ".$NUM_STUDENTS. " Students, and ".$NUM_CENTERS . " Centers, and ".$NUM_ADMINS." Admins.\n";
@@ -239,6 +242,7 @@ class GiantTableSeederLA extends Seeder
 					'salt' => $users[$i]['salt'],
 					'password' => $users[$i]['password'],
 					'type' => $users[$i]['type'],
+                    'last_logged_in' => $MINIMUM_DATE,
 					'remember_token' => $users[$i]['remember_token'],
 					'created_at' => $users[$i]['created_at'],
 					'updated_at' => $users[$i]['updated_at']

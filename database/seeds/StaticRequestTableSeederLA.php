@@ -4,6 +4,7 @@
  * Other, new, changes
  * - each student submits at least 1 requests to each center for each approval permutation type. ie each student submts 5 requests to each center, one of every approval permutation
  * - Added conditional 'scheduled date' for the following approval conditions: (2,2; 1,0; 2,1). Do time +/- 1 year from now
+ * - Added iid
  */
 
 use Illuminate\Database\Seeder;
@@ -199,6 +200,7 @@ class StaticRequestsTableSeederLA extends Seeder
                         'rid' => ($rid + ($k-1)),
                         'sid' => $students[$h]['sid'], //0 indexed
                         'cid' => $centers[$i]['cid'], //0 indexed
+                        'iid' => 1, //$centers[$i]['iid'], //set to 1 by default //!@# change later
                         //other attributes
                         'preferred_date_1' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
                         'preferred_date_2' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
@@ -236,6 +238,7 @@ class StaticRequestsTableSeederLA extends Seeder
                     'rid' => $requests[$i]['rid'],
                     'sid' => intval($requests[$i]['sid']),
                     'cid' => intval($requests[$i]['cid']),
+                    'iid' => intval($requests[$i]['iid']),
                     //other attributes
                     'preferred_date_1' => $requests[$i]['preferred_date_1'],
                     'preferred_date_2' => $requests[$i]['preferred_date_2'],

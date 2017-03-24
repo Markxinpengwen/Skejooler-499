@@ -27,6 +27,7 @@ class CreateRequestsTable extends Migration
             ["rid", "rid", "Integer", true, "", 6, 6, true],
 			["sid", "sid", "Integer", false, "", 6, 6, true], //unique false
 			["cid", "cid", "Integer", false, "", 6, 6, true], //unique false
+            ["iid", "iid", "Integer", false, "", 6, 6, false],
 			["preferred_date_1", "preferred_date_1", "Datetime", false, $MINIMUM_DATE, 0, 0, true],
 			["preferred_date_2", "preferred_date_2", "Datetime", false, $MINIMUM_DATE, 0, 0, true],
             ["scheduled_date", "scheduled_date", "Datetime", false, $MINIMUM_DATE, 0, 0, true],
@@ -37,7 +38,7 @@ class CreateRequestsTable extends Migration
             ["student_approval", "student_approval", "Integer", false, 0, 1, 1, false],
             ["student_notes", "student_notes", "Textarea", false, "", 0, 500, false],
             ["center_approval", "center_approval", "Integer", false, 0, 1, 1, false],
-            ["center_notes", "center_notes", "Textarea", false, "", 0, 500, false],
+            ["center_notes", "center_notes", "Textarea", false, "", 0, 500, false]
         ]);
     }
 

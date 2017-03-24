@@ -1,15 +1,24 @@
 <?php
-//Route::get('/student', 'StudentController@index');
-Route::get('/student', 'UserController@student');
-Route::get('/student/requests', 'StudentController@requests');
-Route::get('/student/schedule', 'StudentController@schedule');
+
+Route::get('/student', 'StudentController@index');
+
 /**
  * Profile view structure
  */
 Route::get('/student/profile', 'StudentController@showProfile');
 Route::post('/student/profileEdit', 'StudentController@editProfile');
 Route::post('/student/profile', 'StudentController@updateProfile');
+
+/**
+ * Schedule / request view structure
+ */
 Route::get('/student/schedule', 'StudentController@showSchedule');
-//Route::get('/student/request', 'StudentController@showRequest');
-//Route::post('/student/requestEdit', 'StudentController@editRequest');
-//Route::post('/student/request', 'StudentController@updateRequest');
+Route::post('/student/request', 'StudentController@showRequest');
+Route::post('/student/requestEdit', 'StudentController@editRequest');
+Route::post('/student/schedule', 'StudentController@updateRequest');
+
+/**
+ * Request form view structure
+ */
+Route::get('/student/examRequestForm', 'StudentController@showSchedule');
+Route::post('/student/examRequestForm', 'StudentController@makeRequest');

@@ -1,64 +1,64 @@
-@extends('layouts.dashboard')
+@extends('st.layouts.app')
 
 @section('title', 'Profile')
 
-@section('content')
-
-    <!--This Profile code was initially writen by Brett Schaad, but later modified by Barrett for the Student view-->
-
-    <!--Profile Edit Table -->
+@section('main-content')
 
     <table>
-    {{ Form::open(array('action' => 'StudentController@updateProfile')) }}
-        <tr>
-            <th colspan = "2">Unchangeable</th>
-        </tr>
-        <tr>
-            <td>{{ Form::label('sid', 'Student ID:') }}</td>
-            <td>{{ Form::number('sid', $student['sid']) }}</td>
-        </tr>
-        <tr>
-            <th colspan = "2"><hr>General Info</th>
-        </tr>
-        <tr>
-            <td> {!! Form::label('firstName','Student First Name:') !!} </td>
-            <td> {!! Form::text('firstName', $student['firstName']) !!} </td>
-        </tr>
-        <tr>
-            <td> {!! Form::label('lastName','Student Last Name:') !!} </td>
-            <td> {!! Form::text('lastName', $student['lastName']) !!} </td>
-        </tr>
-        <tr>
-            <td>{!! Form::label('institution','Institution Number:') !!}</td>
-            <td>{!! Form::number('institution',$student['institution']) !!}</td>
-        </tr>
-        <tr>
-            <td>{!! Form::label('sex','Gender:') !!}</td>
-            <td>{!! Form::select('sex',['not_declared' => 'Not Declared', 'male'=>'Male', 'female'=>'Female', 'other'=>'Other'],$student['sex']) !!}</td>
-        </tr>
-        <tr>
-            <td>{!! Form::label('age','Age:') !!}</td>
-            <td>{!! Form::number('age',$student['age']) !!}</td>
-        </tr>
-        <tr>
-            <td> {!! Form::label('phone','Phone Number:') !!} </td>
-            <td> {!! Form::number('phone', $student['phone']) !!} </td>
-        </tr>
 
-        <!-- Currently don't have email value for students, according to dfd. Maybe username?
-        <tr>
-            <td> {!! //Form::label('studentEmail','Student Email Address:') //Student Email!!} </td>
-            <td> {!! //Form::email('studentEmail', $student['']) !!} </td>
-        </tr>
-        -->
+        {{ Form::open(array('action' => 'StudentController@updateProfile')) }}
 
-        <!--Submit-->
+            <tr><th colspan = "2"><h1>General Info</h1></th></tr>
+            <tr>
+                <th> {{ Form::label('firstName', 'First Name:') }} </th>
+                <td> {{ Form::text('firstName', $student->firstName) }} </td>
+            </tr>
 
-        <tr>
-            <td></td>
-            <td>{{ Form::submit('Submit') }}</td>
-        </tr>
+            <tr>
+                <th> {{ Form::label('lastName', 'Last Name:') }} </th>
+                <td> {{ Form::text('lastName', $student->lastName) }} </td>
+            </tr>
 
-    {{ Form::close() }}
+            <tr>
+                <th>{{ Form::label('sex', 'Gender:') }}</th>
+                <td>{{ Form::select('sex',[
+                    'not_declared' => 'Not Declared',
+                    'male'=>'Male', 'female'=>'Female',
+                    'other'=>'Other'
+                ], $student->sex) }}
+                </td>
+            </tr>
+
+            <tr>
+                <th>{{ Form::label('age', 'Age:') }}</th>
+                <td>{{ Form::number('age', $student->age) }}</td>
+            </tr>
+
+            <tr>
+                <th>{{ Form::label('institution', 'Institution Number:') }}</th>
+                <td>{{ Form::number('institution', $student->institution) }}</td>
+            </tr>
+
+            <tr><th colspan = "2"><hr><h1>Contact</h1></th></tr>
+
+            <tr>
+                <th> {{ Form::label('phone', 'Phone Number:') }} </th>
+                <td> {{ Form::number('phone', $student->phone) }} </td>
+            </tr>
+
+            <tr>
+                <th>Login Email:</th>
+                <td>{{ $login_email or "Email not found" }}</td>
+            </tr>
+
+            {{ Form::hidden('sid', $student->sid) }}
+
+            <tr>
+                <th></th>
+                <td>{{ Form::submit('Submit') }}</td>
+            </tr>
+
+        {{ Form::close() }}
+
     </table>
 @stop

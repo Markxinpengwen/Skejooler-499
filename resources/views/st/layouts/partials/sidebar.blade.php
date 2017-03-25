@@ -50,10 +50,11 @@
             <!-- Optionally, you can add icons to the links -->
             <li><a href="{{url('/student') }}"></i> <span>Dashboard</span></a></li>
             <li><a href="{{url('/student/profile') }}"></i> <span>Profile</span></a></li>
-            <li><a href="{{url('/student/schedule') }}"></i> <span>schedule</span></a></li>
+            <li><a href="{{url('/student/schedule') }}"></i> <span>Schedule</span></a></li>
+            <li><a href="{{url('/student/examRequestForm') }}"></i> <span>Exam Request Form</span></a></li>
 
 
-            <?php
+        <?php
             $menuItems = Dwij\Laraadmin\Models\Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();
             ?>
             @foreach ($menuItems as $menu)

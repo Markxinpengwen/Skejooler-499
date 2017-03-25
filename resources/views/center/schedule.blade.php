@@ -7,12 +7,18 @@
 
         <tr><td><hr></td></tr>
 
-        <tr><th colspan = "6" align = "center"><h1>Upcoming Exams</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Upcoming Exams</h1>
+                <h2># = {{ $upcomingCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>Preferred Date 1</b></td>
-            <td align = "center"><b>Preferred Date 2</b></td>
+            <td align = "center"><b>First Preferred Date</b></td>
+            <td align = "center"><b>Second Preferred Date</b></td>
             <td align = "center"><b>Course Code</b></td>
             <td align = "center"><b>Exam Medium</b></td>
             <td align = "center"><b>Exam Type</b></td>
@@ -36,13 +42,20 @@
                     {{ Form::hidden('rid', $u->rid) }}
                     {{ Form::hidden('cid', $u->cid) }}
                     {{ Form::hidden('sid', $u->sid) }}
+                    {{ Form::hidden('iid', $u->iid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $u->rid }}</td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
-        <tr><th colspan = "6"><hr><h1>Exams Pending Center's Approval</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Exams Pending Center's Approval</h1>
+                <h2># = {{ $pendingCenterCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>
@@ -71,13 +84,20 @@
                     {{ Form::hidden('rid', $pc->rid) }}
                     {{ Form::hidden('cid', $pc->cid) }}
                     {{ Form::hidden('sid', $pc->sid) }}
+                    {{ Form::hidden('iid', $pc->iid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $pc->rid }}</td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
-        <tr><th colspan = "6"><hr><h1>Exams Pending Student's Approval</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Exams Pending Student's Approval</h1>
+                <h2># = {{ $pendingStudentCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>
@@ -106,13 +126,20 @@
                     {{ Form::hidden('rid', $ps->rid) }}
                     {{ Form::hidden('cid', $ps->cid) }}
                     {{ Form::hidden('sid', $ps->sid) }}
+                    {{ Form::hidden('iid', $ps->iid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $ps->rid }}</td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
-        <tr><th colspan = "6"><hr><h1>Exams Denied by Student</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Exams Denied By Student</h1>
+                <h2># = {{ $deniedStudentCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>
@@ -141,13 +168,20 @@
                     {{ Form::hidden('rid', $ds->rid) }}
                     {{ Form::hidden('cid', $ds->cid) }}
                     {{ Form::hidden('sid', $ds->sid) }}
+                    {{ Form::hidden('iid', $ds->iid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $ds->rid }}</td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
-        <tr><th colspan = "6"><hr><h1>Exams Denied by Center</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Exams Denied By Center</h1>
+                <h2># = {{ $deniedCenterCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>
@@ -176,13 +210,20 @@
                     {{ Form::hidden('rid', $dc->rid) }}
                     {{ Form::hidden('cid', $dc->cid) }}
                     {{ Form::hidden('sid', $dc->sid) }}
-                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    {{ Form::hidden('iid', $dc->iid) }}
+                <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $dc->rid }}</td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
-        <tr><th colspan = "6"><hr><h1>Past Exams</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Past Exams</h1>
+                <h2># = {{ $pastCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>
@@ -208,9 +249,10 @@
                     <td align = "center">{{ $pa->course_code }}</td>
                     <td align = "center">{{ $pa->exam_medium }}</td>
                     <td align = "center">{{ $pa->exam_type }}</td>
-                    {{ Form::hidden('rid', $ds->rid) }}
-                    {{ Form::hidden('cid', $ds->cid) }}
-                    {{ Form::hidden('sid', $ds->sid) }}
+                    {{ Form::hidden('rid', $pa->rid) }}
+                    {{ Form::hidden('cid', $pa->cid) }}
+                    {{ Form::hidden('sid', $pa->sid) }}
+                    {{ Form::hidden('iid', $pa->iid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $pa->rid }}</td>
                 {{ Form::close() }}

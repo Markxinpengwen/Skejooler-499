@@ -8,7 +8,13 @@
 
         <tr><td><hr></td></tr>
 
-        <tr><th colspan = "6" align = "center"><h1>Upcoming Exams</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Upcoming Exams</h1>
+                <h2># = {{ $upcomingCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>
@@ -43,7 +49,13 @@
             </tr>
         @endforeach
 
-        <tr><th colspan = "6"><hr><h1>Exams Pending Student's Approval</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Exams Pending Student's Approval</h1>
+                <h2># = {{ $pendingStudentCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>
@@ -78,7 +90,13 @@
             </tr>
         @endforeach
 
-        <tr><th colspan = "6"><hr><h1>Exams Pending Center's Approval</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Exams Pending Center's Approval</h1>
+                <h2># = {{ $pendingCenterCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>
@@ -113,7 +131,13 @@
             </tr>
         @endforeach
 
-        <tr><th colspan = "6"><hr><h1>Exams Denied by Center</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Exams Denied By Center</h1>
+                <h2># = {{ $deniedCenterCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>
@@ -148,7 +172,13 @@
             </tr>
         @endforeach
 
-        <tr><th colspan = "6"><hr><h1>Exams Denied by Student</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Exams Denied By Student</h1>
+                <h2># = {{ $deniedStudentCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>
@@ -183,7 +213,13 @@
             </tr>
         @endforeach
 
-        <tr><th colspan = "6"><hr><h1>Past Exams</h1><hr></th></tr>
+        <tr>
+            <th colspan = "6" align = "center">
+                <h1>Past Exams</h1>
+                <h2># = {{ $pastCount }}</h2>
+                <hr>
+            </th>
+        </tr>
 
         <tr>
             <td align = "center"><b>Scheduled Date</b></td>

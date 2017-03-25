@@ -82,6 +82,18 @@
             <td>{{ $center->latitude }}</td>
         </tr>
 
+        <tr><th colspan = "2"><hr><h1>Institution Info</h1></th></tr>
+
+        <tr>
+            <th>Name:</th>
+            <td>{{ $institution->name }}</td>
+        </tr>
+
+        <tr>
+            <th>Description:</th>
+            <td>{{ $institution->description }}</td>
+        </tr>
+
         <tr><th colspan = "2"><hr><h1>Exam Info</h1></th></tr>
 
         <tr>
@@ -161,6 +173,7 @@
 
             {{ Form::hidden('rid', $request->rid) }}
             {{ Form::hidden('cid', $center->cid) }}
+            {{ Form::hidden('iid', $institution->iid) }}
 
             <tr>
                 <td></td>

@@ -213,8 +213,8 @@ class StaticRequestsTableSeederLA extends Seeder
                         'center_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
                         //Request Metainformation
                         //'remember_token' => str_random(100),
-                        'created_at' => $faker->dateTimeThisDecade($max = 'now'),
-                        'updated_at' => $faker->dateTimeThisMonth($max = 'now')
+                        //'created_at' => $faker->dateTimeThisDecade($max = 'now'),
+                        //'updated_at' => $faker->dateTimeThisMonth($max = 'now')
                     ];
 
                     //rid incrementer

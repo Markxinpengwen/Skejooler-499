@@ -5,6 +5,7 @@
  * - each student submits at least 1 requests to each center for each approval permutation type. ie each student submts 5 requests to each center, one of every approval permutation
  * - Added conditional 'scheduled date' for the following approval conditions: (2,2; 1,0; 2,1). Do time +/- 1 year from now
  * - Added iid
+ * - Added computer_required
  */
 
 use Illuminate\Database\Seeder;
@@ -209,6 +210,7 @@ class StaticRequestsTableSeederLA extends Seeder
                         'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
                         'exam_type' => $type,
                         'exam_medium' => $medium,
+                        'computer_required' => ((rand(0, 2)==0)? "No" : "Yes"),
                         'student_approval' => $stuApv,
                         'student_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
                         'center_approval' => $cenApv,
@@ -247,6 +249,7 @@ class StaticRequestsTableSeederLA extends Seeder
                     'additional_requirements' => $requests[$i]['additional_requirements'],
                     'exam_type' => $requests[$i]['exam_type'],
                     'exam_medium' => $requests[$i]['exam_medium'],
+                    'computer_required' => $requests[$i]['computer_required'],
                     'student_approval' => $requests[$i]['student_approval'],
                     'student_notes' => $requests[$i]['student_notes'],
                     'center_approval' => $requests[$i]['center_approval'],

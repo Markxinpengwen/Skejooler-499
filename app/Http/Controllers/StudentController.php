@@ -8,6 +8,7 @@ use App\Centers as Centers;
 use App\Students as Students;
 use App\Requests as Requests;
 use App\User as Users;
+use App\Institutions as Institutions;
 
 class StudentController extends Controller
 {
@@ -215,7 +216,7 @@ class StudentController extends Controller
         // find correct Request and Student information
         $center = Centers::where('cid', $cid)
             ->first();
-        $institution = Institution::where('iid', $iid)
+        $institution = Institutions::where('iid', $iid)
             ->first();
         $request = Requests::where('rid', $rid)
             ->where('sid', Auth::id())
@@ -240,6 +241,7 @@ class StudentController extends Controller
             ->with('center', $center)
             ->with('request', $request)
             ->with('center_email', $user->email)
+            ->with('institution', $institution)
             ->with('editable', $editable);
     }
 
@@ -257,7 +259,7 @@ class StudentController extends Controller
         // find correct Request and Center information
         $center = Centers::where('cid', $cid)
             ->first();
-        $institution = Institution::where('iid', $iid)
+        $institution = Institutions::where('iid', $iid)
             ->first();
         $request = Requests::where('rid', $rid)
             ->where('sid', Auth::id())
@@ -271,6 +273,7 @@ class StudentController extends Controller
         return view('student/requestEdit')
             ->with('request', $request)
             ->with('center', $center)
+            ->with('institution', $institution)
             ->with('center_email', $user->email);
 
         //TODO - write logic so that invalid states can be avoided passing a variable to the view to determine which radio options appear

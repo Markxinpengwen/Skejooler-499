@@ -147,7 +147,7 @@ class GiantTableSeederLA extends Seeder
 		    $name=$faker->company();
 			$centers[$i] = [
 				'cid' => 0, //determined later
-				'name' =>  "".$name. " Center",
+				'center_name' =>  "".$name. " Center",
                 'center_email' => "".str_replace($REGEX_PATTERN,$REGEX_REPLACE,$name)."@example.org",
 				'phone' => substr($faker->e164PhoneNumber,-11),
 				'description' => $faker->bs() .$faker->bs() .$faker->bs(),
@@ -186,9 +186,9 @@ class GiantTableSeederLA extends Seeder
             $email=""; $uname=""; $type="";
 			if($i < $NUM_CENTERS){
 				//Center: First 10 letters of name + random digit 0-9
-                $email = str_replace($REGEX_PATTERN,$REGEX_REPLACE,substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.org"); ////$email = substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.org";
+                $email = str_replace($REGEX_PATTERN,$REGEX_REPLACE,substr($centers[$i]['center_name'],0,10) . rand(0,9) . "@example.org"); ////$email = substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.org";
 				$type = "center";
-				$uname=$centers[$i]['name'];
+				$uname=$centers[$i]['center_name'];
 			}elseif($i < ($NUM_CENTERS+$NUM_STUDENTS)){
 				//Student: First 5 letters of First and Last Names
                 $email = str_replace($REGEX_PATTERN,$REGEX_REPLACE,substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.org"); //$email = substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.org";
@@ -260,7 +260,7 @@ class GiantTableSeederLA extends Seeder
 				DB::table('Centers')->insert(
 					[					
 						'cid' => $centers[$i]['cid'],
-						'name' => $centers[$i]['name'],
+						'center_name' => $centers[$i]['center_name'],
                         'center_email' => $centers[$i]['center_email'],
 						'phone' => $centers[$i]['phone'],
 						'description' => $centers[$i]['description'],
@@ -277,7 +277,7 @@ class GiantTableSeederLA extends Seeder
 						'updated_at' => $centers[$i]['updated_at']
 					]
 				);
-				echo "\n\t- Center ID ".$centers[$i]['cid'].": ".$centers[$i]['name'];
+				echo "\n\t- Center ID ".$centers[$i]['cid'].": ".$centers[$i]['center_name'];
 			}else{
 				DB::table('Students')->insert(
 					[					

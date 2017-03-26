@@ -43,6 +43,7 @@
                     {{ Form::hidden('rid', $u->rid) }}
                     {{ Form::hidden('sid', $u->sid) }}
                     {{ Form::hidden('cid', $u->cid) }}
+                    {{ Form::hidden('iid', $u->iid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $u->rid }}</td>
                 {{ Form::close() }}
@@ -84,6 +85,7 @@
                     {{ Form::hidden('rid', $ps->rid) }}
                     {{ Form::hidden('sid', $ps->sid) }}
                     {{ Form::hidden('cid', $ps->cid) }}
+                    {{ Form::hidden('iid', $ps->iid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $ps->rid }}</td>
                 {{ Form::close() }}
@@ -110,23 +112,24 @@
         @foreach($pendingCenter as $pc)
             <tr>
                 {{ Form::open(array('action' => 'StudentController@showRequest')) }}
-                <td align = "center">
-                    @if($pc->scheduled_date == "1970-01-02 00:00:01")
-                        {{ "Date not scheduled" }}
-                    @else
-                        {{ $pc->scheduled_date }}
-                    @endif
-                </td>
-                <td align = "center">{{ $pc->preferred_date_1 }}</td>
-                <td align = "center">{{ $pc->preferred_date_2 }}</td>
-                <td align = "center">{{ $pc->course_code }}</td>
-                <td align = "center">{{ $pc->exam_medium }}</td>
-                <td align = "center">{{ $pc->exam_type }}</td>
-                {{ Form::hidden('rid', $pc->rid) }}
-                {{ Form::hidden('sid', $pc->sid) }}
-                {{ Form::hidden('cid', $pc->cid) }}
-                <td align = "center">{{ Form::submit('View Details') }}</td>
-                <td align = "center">{{ $pc->rid }}</td>
+                    <td align = "center">
+                        @if($pc->scheduled_date == "1970-01-02 00:00:01")
+                            {{ "Date not scheduled" }}
+                        @else
+                            {{ $pc->scheduled_date }}
+                        @endif
+                    </td>
+                    <td align = "center">{{ $pc->preferred_date_1 }}</td>
+                    <td align = "center">{{ $pc->preferred_date_2 }}</td>
+                    <td align = "center">{{ $pc->course_code }}</td>
+                    <td align = "center">{{ $pc->exam_medium }}</td>
+                    <td align = "center">{{ $pc->exam_type }}</td>
+                    {{ Form::hidden('rid', $pc->rid) }}
+                    {{ Form::hidden('sid', $pc->sid) }}
+                    {{ Form::hidden('cid', $pc->cid) }}
+                    {{ Form::hidden('iid', $pc->iid) }}
+                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align = "center">{{ $pc->rid }}</td>
                 {{ Form::close() }}
             </tr>
         @endforeach
@@ -166,6 +169,7 @@
                     {{ Form::hidden('rid', $dc->rid) }}
                     {{ Form::hidden('sid', $dc->sid) }}
                     {{ Form::hidden('cid', $dc->cid) }}
+                    {{ Form::hidden('iid', $dc->iid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $dc->rid }}</td>
                 {{ Form::close() }}
@@ -192,23 +196,24 @@
         @foreach($deniedStudent as $ds)
             <tr>
                 {{ Form::open(array('action' => 'StudentController@showRequest')) }}
-                <td align = "center">
-                    @if($ds->scheduled_date == "1970-01-02 00:00:01")
-                        {{ "Date not scheduled" }}
-                    @else
-                        {{ $ds->scheduled_date }}
-                    @endif
-                </td>
-                <td align = "center">{{ $ds->preferred_date_1 }}</td>
-                <td align = "center">{{ $ds->preferred_date_2 }}</td>
-                <td align = "center">{{ $ds->course_code }}</td>
-                <td align = "center">{{ $ds->exam_medium }}</td>
-                <td align = "center">{{ $ds->exam_type }}</td>
-                {{ Form::hidden('rid', $ds->rid) }}
-                {{ Form::hidden('sid', $ds->sid) }}
-                {{ Form::hidden('cid', $ds->cid) }}
-                <td align = "center">{{ Form::submit('View Details') }}</td>
-                <td align = "center">{{ $ds->rid }}</td>
+                    <td align = "center">
+                        @if($ds->scheduled_date == "1970-01-02 00:00:01")
+                            {{ "Date not scheduled" }}
+                        @else
+                            {{ $ds->scheduled_date }}
+                        @endif
+                    </td>
+                    <td align = "center">{{ $ds->preferred_date_1 }}</td>
+                    <td align = "center">{{ $ds->preferred_date_2 }}</td>
+                    <td align = "center">{{ $ds->course_code }}</td>
+                    <td align = "center">{{ $ds->exam_medium }}</td>
+                    <td align = "center">{{ $ds->exam_type }}</td>
+                    {{ Form::hidden('rid', $ds->rid) }}
+                    {{ Form::hidden('sid', $ds->sid) }}
+                    {{ Form::hidden('cid', $ds->cid) }}
+                    {{ Form::hidden('iid', $ds->iid) }}
+                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align = "center">{{ $ds->rid }}</td>
                 {{ Form::close() }}
             </tr>
         @endforeach
@@ -248,6 +253,7 @@
                     {{ Form::hidden('rid', $pa->rid) }}
                     {{ Form::hidden('sid', $pa->sid) }}
                     {{ Form::hidden('cid', $pa->cid) }}
+                    {{ Form::hidden('iid', $pa->iid) }}
                     <td align = "center">{{ Form::submit('View Details') }}</td>
                     <td align = "center">{{ $pa->rid }}</td>
                 {{ Form::close() }}

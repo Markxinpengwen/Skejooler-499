@@ -21,7 +21,7 @@ class CreateInstitutionsTable extends Migration
     {
         Module::generate("Institutions", 'institutions', 'iid', 'fa-building-o', [
             ["iid", "iid", "Integer", true, "", 5, 7, true],
-            ["name", "name", "String", true, "", 0, 256, true],
+            ["institution_name", "name", "String", true, "", 0, 256, true],
             //["email", "email", "Email", false, "", 0, 256, false], //is needed in future?
 			["description", "description", "Textarea", false, "", 0, 1000, false],
             //["phone", "phone", "Mobile", false, "", 0, 20, false], //is needed in future?

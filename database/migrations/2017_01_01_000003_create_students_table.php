@@ -22,7 +22,7 @@ class CreateStudentsTable extends Migration
             ["sid", "sid", "Integer", true, "", 5, 7, true],
             ["firstName", "firstName", "String", false, "First", 0, 256, true],
 			["lastName", "lastName", "String", false, "Last", 0, 256, true],
-			["institution", "institution", "Integer", false, "0", 5, 7, false], //new default
+			["iid", "iid", "Integer", false, 0, 5, 7, false],
             ["sex", "sex", "Dropdown", false, "not_declared", 0, 0, false, ["not_declared","male","female","transgender"]],
 			["age", "age", "Integer", false, 0, 0, 110, false],
 			["phone", "phone", "Mobile", false, "0", 0, 15, false] //new default

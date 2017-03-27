@@ -55,9 +55,6 @@
                 border-color: #207dff;
             }
 
-            .response{
-
-            }
 
             .full-height {
                 height: 100vh;
@@ -384,22 +381,22 @@
             function clearForm(section){
                 if(section==1){
                     //Invigilation Center Information
-                    document.getElementById('centerName').value="";
-                    document.getElementById('centerStreetAddress').value="";
-                    document.getElementById('centerCity').value="";
+                    document.getElementById('center_name').value="";
+                    document.getElementById('street_address').value="";
+                    document.getElementById('city').value="";
                     console.log("Sec.1 Invigilation Center Information [cleared]");
                 }
                 if(section==2){
                     //Examinee Information
-                    document.getElementById('studentFirstName').value="";
-                    document.getElementById('studentLastName').value="";
-                    document.getElementById('studentPhone').value="";
-                    document.getElementById('studentEmail').value="";
+                    document.getElementById('firstName').value="";
+                    document.getElementById('lastName').value="";
+                    document.getElementById('phone').value="";
+                    document.getElementById('email').value="";
                     console.log("Sec.2 Examinee Information [cleared]");
                 }
                 if(section==3){
-                    //Institution Information
-                    document.getElementById('institutionName').value="";
+                    //Institution Information (some not used currently)
+                    document.getElementById('institution_name').value="";
                     document.getElementById('institutionStreetAddress').value="";
                     document.getElementById('institutionCity').value="";
                     document.getElementById('institutionContactName').value="";
@@ -409,11 +406,11 @@
                 }
                 if(section==4){
                     //Exam Information
-                    document.getElementById('courseNumber').value="";
-                    document.getElementById('courseMidtermOrFinal').value="Midterm";
-                    document.getElementById('courseExamType').value="Paper";
-                    document.getElementById('courseCompReq').value="No";
-                    document.getElementById('courseAddReqs').value="";
+                    document.getElementById('course_code').value="";
+                    document.getElementById('exam_type').value="Midterm";
+                    document.getElementById('exam_medium').value="Paper";
+                    document.getElementById('computer_required').value="No";
+                    document.getElementById('additional_requirements').value="";
                     console.log("Sec.4 Exam Information [cleared]");
                 }
 
@@ -512,7 +509,6 @@
         <br>
 
 
-        <div class="response">
         <!--New Form Table-->
         <table class="tableForm">
             {{ Form::open() }}
@@ -526,21 +522,21 @@
                 <th colspan = "2"><h2><em>Invigilation Center</em></h2></th>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('centerName','Center Name:') //Center Name!!} </td>
-                <td> {!! Form::text('centerName') !!} </td>
+                <td class="required"> {!! Form::label('center_name','Center Name:') //Center Name!!} </td>
+                <td> {!! Form::text('center_name') !!} </td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('centerStreetAddress','Center Street Address:') //Center Street Address!!} </td>
-                <td> {!! Form::text('centerStreetAddress') !!} </td>
+                <td class="required"> {!! Form::label('street_address','Center Street Address:') //Center Street Address!!} </td>
+                <td> {!! Form::text('street_address') !!} </td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('centerCity','Center City:') //Center City!!} </td>
-                <td> {!! Form::text('centerCity') !!} </td>
+                <td class="required"> {!! Form::label('city','Center City:') //Center City!!} </td>
+                <td> {!! Form::text('city') !!} </td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('centerProvince','Center Province:') //Center Province!!} </td>
+                <td class="required"> {!! Form::label('province','Center Province:') //Center Province!!} </td>
                 <td>
-                    {!! Form::select('centerProvince',[
+                    {!! Form::select('province',[
                         'Canada' => [
                             'British_Columbia' => 'British Columbia' ,
                             'Alberta' => 'Alberta',
@@ -572,29 +568,29 @@
                 <th colspan = "2"><h2><em>Examinee (i.e. You)</em></h2></th>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('studentFirstName','Student First Name:') //Student First Name!!} </td>
-                <td> {!! Form::text('studentFirstName') !!} </td>
+                <td class="required"> {!! Form::label('firstName','Student First Name:') //Student First Name!!} </td>
+                <td> {!! Form::text('firstName') !!} </td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('studentLastName','Student Last Name:') //Student Last Name!!} </td>
-                <td> {!! Form::text('studentLastName') !!} </td>
+                <td class="required"> {!! Form::label('lastName','Student Last Name:') //Student Last Name!!} </td>
+                <td> {!! Form::text('lastName') !!} </td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('studentPhone','Student Phone Number:') //Student Phone Number!!} </td>
-                <td> {!! Form::number('studentPhone') !!} </td>
+                <td class="required"> {!! Form::label('phone','Student Phone Number:') //Student Phone Number!!} </td>
+                <td> {!! Form::number('phone') !!} </td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('studentEmail','Student Email Address:') //Student Email!!} </td>
-                <td> {!! Form::email('studentEmail') !!} </td>
+                <td class="required"> {!! Form::label('email','Student Email Address:') //Student Email!!} </td>
+                <td> {!! Form::email('email') !!} </td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('examDate1','Exam Date (First Choice):') //Exam Date 1!!} </td>
-                <td> {!! Form::date('examDate1', \Carbon\Carbon::now()); !!} </td>
+                <td class="required"> {!! Form::label('preferred_date_1','Exam Date (First Choice):') //Exam Date 1!!} </td>
+                <td> {!! Form::date('preferred_date_1', \Carbon\Carbon::now()); !!} </td>
 
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('examDate2','Exam Date (Second Choice):') //Exam Date 2!!} </td>
-                <td> {!! Form::date('examDate2', \Carbon\Carbon::now()); !!} </td>
+                <td class="required"> {!! Form::label('preferred_date_2','Exam Date (Second Choice):') //Exam Date 2!!} </td>
+                <td> {!! Form::date('preferred_date_2', \Carbon\Carbon::now()); !!} </td>
             </tr>
             <tr>
                 <td></td>
@@ -610,49 +606,50 @@
                 <th colspan = "2"><h2><em>Institution</em></h2></th>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('institutionName','Institution Name:') //Institution Name!!} </td>
-                <td> {!! Form::text('institutionName') !!} </td>
+                <td class="required"> {!! Form::label('institution_name','Institution Name:') //Institution Name!!} </td>
+                <td> {!! Form::text('institution_name') !!} </td>
             </tr>
-            <tr>
-                <td class="required"> {!! Form::label('institutionStreetAddress','Institution Street Address:') //Institution Street Address!!} </td>
-                <td> {!! Form::text('institutionStreetAddress') !!} </td>
-            </tr>
-            <tr>
-                <td class="required"> {!! Form::label('institutionCity','Institution City:') //Institution City!!} </td>
-                <td> {!! Form::text('institutionCity') !!} </td>
-            </tr>
-            <tr>
-                <td class="required"> {!! Form::label('institutionProvince','Institution Province:') //Institution Province!!} </td>
-                <td> {!! Form::select('institutionProvince',[
-                    'Canada' => [
-                        'British_Columbia' => 'British Columbia' ,
-                        'Alberta' => 'Alberta',
-                        'Sasketchewan' => 'Sasketchewan',
-                        'Manitoba' => 'Manitoba',
-                        'Ontario' => 'Ontario',
-                        'Quebec' => 'Quebec',
-                        'Nova_Scotia' => 'Nova Scotia',
-                        'Newfoundland_and_Labrador' => 'Newfoundland and Labrador',
-                        'New_Brunswick' => 'New Brunswick',
-                        'Prince_Edward_Island' => 'Prince Edward Island',
-                        'Yukon' => 'Yukon',
-                        'Northwest_Territories' => 'Northwest Territories',
-                        'Nunavut' => 'Nunavut',
-                    ],
-                ]); !!} </td>
-            </tr>
-            <tr>
-                <td> {!! Form::label('institutionContactName','Institution Contact Name:') //Institution Contact Name!!} </td>
-                <td> {!! Form::text('institutionContactName') !!} </td>
-            </tr>
-            <tr>
-                <td> {!! Form::label('institutionContactPhone','Institution Contact Phone:') //Institution Contact Phone!!} </td>
-                <td> {!! Form::text('institutionContactPhone') !!} </td>
-            </tr>
-            <tr>
-                <td> {!! Form::label('institutionContactEmail','Institution Contact Email:') //Institution Contact Email!!} </td>
-                <td> {!! Form::email('institutionContactEmail') !!} </td>
-            </tr>
+            <!-- Not currently accepting Institution Information in database-->
+            {{--<tr>--}}
+                {{--<td class="required"> {!! Form::label('institutionStreetAddress','Institution Street Address:') //Institution Street Address!!} </td>--}}
+                {{--<td> {!! Form::text('institutionStreetAddress') !!} </td>--}}
+            {{--</tr>--}}
+            {{--<tr>--}}
+                {{--<td class="required"> {!! Form::label('institutionCity','Institution City:') //Institution City!!} </td>--}}
+                {{--<td> {!! Form::text('institutionCity') !!} </td>--}}
+            {{--</tr>--}}
+            {{--<tr>--}}
+                {{--<td class="required"> {!! Form::label('institutionProvince','Institution Province:') //Institution Province!!} </td>--}}
+                {{--<td> {!! Form::select('institutionProvince',[--}}
+                    {{--'Canada' => [--}}
+                        {{--'British_Columbia' => 'British Columbia' ,--}}
+                        {{--'Alberta' => 'Alberta',--}}
+                        {{--'Sasketchewan' => 'Sasketchewan',--}}
+                        {{--'Manitoba' => 'Manitoba',--}}
+                        {{--'Ontario' => 'Ontario',--}}
+                        {{--'Quebec' => 'Quebec',--}}
+                        {{--'Nova_Scotia' => 'Nova Scotia',--}}
+                        {{--'Newfoundland_and_Labrador' => 'Newfoundland and Labrador',--}}
+                        {{--'New_Brunswick' => 'New Brunswick',--}}
+                        {{--'Prince_Edward_Island' => 'Prince Edward Island',--}}
+                        {{--'Yukon' => 'Yukon',--}}
+                        {{--'Northwest_Territories' => 'Northwest Territories',--}}
+                        {{--'Nunavut' => 'Nunavut',--}}
+                    {{--],--}}
+                {{--]); !!} </td>--}}
+            {{--</tr>--}}
+            {{--<tr>--}}
+                {{--<td> {!! Form::label('institutionContactName','Institution Contact Name:') //Institution Contact Name!!} </td>--}}
+                {{--<td> {!! Form::text('institutionContactName') !!} </td>--}}
+            {{--</tr>--}}
+            {{--<tr>--}}
+                {{--<td> {!! Form::label('institutionContactPhone','Institution Contact Phone:') //Institution Contact Phone!!} </td>--}}
+                {{--<td> {!! Form::text('institutionContactPhone') !!} </td>--}}
+            {{--</tr>--}}
+            {{--<tr>--}}
+                {{--<td> {!! Form::label('institutionContactEmail','Institution Contact Email:') //Institution Contact Email!!} </td>--}}
+                {{--<td> {!! Form::email('institutionContactEmail') !!} </td>--}}
+            {{--</tr>--}}
             <tr>
                 <td></td>
                 <td>
@@ -667,24 +664,24 @@
                 <th colspan = "2"><h2><em>Exam</em></h2></th>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('courseNumber','Course Number:') //Course Number!!} </td>
-                <td> {!! Form::text('courseNumber') !!} </td>
+                <td class="required"> {!! Form::label('course_code','Course Number:') //Course Number!!} </td>
+                <td> {!! Form::text('course_code') !!} </td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('courseMidtermOrFinal','Midterm or Final:') //Course Midterm or Final!!}</td>
-                <td> {!! Form::select('courseMidtermOrFinal', ['Midterm' => 'Midterm', 'Final' => 'Final'], 'Final'); !!}</td>
+                <td class="required"> {!! Form::label('exam_type','Midterm or Final:') //Course Midterm or Final!!}</td>
+                <td> {!! Form::select('exam_type', ['Midterm' => 'Midterm', 'Final' => 'Final'], 'Final'); !!}</td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('courseExamType','Exam Type:') //Course Exam Type!!}</td>
-                <td> {!! Form::select('courseExamType', ['Paper' => 'Paper', 'Online' => 'Online', 'Other' => 'Other'], 'Paper'); !!}</td>
+                <td class="required"> {!! Form::label('exam_medium','Exam Type:') //Course Exam Type!!}</td>
+                <td> {!! Form::select('exam_medium', ['Paper' => 'Paper', 'Online' => 'Online', 'Other' => 'Other'], 'Paper'); !!}</td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('courseCompReq','Computer Required:') //Course Computer Required!!}</td>
-                <td> {!! Form::select('courseCompReq', ['Yes'=>'Yes','No'=>'No'], 'No'); !!}</td>
+                <td class="required"> {!! Form::label('computer_required','Computer Required:') //Course Computer Required!!}</td>
+                <td> {!! Form::select('computer_required', ['Yes'=>'Yes','No'=>'No'], 'No'); !!}</td>
             </tr>
             <tr>
-                <td> {!! Form::label('courseAddReqs','Additional Requirements or Information:') //Course Additional Requirements!!} </td>
-                <td> {!! Form::textarea('courseAddReqs') !!} </td>
+                <td> {!! Form::label('additional_requirements','Additional Requirements or Information:') //Course Additional Requirements!!} </td>
+                <td> {!! Form::textarea('additional_requirements') !!} </td>
             </tr>
             <tr>
                 <td></td>
@@ -703,7 +700,6 @@
             </tr>
             {{ Form::close() }}
         </table>
-        </div>
 
 
 

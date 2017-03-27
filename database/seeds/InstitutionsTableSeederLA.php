@@ -64,7 +64,7 @@ class InstitutionsTableSeederLA extends Seeder
 			$iid = DB::table('Institutions')->insertGetId(
 				[					
 					'iid' => $iid,
-					'name' => $tmp,
+					'institution_name' => $tmp,
 					'description' => $faker->bs(). " ".$faker->bs(). ", is our description.",
 					'hasPaid' => "".rand(0,1)."", //String for LA
 					'created_at' => $faker->dateTimeThisDecade($max = 'now'),

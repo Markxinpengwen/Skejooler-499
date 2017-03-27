@@ -1,1 +1,0 @@
-@extends("st.layouts.app")

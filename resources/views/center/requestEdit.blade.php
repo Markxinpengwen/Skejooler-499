@@ -40,6 +40,18 @@
             <td>{{ $student_email }}</td>
         </tr>
 
+        <tr><th colspan = "2"><hr><h1>Institution Info</h1></th></tr>
+
+        <tr>
+            <th>Name:</th>
+            <td>{{ $institution->name }}</td>
+        </tr>
+
+        <tr>
+            <th>Description:</th>
+            <td>{{ $institution->description }}</td>
+        </tr>
+
         <tr><th colspan = "2"><hr><h1>Exam Info</h1></th></tr>
 
         <tr>
@@ -122,6 +134,7 @@
         {{ Form::hidden('rid', $request->rid) }}
         {{ Form::hidden('cid', $request->cid) }}
         {{ Form::hidden('sid', $request->sid) }}
+        {{ Form::hidden('iid', $request->iid) }}
 
         <tr>
             <td></td>

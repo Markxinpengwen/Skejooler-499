@@ -8,6 +8,7 @@ use App\Centers as Centers;
 use App\Students as Students;
 use App\Requests as Requests;
 use App\User as Users;
+use App\Institutions as Institutions;
 
 class StudentController extends Controller
 {
@@ -119,54 +120,83 @@ class StudentController extends Controller
             ->where('student_approval', 2)
             ->where('center_approval', 2)
             ->where('scheduled_date', '>=', date("Y-m-d h:i:s"))
+            ->join('institutions', 'requests.iid', '=', 'institutions.iid')
+            ->join('centers', 'requests.cid', '=', 'centers.cid')
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get(); //TODO get correct current datetime
+        $upcomingCount = $upcoming->count();
+
         $pendingStudent = Requests::where('sid', Auth::id())
             ->where('student_approval', 1)
             ->where('center_approval', 2)
+            ->join('institutions', 'requests.iid', '=', 'institutions.iid')
+            ->join('centers', 'requests.cid', '=', 'centers.cid')
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
+        $pendingStudentCount = $pendingStudent->count();
+
         $pendingCenter = Requests::where('sid', Auth::id())
             ->where('student_approval', 2)
             ->where('center_approval', 1)
+            ->join('institutions', 'requests.iid', '=', 'institutions.iid')
+            ->join('centers', 'requests.cid', '=', 'centers.cid')
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
+        $pendingCenterCount = $pendingCenter->count();
+
         $deniedStudent = Requests::where('sid', Auth::id())
             ->where('student_approval', 0)
             ->where('center_approval', 1)
+            ->join('institutions', 'requests.iid', '=', 'institutions.iid')
+            ->join('centers', 'requests.cid', '=', 'centers.cid')
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
+        $deniedStudentCount = $deniedStudent->count();
+
         $deniedCenter = Requests::where('sid', Auth::id())
             ->where('student_approval', 1)
             ->where('center_approval', 0)
+            ->join('institutions', 'requests.iid', '=', 'institutions.iid')
+            ->join('centers', 'requests.cid', '=', 'centers.cid')
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get();
+        $deniedCenterCount = $deniedCenter->count();
+
         $past = Requests::where('sid', Auth::id())
             ->where('student_approval', 2)
             ->where('center_approval', 2)
             ->where('scheduled_date', '<', date("Y-m-d h:i:s"))
+            ->join('institutions', 'requests.iid', '=', 'institutions.iid')
+            ->join('centers', 'requests.cid', '=', 'centers.cid')
             ->orderby('scheduled_date', 'asc')
             ->orderby('preferred_date_1', 'asc')
             ->orderby('preferred_date_2', 'asc')
             ->get(); // TODO get correct current datetime
+        $pastCount = $past->count();
 
         return view('student/schedule')
             ->with('upcoming', $upcoming)
+            ->with('upcomingCount', $upcomingCount)
             ->with('pendingStudent', $pendingStudent)
+            ->with('pendingStudentCount', $pendingStudentCount)
             ->with('pendingCenter', $pendingCenter)
+            ->with('pendingCenterCount', $pendingCenterCount)
             ->with('deniedStudent', $deniedStudent)
+            ->with('deniedStudentCount', $deniedStudentCount)
             ->with('deniedCenter', $deniedCenter)
-            ->with('past', $past); //TODO fix code ordering for easy reading
+            ->with('deniedCenterCount', $deniedCenterCount)
+            ->with('past', $past)
+            ->with('pastCount', $pastCount); //TODO fix code ordering for easy reading
     }
     //---------------------------------------------------------------------------------------
     // REQUEST
@@ -181,9 +211,12 @@ class StudentController extends Controller
 
         $rid = $temp['rid'];
         $cid = $temp['cid'];
+        $iid = $temp['iid'];
 
         // find correct Request and Student information
         $center = Centers::where('cid', $cid)
+            ->first();
+        $institution = Institutions::where('iid', $iid)
             ->first();
         $request = Requests::where('rid', $rid)
             ->where('sid', Auth::id())
@@ -208,6 +241,7 @@ class StudentController extends Controller
             ->with('center', $center)
             ->with('request', $request)
             ->with('center_email', $user->email)
+            ->with('institution', $institution)
             ->with('editable', $editable);
     }
 
@@ -220,9 +254,12 @@ class StudentController extends Controller
 
         $rid = $temp['rid'];
         $cid = $temp['cid'];
+        $iid = $temp['iid'];
 
-        // find correct Request and Student information
+        // find correct Request and Center information
         $center = Centers::where('cid', $cid)
+            ->first();
+        $institution = Institutions::where('iid', $iid)
             ->first();
         $request = Requests::where('rid', $rid)
             ->where('sid', Auth::id())
@@ -236,6 +273,7 @@ class StudentController extends Controller
         return view('student/requestEdit')
             ->with('request', $request)
             ->with('center', $center)
+            ->with('institution', $institution)
             ->with('center_email', $user->email);
 
         //TODO - write logic so that invalid states can be avoided passing a variable to the view to determine which radio options appear
@@ -353,8 +391,46 @@ class StudentController extends Controller
         }
     }
 
+    //---------------------------------------------------------------------------------------
+    // BOOKING FORM
+    //---------------------------------------------------------------------------------------
+
+    public function showExamRequestForm()
+    {
+        return view('student/examRequestForm');
+    }
+
     public function makeRequest()
     {
-        //TODO - form input then make new request
+        // grab center info to be updated
+        $tempRequest = Input::all();
+
+        $request = new Requests();
+
+        // find correct Center to update
+        if($request->validate($tempRequest))
+        {
+            // update request
+            $request->preferred_Date_1 = $tempRequest['preferred_date_1'];
+            $request->preferred_Date_2 = $tempRequest['preferred_date_2'];
+            $request->course_code = $tempRequest['course_code'];
+            $request->additional_requirements = $tempRequest['additional_requirements'];
+            $request->exam_type = $tempRequest['exam_type'];
+            $request->exam_medium = $tempRequest['exam_medium'];
+            $request->student_notes = $tempRequest['student_notes'];
+
+            $request->student_approval = 2;
+            $request->center_approval = 1;
+
+            // save new values to DB
+            $request->save();
+
+            return StudentController::showSchedule();
+        }
+        else
+        {
+            // invalid input
+            redirect(); //->with('errors', $r->error());
+        }
     }
 }

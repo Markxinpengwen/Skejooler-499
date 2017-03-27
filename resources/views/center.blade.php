@@ -1,1 +1,0 @@
-@extends("cn.layouts.app")

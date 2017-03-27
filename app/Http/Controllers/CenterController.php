@@ -18,7 +18,7 @@ class CenterController extends Controller
     public function index()
     {
         // TODO - write condition logic to
-        //if first time -> profile
+        // if first time -> profile
         return CenterController::showSchedule();
     }
 
@@ -222,7 +222,7 @@ class CenterController extends Controller
         // find correct Request and Student information
         $student = Students::where('sid', $sid)
             ->first();
-        $institution = Institution::where('iid', $iid)
+        $institution = Institutions::where('iid', $iid)
             ->first();
         $request = Requests::where('rid', $rid)
             ->where('cid', Auth::id())
@@ -247,6 +247,7 @@ class CenterController extends Controller
             ->with('student', $student)
             ->with('request', $request)
             ->with('student_email', $user->email)
+            ->with('institution', $institution)
             ->with('editable', $editable);
     }
 
@@ -264,7 +265,7 @@ class CenterController extends Controller
         // find correct Request and Student information
         $student = Students::where('sid', $sid)
             ->first();
-        $institution = Institution::where('iid', $iid)
+        $institution = Institutions::where('iid', $iid)
             ->first();
         $request = Requests::where('rid', $rid)
             ->where('cid', Auth::id())
@@ -278,6 +279,7 @@ class CenterController extends Controller
         return view('center/requestEdit')
             ->with('request', $request)
             ->with('student', $student)
+            ->with('institution', $institution)
             ->with('student_email', $user->email);
 
         //TODO - write logic so that invalid states can be avoided passing a variable to the view to determine which radio options appear

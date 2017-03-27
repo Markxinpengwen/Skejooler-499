@@ -134,7 +134,7 @@
         {{ Form::hidden('rid', $request->rid) }}
         {{ Form::hidden('cid', $request->cid) }}
         {{ Form::hidden('sid', $request->sid) }}
-        {{ Form::hidden('sid', $request->iid) }}
+        {{ Form::hidden('iid', $request->iid) }}
 
         <tr>
             <td></td>

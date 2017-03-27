@@ -28,9 +28,10 @@
             <td>{{ $student->age or "Age not found" }}</td>
         </tr>
 
+        {{-- TODO - display institution info if there is any--}}
         <tr>
             <th>Institution Number:</th>
-            <td>{{ $student->institution or "Institution Number not found" }}</td>
+            <td>{{ $student->iid or "Institution Number not found" }}</td>
         </tr>
 
         <tr><th colspan = "2"><hr><h1>Contact</h1></th></tr>

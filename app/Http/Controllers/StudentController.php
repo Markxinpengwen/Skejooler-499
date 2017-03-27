@@ -397,8 +397,25 @@ class StudentController extends Controller
 
     public function showExamRequestForm()
     {
-        return view('student/examRequestForm');
-    }
+        $student = Students::where('sid', Auth::id())
+            ->first();
+
+        // for further implementation of dynamic map / db msp values
+        //$mapvalues = Map->get();
+
+        if($student->idd != 0 || $student->idd != null)
+        {
+            $institution = Institutions::where('iid', $student->iid)
+                ->first();
+
+            return view('student/examRequestForm')
+                ->with('student', $student)
+                ->with('institution', $institution);
+        }
+
+        return view('student/examRequestForm')
+            ->with('student', $student);
+   }
 
     public function makeRequest()
     {

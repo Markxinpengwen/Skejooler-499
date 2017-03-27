@@ -88,7 +88,7 @@
 
         <tr>
             <th>Name:</th>
-            <td>{{ $institution->name }}</td>
+            <td>{{ $institution->institution_name }}</td>
         </tr>
 
         <tr>

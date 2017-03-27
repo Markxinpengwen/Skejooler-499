@@ -36,8 +36,8 @@
                     </td>
                     <td align = "center">{{ $u->preferred_date_1 }}</td>
                     <td align = "center">{{ $u->preferred_date_2 }}</td>
-                    <td align = "center">{{ $u->name }}</td>
-                    <td align = "center">{{ $u->name }}</td>
+                    <td align = "center">{{ $u->center_name }}</td>
+                    <td align = "center">{{ $u->institution_name }}</td>
                     {{--<td align = "center">{{ $u->course_code }}</td>--}}
                     {{--<td align = "center">{{ $u->exam_medium }}</td>--}}
                     {{--<td align = "center">{{ $u->exam_type }}</td>--}}
@@ -80,8 +80,8 @@
                     </td>
                     <td align = "center">{{ $ps->preferred_date_1 }}</td>
                     <td align = "center">{{ $ps->preferred_date_2 }}</td>
-                    <td align = "center">{{ $ps->name }}</td>
-                    <td align = "center">{{ $ps->name }}</td>
+                    <td align = "center">{{ $ps->center_name }}</td>
+                    <td align = "center">{{ $ps->institution_name }}</td>
                     {{--<td align = "center">{{ $ps->course_code }}</td>--}}
                     {{--<td align = "center">{{ $ps->exam_medium }}</td>--}}
                     {{--<td align = "center">{{ $ps->exam_type }}</td>--}}
@@ -124,8 +124,8 @@
                     </td>
                     <td align = "center">{{ $pc->preferred_date_1 }}</td>
                     <td align = "center">{{ $pc->preferred_date_2 }}</td>
-                    <td align = "center">{{ $pc->name }}</td>
-                    <td align = "center">{{ $pc->name }}</td>
+                    <td align = "center">{{ $pc->center_name }}</td>
+                    <td align = "center">{{ $pc->institution_name }}</td>
                     {{--<td align = "center">{{ $pc->course_code }}</td>--}}
                     {{--<td align = "center">{{ $pc->exam_medium }}</td>--}}
                     {{--<td align = "center">{{ $pc->exam_type }}</td>--}}
@@ -168,7 +168,7 @@
                     </td>
                     <td align = "center">{{ $dc->preferred_date_1 }}</td>
                     <td align = "center">{{ $dc->preferred_date_2 }}</td>
-                    <td align = "center">{{ $dc->name }}</td>
+                    <td align = "center">{{ $dc->center_name }}</td>
                     <td align = "center">{{ $dc->institution_name }}</td>
                     {{--<td align = "center">{{ $dc->course_code }}</td>--}}
                     {{--<td align = "center">{{ $dc->exam_medium }}</td>--}}
@@ -212,7 +212,7 @@
                     </td>
                     <td align = "center">{{ $ds->preferred_date_1 }}</td>
                     <td align = "center">{{ $ds->preferred_date_2 }}</td>
-                    <td align = "center">{{ $ds->name }}</td>
+                    <td align = "center">{{ $ds->center_name }}</td>
                     <td align = "center">{{ $ds->institution_name }}</td>
                     {{--<td align = "center">{{ $ds->course_code }}</td>--}}
                     {{--<td align = "center">{{ $ds->exam_medium }}</td>--}}

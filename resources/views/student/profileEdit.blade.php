@@ -34,9 +34,10 @@
                 <td>{{ Form::number('age', $student->age) }}</td>
             </tr>
 
+        {{--TODO - display institution info in select???? --}}
             <tr>
                 <th>{{ Form::label('institution', 'Institution Number:') }}</th>
-                <td>{{ Form::number('institution', $student->institution) }}</td>
+                <td>{{ Form::number('institution', $student->iid) }}</td>
             </tr>
 
             <tr><th colspan = "2"><hr><h1>Contact</h1></th></tr>

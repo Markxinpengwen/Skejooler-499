@@ -10,7 +10,7 @@
 
         <tr>
             <th>Name:</th>
-            <td>{{ $center->name or "Name not found" }}</td>
+            <td>{{ $center->center_name or "Name not found" }}</td>
         </tr>
 
         <tr>

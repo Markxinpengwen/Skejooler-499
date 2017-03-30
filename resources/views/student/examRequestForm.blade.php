@@ -567,7 +567,7 @@
                     <button id="clear1" type="button" onclick="clearForm(1);">Clear Section</button>
                 </td>
             </tr>
-
+            {{--{{ var_dump($student) }}--}}
             <!-- Section 2: Examinee-->
             <tr></tr>
             <tr>
@@ -583,17 +583,17 @@
             </tr>
             <tr>
                 <td class="required">Email Address</td>
-                <td>{{ $user->email }}</td>
+                <td>{{ $student_email }}</td>
             </tr>
 
             <tr>
                 <td class="required"> {!! Form::label('preferred_date_1','Exam Date (First Choice):') //Exam Date 1!!} </td>
-                <td> {!! Form::date('preferred_date_1', \Carbon\Carbon::now()); !!} </td>
+                <td> {!! Form::datetime('preferred_date_1', \Carbon\Carbon::now()); !!} </td>
 
             </tr>
             <tr>
                 <td class="required"> {!! Form::label('preferred_date_2','Exam Date (Second Choice):') //Exam Date 2!!} </td>
-                <td> {!! Form::date('preferred_date_2', \Carbon\Carbon::now()); !!} </td>
+                <td> {!! Form::datetime('preferred_date_2', \Carbon\Carbon::now()); !!} </td>
             </tr>
             <tr>
                 <td></td>
@@ -601,7 +601,7 @@
                     <button id="clear2" type="button" onclick="clearForm(2);">Clear Section</button>
                 </td>
             </tr>
-
+{{--            {{ var_dump($institution) }}--}}
             <!-- Section 3: Institution Info-->
 
             <tr></tr>
@@ -680,17 +680,10 @@
             <tr><td>.</td></tr>
             <tr>
                 <td></td>
-                <td>{!! Form::submit('Book Exam!'); !!}</td>
+                <td>{!! Form::submit('Book Exam!') !!}</td>
             </tr>
             {{ Form::close() }}
         </table>
-
-
-
-
-
-
-
 
     </body>
 </html>

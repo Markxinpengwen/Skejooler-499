@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Support\Facades\Input as Input;
 use Illuminate\Support\Facades\Auth as Auth;
 use App\Centers as Centers;
@@ -9,6 +10,7 @@ use App\Students as Students;
 use App\Requests as Requests;
 use App\User as Users;
 use App\Institutions as Institutions;
+use Illuminate\Validation\Rules\In;
 
 class StudentController extends Controller
 {
@@ -36,11 +38,15 @@ class StudentController extends Controller
         $student = Students::where('sid', Auth::id())
             ->first();
 
+        $institution = Institutions::where('iid', $student->iid)
+            ->first();
+
         $user = Users::where('uid', Auth::id())
-        ->first();
+            ->first();
 
         return view('student/profile')
             ->with('student', $student)
+            ->with('institution', $institution)
             ->with('login_email', $user->email);
     }
 
@@ -53,11 +59,14 @@ class StudentController extends Controller
         $student = Students::where('sid', Auth::id())
             ->first();
 
+        $institution = Institutions::pluck('institution_name', 'iid');
+
         $user = Users::where('uid', Auth::id())
             ->first();
 
         return view('student/profileEdit')
             ->with('student', $student)
+            ->with('institution', $institution)
             ->with('login_email', $user->email);
     }
 
@@ -68,6 +77,7 @@ class StudentController extends Controller
     public function updateProfile()
     {
         $s = new Students();
+        $i = new Institutions();
 
         // grab center info to be updated
         $tempStudent = Input::all();
@@ -87,7 +97,7 @@ class StudentController extends Controller
                 $student->lastName = $tempStudent['lastName'];
                 $student->sex = $tempStudent['sex'];
                 $student->age = $tempStudent['age'];
-                $student->institution = $tempStudent['institution'];
+                $student->iid = $tempStudent['iid'];
                 $student->phone = $tempStudent['phone'];
 
                 // save new values to DB
@@ -99,6 +109,7 @@ class StudentController extends Controller
                 // invalid input
                 redirect();
             }
+
         }
         else
         {
@@ -397,8 +408,30 @@ class StudentController extends Controller
 
     public function showExamRequestForm()
     {
-        return view('student/examRequestForm');
-    }
+        $student = Students::where('sid', Auth::id())
+            ->first();
+
+        $user = Users::where('uid', Auth::id())
+            ->first();
+
+        // for further implementation of dynamic map / db msp values
+        //$mapvalues = Map->get();
+
+//        if($student->iid != 0 || $student->iid != null)
+//        {
+            $institution = Institutions::where('iid', $student->iid)
+                ->first();
+
+            return view('student/examRequestForm')
+                ->with('student_email', $user->email)
+                ->with('student', $student)
+                ->with('institution', $institution);
+//        }
+
+        return view('student/examRequestForm')
+            ->with('student_email', $user->email)
+            ->with('student', $student);
+   }
 
     public function makeRequest()
     {

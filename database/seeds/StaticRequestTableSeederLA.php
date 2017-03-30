@@ -201,7 +201,7 @@ class StaticRequestsTableSeederLA extends Seeder
                         'rid' => ($rid + ($k-1)),
                         'sid' => $students[$h]['sid'], //0 indexed
                         'cid' => $centers[$i]['cid'], //0 indexed
-                        'iid' => 1, //$centers[$i]['iid'], //set to 1 by default //!@# change later
+                        'iid' => rand(10000,10004), //$centers[$i]['iid'], //!@# change later
                         //other attributes
                         'preferred_date_1' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
                         'preferred_date_2' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),

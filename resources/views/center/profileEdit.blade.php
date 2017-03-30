@@ -10,8 +10,8 @@
             <tr><th colspan = "2"><h1>General Info</h1></th></tr>
 
             <tr>
-                <th>{{ Form::label('name', 'Name:') }}</th>
-                <td>{{ Form::text('name', $center->name) }}</td>
+                <th>{{ Form::label('center_name', 'Name:') }}</th>
+                <td>{{ Form::text('center_name', $center->center_name) }}</td>
             </tr>
 
             <tr>

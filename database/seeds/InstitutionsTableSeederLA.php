@@ -40,10 +40,10 @@ class InstitutionsTableSeederLA extends Seeder
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Institutions'"));
         $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
         //var_dump($result);
-		$iid = $result[0]["Auto_increment"];
+		$iid = intval($result[0]["Auto_increment"]);
 
 		//Check whether to set initial auto increment to default constant
-		if($iid!=0){
+		if($iid!=0 && $iid!=1){
 			echo "Next Auto_Increment value is: ".$iid.".";
 		}else{
 			$iid = $DEFAULT_AUTO_INCREMENT;
@@ -60,13 +60,22 @@ class InstitutionsTableSeederLA extends Seeder
 			//Name for echoing
 			$tmp = $faker->company() . " University";
 			
-			//use 'insertGetId' for grabbing auto-incremented field
-			$iid = DB::table('Institutions')->insertGetId(
+			//sequential inserts
+			DB::table('Institutions')->insert(
 				[					
 					'iid' => $iid,
 					'institution_name' => $tmp,
 					'description' => $faker->bs(). " ".$faker->bs(). ", is our description.",
+                    'phone' => substr($faker->e164PhoneNumber,-11),
 					'hasPaid' => "".rand(0,1)."", //String for LA
+                    'street_address' => $faker->streetAddress(),
+                    'city' => $faker->city(),
+                    'province' => 'British_Columbia',
+                    'country' => 'Canada',
+                    'postal_code' => substr($faker->e164PhoneNumber,-6),
+                    'contact_name' => $faker->firstName . " " . $faker->lastName,
+					'contact_phone' => substr($faker->e164PhoneNumber,-11),
+					'contact_email' => $faker->safeEmail(),
 					'created_at' => $faker->dateTimeThisDecade($max = 'now'),
 					'updated_at' => $faker->dateTimeThisMonth($max = 'now')
 				]

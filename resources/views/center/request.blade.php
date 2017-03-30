@@ -24,11 +24,6 @@
         </tr>
 
         <tr>
-            <th>Institution Number:</th>
-            <td>{{ $student->institution }}</td>
-        </tr>
-
-        <tr>
             <th>Phone Number:</th>
             <td>{{ $student->phone }}</td>
         </tr>
@@ -42,12 +37,57 @@
 
         <tr>
             <th>Name:</th>
-            <td>{{ $institution->name }}</td>
+            <td>{{ $institution->institution_name }}</td>
         </tr>
 
         <tr>
             <th>Description:</th>
             <td>{{ $institution->description }}</td>
+        </tr>
+
+        <tr>
+            <th>Phone:</th>
+            <td>{{ $institution->phone }}</td>
+        </tr>
+
+        <tr>
+            <th>Country:</th>
+            <td>{{ $institution->country }}</td>
+        </tr>
+
+        <tr>
+            <th>Province:</th>
+            <td>{{ $institution->province }}</td>
+        </tr>
+
+        <tr>
+            <th>City:</th>
+            <td>{{ $institution->city }}</td>
+        </tr>
+
+        <tr>
+            <th>Street Address:</th>
+            <td>{{ $institution->street_address }}</td>
+        </tr>
+
+        <tr>
+            <th>Postal Code:</th>
+            <td>{{ $institution->postal_code }}</td>
+        </tr>
+
+        <tr>
+            <th>Contact Name:</th>
+            <td>{{ $institution->contact_name }}</td>
+        </tr>
+
+        <tr>
+            <th>Contact Email:</th>
+            <td>{{ $institution->contact_email }}</td>
+        </tr>
+
+        <tr>
+            <th>Contact Phone:</th>
+            <td>{{ $institution->contact_phone }}</td>
         </tr>
 
         <tr><th colspan = "2"><hr><h1>Exam Info</h1></th></tr>

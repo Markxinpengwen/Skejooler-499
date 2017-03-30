@@ -1,3 +1,9 @@
+@extends("st.layouts.app")
+
+@section('title', 'Exam Request Form')
+
+@section('main-content')
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -522,7 +528,7 @@
                 <th colspan = "2"><h2><em>Invigilation Center</em></h2></th>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('center_name','Center Name:') //Center Name!!} </td>
+                <td class="required"> {{ Form::label('center_name','Center Name:') }} </td>
                 <td> {!! Form::text('center_name') !!} </td>
             </tr>
             <tr>
@@ -538,21 +544,21 @@
                 <td>
                     {!! Form::select('province',[
                         'Canada' => [
-                            'British_Columbia' => 'British Columbia' ,
-                            'Alberta' => 'Alberta',
-                            'Sasketchewan' => 'Sasketchewan',
-                            'Manitoba' => 'Manitoba',
-                            'Ontario' => 'Ontario',
-                            'Quebec' => 'Quebec',
-                            'Nova_Scotia' => 'Nova Scotia',
-                            'Newfoundland_and_Labrador' => 'Newfoundland and Labrador',
-                            'New_Brunswick' => 'New Brunswick',
-                            'Prince_Edward_Island' => 'Prince Edward Island',
+                            'british_columbia' => 'British Columbia' ,
+                            'alberta' => 'Alberta',
+                            'sasketchewan' => 'Sasketchewan',
+                            'manitoba' => 'Manitoba',
+                            'ontario' => 'Ontario',
+                            'quebec' => 'Quebec',
+                            'nova_Scotia' => 'Nova Scotia',
+                            'newfoundland_and_Labrador' => 'Newfoundland and Labrador',
+                            'new_Brunswick' => 'New Brunswick',
+                            'prince_edward_island' => 'Prince Edward Island',
                             'Yukon' => 'Yukon',
                             'Northwest_Territories' => 'Northwest Territories',
                             'Nunavut' => 'Nunavut',
                         ],
-                    ]); !!}
+                    ]) !!}
                 </td>
             </tr>
             <tr>
@@ -561,36 +567,33 @@
                     <button id="clear1" type="button" onclick="clearForm(1);">Clear Section</button>
                 </td>
             </tr>
-
+            {{--{{ var_dump($student) }}--}}
             <!-- Section 2: Examinee-->
             <tr></tr>
             <tr>
                 <th colspan = "2"><h2><em>Examinee (i.e. You)</em></h2></th>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('firstName','Student First Name:') //Student First Name!!} </td>
-                <td> {!! Form::text('firstName') !!} </td>
+                <td class="required">Name</td>
+                <td>{{ $student->firstName }} {{ $student->lastName }}</td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('lastName','Student Last Name:') //Student Last Name!!} </td>
-                <td> {!! Form::text('lastName') !!} </td>
+                <td class="required">Phone</td>
+                <td>{{ $student->phone }}</td>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('phone','Student Phone Number:') //Student Phone Number!!} </td>
-                <td> {!! Form::number('phone') !!} </td>
+                <td class="required">Email Address</td>
+                <td>{{ $student_email }}</td>
             </tr>
-            <tr>
-                <td class="required"> {!! Form::label('email','Student Email Address:') //Student Email!!} </td>
-                <td> {!! Form::email('email') !!} </td>
-            </tr>
+
             <tr>
                 <td class="required"> {!! Form::label('preferred_date_1','Exam Date (First Choice):') //Exam Date 1!!} </td>
-                <td> {!! Form::date('preferred_date_1', \Carbon\Carbon::now()); !!} </td>
+                <td> {!! Form::datetime('preferred_date_1', \Carbon\Carbon::now()); !!} </td>
 
             </tr>
             <tr>
                 <td class="required"> {!! Form::label('preferred_date_2','Exam Date (Second Choice):') //Exam Date 2!!} </td>
-                <td> {!! Form::date('preferred_date_2', \Carbon\Carbon::now()); !!} </td>
+                <td> {!! Form::datetime('preferred_date_2', \Carbon\Carbon::now()); !!} </td>
             </tr>
             <tr>
                 <td></td>
@@ -598,7 +601,7 @@
                     <button id="clear2" type="button" onclick="clearForm(2);">Clear Section</button>
                 </td>
             </tr>
-
+{{--            {{ var_dump($institution) }}--}}
             <!-- Section 3: Institution Info-->
 
             <tr></tr>
@@ -606,50 +609,31 @@
                 <th colspan = "2"><h2><em>Institution</em></h2></th>
             </tr>
             <tr>
-                <td class="required"> {!! Form::label('institution_name','Institution Name:') //Institution Name!!} </td>
-                <td> {!! Form::text('institution_name') !!} </td>
+                <td class="required">Institution Name</td>
+                <td>{{ $institution->institution_name }}</td>
             </tr>
             <!-- Not currently accepting Institution Information in database-->
-            {{--<tr>--}}
-                {{--<td class="required"> {!! Form::label('institutionStreetAddress','Institution Street Address:') //Institution Street Address!!} </td>--}}
-                {{--<td> {!! Form::text('institutionStreetAddress') !!} </td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td class="required"> {!! Form::label('institutionCity','Institution City:') //Institution City!!} </td>--}}
-                {{--<td> {!! Form::text('institutionCity') !!} </td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td class="required"> {!! Form::label('institutionProvince','Institution Province:') //Institution Province!!} </td>--}}
-                {{--<td> {!! Form::select('institutionProvince',[--}}
-                    {{--'Canada' => [--}}
-                        {{--'British_Columbia' => 'British Columbia' ,--}}
-                        {{--'Alberta' => 'Alberta',--}}
-                        {{--'Sasketchewan' => 'Sasketchewan',--}}
-                        {{--'Manitoba' => 'Manitoba',--}}
-                        {{--'Ontario' => 'Ontario',--}}
-                        {{--'Quebec' => 'Quebec',--}}
-                        {{--'Nova_Scotia' => 'Nova Scotia',--}}
-                        {{--'Newfoundland_and_Labrador' => 'Newfoundland and Labrador',--}}
-                        {{--'New_Brunswick' => 'New Brunswick',--}}
-                        {{--'Prince_Edward_Island' => 'Prince Edward Island',--}}
-                        {{--'Yukon' => 'Yukon',--}}
-                        {{--'Northwest_Territories' => 'Northwest Territories',--}}
-                        {{--'Nunavut' => 'Nunavut',--}}
-                    {{--],--}}
-                {{--]); !!} </td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td> {!! Form::label('institutionContactName','Institution Contact Name:') //Institution Contact Name!!} </td>--}}
-                {{--<td> {!! Form::text('institutionContactName') !!} </td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td> {!! Form::label('institutionContactPhone','Institution Contact Phone:') //Institution Contact Phone!!} </td>--}}
-                {{--<td> {!! Form::text('institutionContactPhone') !!} </td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td> {!! Form::label('institutionContactEmail','Institution Contact Email:') //Institution Contact Email!!} </td>--}}
-                {{--<td> {!! Form::email('institutionContactEmail') !!} </td>--}}
-            {{--</tr>--}}
+            <tr>
+                <td class="required">Institution Address</td>
+                <td>
+                    {{ $institution->street_address }}<br>
+                    {{ $institution->city }}, {{ $institution->province }}<br>
+                    {{ $institution->country }},<br>
+                    {{ $institution->postal_code }}
+                </td>
+            </tr>
+            <tr>
+                <td>Contact Name</td>
+                <td> {{ $institution->contact_name }} </td>
+            </tr>
+            <tr>
+                <td>Contact Phone</td>
+                <td>{{ $institution->contact_phone }}</td>
+            </tr>
+            <tr>
+                <td>Contact Email</td>
+                <td>{{ $institution->contact_email }}</td>
+            </tr>
             <tr>
                 <td></td>
                 <td>
@@ -696,17 +680,12 @@
             <tr><td>.</td></tr>
             <tr>
                 <td></td>
-                <td>{!! Form::submit('Book Exam!'); !!}</td>
+                <td>{!! Form::submit('Book Exam!') !!}</td>
             </tr>
             {{ Form::close() }}
         </table>
 
-
-
-
-
-
-
-
     </body>
 </html>
+
+@stop

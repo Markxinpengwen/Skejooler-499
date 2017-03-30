@@ -68,9 +68,9 @@
                     }
 
                     elseif(Auth::user()->type == "center"){
-                        $array = DB::select('select name from centers where cid = ? ', [$uid]);
+                        $array = DB::select('select center_name from centers where cid = ? ', [$uid]);
                         $array = json_decode(json_encode($array), true);
-                        $name = $array[0]['name'];
+                        $name = $array[0]['center_name'];
                     }
                     ?>
                     @if(Auth::user()->type == 'center')

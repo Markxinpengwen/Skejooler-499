@@ -49,7 +49,7 @@
             <tr>
                 <th>{{ Form::label('iid', 'Institution') }}</th>
                 <td>
-                    {{ Form::select('iid', $institution) }}
+                    {{ Form::select('iid', $institution, $student->iid) }}
                 </td>
             </tr>
 

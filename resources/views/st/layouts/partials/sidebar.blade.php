@@ -19,7 +19,7 @@
                         $name = $array[0]['firstName'];
                     }
                     elseif(Auth::user()->type == "center"){
-                        $array = DB::select('select name from centers where cid = ? ', [$uid]);
+                        $array = DB::select('select center_name from centers where cid = ? ', [$uid]);
                         $array = json_decode(json_encode($array), true);
                         $name = $array[0]['name'];
                     }
@@ -48,12 +48,13 @@
         <ul class="sidebar-menu">
             <li class="header">FUNCTIONS</li>
             <!-- Optionally, you can add icons to the links -->
-            <li><a href="{{url('/studentS') }}"></i> <span>Dashboard</span></a></li>
+            <li><a href="{{url('/student') }}"></i> <span>Dashboard</span></a></li>
             <li><a href="{{url('/student/profile') }}"></i> <span>Profile</span></a></li>
             <li><a href="{{url('/student/schedule') }}"></i> <span>Schedule</span></a></li>
+            <li><a href="{{url('/student/examRequestForm') }}"></i> <span>Exam Request Form</span></a></li>
 
 
-            <?php
+        <?php
             $menuItems = Dwij\Laraadmin\Models\Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();
             ?>
             @foreach ($menuItems as $menu)

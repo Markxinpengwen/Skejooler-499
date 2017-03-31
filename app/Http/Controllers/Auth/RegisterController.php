@@ -121,7 +121,7 @@ class RegisterController extends Controller
                 'salt' => $options['salt'],
                 'type' => "center",
             ]);
-            DB::insert('insert into centers (cid,name,center_email,cost) values (?,?,?,?)',[$uid,$data['name'],$data['email'],10]);
+            DB::insert('insert into centers (cid,center_name,center_email,cost) values (?,?,?,?)',[$uid,$data['name'],$data['email'],10]);
         }
         $role = Role::where('name', 'SUPER_ADMIN')->first();
         $user->attachRole($role);

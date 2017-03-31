@@ -20,7 +20,7 @@ class CreateCentersTable extends Migration
     {
         Module::generate("Centers", 'centers', 'cid', 'fa-building-o', [
             ["cid", "cid", "Integer", true, "", 6, 6, true],
-            ["name", "name", "String", true, "", 0, 256, true],
+            ["center_name", "name", "String", true, "", 0, 256, true],
             ["center_email", "center_email", "Email", false, "", 0, 256, false],
             ["phone", "phone", "Mobile", false, "0", 0, 20, false], //new default value
             ["description", "description", "Textarea", false, "No Description Given", 0, 1000, false], //new default

@@ -4,6 +4,8 @@
  * Other, new, changes
  * - each student submits at least 1 requests to each center for each approval permutation type. ie each student submts 5 requests to each center, one of every approval permutation
  * - Added conditional 'scheduled date' for the following approval conditions: (2,2; 1,0; 2,1). Do time +/- 1 year from now
+ * - Added iid
+ * - Added computer_required
  */
 
 use Illuminate\Database\Seeder;
@@ -199,6 +201,7 @@ class StaticRequestsTableSeederLA extends Seeder
                         'rid' => ($rid + ($k-1)),
                         'sid' => $students[$h]['sid'], //0 indexed
                         'cid' => $centers[$i]['cid'], //0 indexed
+                        'iid' => rand(10000,10004), //$centers[$i]['iid'], //!@# change later
                         //other attributes
                         'preferred_date_1' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
                         'preferred_date_2' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
@@ -207,14 +210,15 @@ class StaticRequestsTableSeederLA extends Seeder
                         'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
                         'exam_type' => $type,
                         'exam_medium' => $medium,
+                        'computer_required' => ((rand(0, 2)==0)? "No" : "Yes"),
                         'student_approval' => $stuApv,
                         'student_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
                         'center_approval' => $cenApv,
                         'center_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
                         //Request Metainformation
                         //'remember_token' => str_random(100),
-                        'created_at' => $faker->dateTimeThisDecade($max = 'now'),
-                        'updated_at' => $faker->dateTimeThisMonth($max = 'now')
+                        //'created_at' => $faker->dateTimeThisDecade($max = 'now'),
+                        //'updated_at' => $faker->dateTimeThisMonth($max = 'now')
                     ];
 
                     //rid incrementer
@@ -236,6 +240,7 @@ class StaticRequestsTableSeederLA extends Seeder
                     'rid' => $requests[$i]['rid'],
                     'sid' => intval($requests[$i]['sid']),
                     'cid' => intval($requests[$i]['cid']),
+                    'iid' => intval($requests[$i]['iid']),
                     //other attributes
                     'preferred_date_1' => $requests[$i]['preferred_date_1'],
                     'preferred_date_2' => $requests[$i]['preferred_date_2'],
@@ -244,6 +249,7 @@ class StaticRequestsTableSeederLA extends Seeder
                     'additional_requirements' => $requests[$i]['additional_requirements'],
                     'exam_type' => $requests[$i]['exam_type'],
                     'exam_medium' => $requests[$i]['exam_medium'],
+                    'computer_required' => $requests[$i]['computer_required'],
                     'student_approval' => $requests[$i]['student_approval'],
                     'student_notes' => $requests[$i]['student_notes'],
                     'center_approval' => $requests[$i]['center_approval'],

@@ -33,6 +33,9 @@ class GiantTableSeederLA extends Seeder
 		$USERS_DEFAULT_AUTO_INCREMENT = 10000;
 		$STUDENTS_DEFAULT_AUTO_INCREMENT = 10000;
 		$CENTERS_DEFAULT_AUTO_INCREMENT = 10000;
+
+		//Minimum date
+        $MINIMUM_DATE= "1970-01-02 00:00:01";
 		
 		//Print
 		echo "GiantTableSeeder] Seeding ".($NUM_STUDENTS+$NUM_CENTERS+$NUM_ADMINS). " Users: ".$NUM_STUDENTS. " Students, and ".$NUM_CENTERS . " Centers, and ".$NUM_ADMINS." Admins.\n";
@@ -128,7 +131,7 @@ class GiantTableSeederLA extends Seeder
 				'sid' => 0,
 				'firstName' => $faker->firstName,
 				'lastName' => $faker->lastName,
-				'institution' => $school,
+				'iid' => $school,
 				'sex' => $gender,
 				'age' => (rand(0,40)+ 20),
 				'phone' => substr($faker->e164PhoneNumber,-11),
@@ -144,7 +147,7 @@ class GiantTableSeederLA extends Seeder
 		    $name=$faker->company();
 			$centers[$i] = [
 				'cid' => 0, //determined later
-				'name' =>  "".$name. " Center",
+				'center_name' =>  "".$name. " Center",
                 'center_email' => "".str_replace($REGEX_PATTERN,$REGEX_REPLACE,$name)."@example.org",
 				'phone' => substr($faker->e164PhoneNumber,-11),
 				'description' => $faker->bs() .$faker->bs() .$faker->bs(),
@@ -183,9 +186,9 @@ class GiantTableSeederLA extends Seeder
             $email=""; $uname=""; $type="";
 			if($i < $NUM_CENTERS){
 				//Center: First 10 letters of name + random digit 0-9
-                $email = str_replace($REGEX_PATTERN,$REGEX_REPLACE,substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.org"); ////$email = substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.org";
+                $email = str_replace($REGEX_PATTERN,$REGEX_REPLACE,substr($centers[$i]['center_name'],0,10) . rand(0,9) . "@example.org"); ////$email = substr($centers[$i]['name'],0,10) . rand(0,9) . "@example.org";
 				$type = "center";
-				$uname=$centers[$i]['name'];
+				$uname=$centers[$i]['center_name'];
 			}elseif($i < ($NUM_CENTERS+$NUM_STUDENTS)){
 				//Student: First 5 letters of First and Last Names
                 $email = str_replace($REGEX_PATTERN,$REGEX_REPLACE,substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.org"); //$email = substr($students[($i-$NUM_CENTERS)]['firstName'],0,5) . substr($students[$i-$NUM_CENTERS]['lastName'],0,5) . rand(0,9) . "@example.org";
@@ -239,6 +242,7 @@ class GiantTableSeederLA extends Seeder
 					'salt' => $users[$i]['salt'],
 					'password' => $users[$i]['password'],
 					'type' => $users[$i]['type'],
+                    'last_logged_in' => $MINIMUM_DATE,
 					'remember_token' => $users[$i]['remember_token'],
 					'created_at' => $users[$i]['created_at'],
 					'updated_at' => $users[$i]['updated_at']
@@ -256,7 +260,7 @@ class GiantTableSeederLA extends Seeder
 				DB::table('Centers')->insert(
 					[					
 						'cid' => $centers[$i]['cid'],
-						'name' => $centers[$i]['name'],
+						'center_name' => $centers[$i]['center_name'],
                         'center_email' => $centers[$i]['center_email'],
 						'phone' => $centers[$i]['phone'],
 						'description' => $centers[$i]['description'],
@@ -273,14 +277,14 @@ class GiantTableSeederLA extends Seeder
 						'updated_at' => $centers[$i]['updated_at']
 					]
 				);
-				echo "\n\t- Center ID ".$centers[$i]['cid'].": ".$centers[$i]['name'];
+				echo "\n\t- Center ID ".$centers[$i]['cid'].": ".$centers[$i]['center_name'];
 			}else{
 				DB::table('Students')->insert(
 					[					
 						'sid' => $students[($i-$NUM_CENTERS)]['sid'],
 						'firstName' => $students[($i-$NUM_CENTERS)]['firstName'],
 						'lastName' => $students[($i-$NUM_CENTERS)]['lastName'],
-						'institution' => $students[($i-$NUM_CENTERS)]['institution'],
+						'iid' => $students[($i-$NUM_CENTERS)]['iid'],
 						'sex' => $students[($i-$NUM_CENTERS)]['sex'],
 						'age' => $students[($i-$NUM_CENTERS)]['age'],
 						'phone' => $students[($i-$NUM_CENTERS)]['phone'],

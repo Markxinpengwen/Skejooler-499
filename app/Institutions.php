@@ -11,23 +11,20 @@ class Institutions extends BaseModel
 
     //TODO rules
     protected $rules = array(
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
+        'iid' => '',
+        'institution_name' => '',
+        'description' => '',
+        'phone' => '',
+        'hasPaid' => '',
+        'street_address' => '',
+        'city' => '',
+        'province' => '',
+        'country' => '',
+        'postal_code' => '',
+        'contact_name' => '',
+        'contact_email' => '',
+        'contact_phone' => '',
     );
-
-    // TODO authorize statement
-    public function authorize($id)
-    {
-        return true;
-    }
 
     // TODO customized error messages
     public function messages()

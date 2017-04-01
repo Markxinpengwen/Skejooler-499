@@ -11,23 +11,14 @@ class Students extends BaseModel
 
     //TODO rules
     protected $rules = array(
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
+        'sid' => '',
+        'firstName' => '',
+        'lastName' => '',
+        'iid' => '',
+        'sex' => '',
+        'age' => '',
+        'phone' => '',
     );
-
-    // TODO authorize statement
-    public function authorize($id)
-    {
-        return true;
-    }
 
     // TODO customized error messages
     public function messages()

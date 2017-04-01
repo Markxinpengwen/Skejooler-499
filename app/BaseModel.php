@@ -11,6 +11,18 @@ class BaseModel extends Model
 
     protected $errors;
 
+    public function authorize($id)
+    {
+        if($id == Auth::id())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public function validate($data)
     {
         $validator = Validator::make($data, $this->rules);

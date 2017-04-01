@@ -18,16 +18,23 @@ class Requests extends BaseModel
 
     // TODO rules
     protected $rules = array(
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
+        'id' => '',
+        'rid' => '',
+        'sid' => '',
+        'cid' => '',
+        'iid' => '',
+        'preferred_date_1' => '',
+        'preferred_date_2' => '',
+        'scheduled_date' => '',
+        'course_code' => '',
+        'additional_requirements' => '',
+        'exam_type' => '',
+        'exam_medium' => '',
+        'computer_required' => '',
+        'student_approval' => '',
+        'student_notes' => '',
+        'center_approval' => '',
+        'center_notes' => '',
     );
 
     private $decision = array(
@@ -738,12 +745,6 @@ class Requests extends BaseModel
             )
         )
     );
-
-    // TODO authorize statement
-    public function authorize($rid, $cid)
-    {
-        return true;
-    }
 
     // TODO customized error messages
     public function messages()

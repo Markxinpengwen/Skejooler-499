@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Auth;
+
 class Centers extends BaseModel
 {
 
@@ -11,7 +13,8 @@ class Centers extends BaseModel
 
     //TODO rules
     protected $rules = array(
-        'name' => 'required|string', // TODO add unique
+        'cid' => '',
+        'center_name' => 'required|string', // TODO add unique
         'center_email' => 'email',
         'phone' => 'numeric', // TODO needs a valid change into mobile 0 - 20 accepts valid characters
         'description' => '', // TODO text area 0 - 1000
@@ -22,13 +25,9 @@ class Centers extends BaseModel
         'province' => 'string',
         'country' => 'string',
         'postal_code' => 'between:5,6|string',
+        'longitude' => '',
+        'latitude' => '',
     );
-
-    // TODO authorize statement
-    public function authorize($id)
-    {
-        return true;
-    }
 
     // TODO customized error messages
     public function messages()

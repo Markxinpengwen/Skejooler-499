@@ -150,34 +150,52 @@
 
         <tr>
             <td>{{ Form::label('preferred_date_1', 'Preferred Date 1:') }}</td>
-            <td>{{ Form::datetime('preferred_date_1', $request->preferred_date_1) }}</td>
+            <td>{{ Form::date('preferred_date_1', $request->preferred_date_1) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('preferred_date_2', 'Preferred Date 12') }}</td>
-            <td>{{ Form::datetime('preferred_date_2', $request->preferred_date_2) }}</td>
+            <td>{{ Form::date('preferred_date_2', $request->preferred_date_2) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('course_code', 'Course Code:') }}</td>
-            <td>{{ Form::datetime('course_code', $request->course_code) }}</td>
+            <td>{{ Form::text('course_code', $request->course_code) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('additional_requirements', 'Additional Requirements:') }}</td>
-            <td>{{ Form::datetime('additional_requirements', $request->additional_requirements) }}</td>
+            <td>{{ Form::textarea('additional_requirements', $request->additional_requirements) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('exam_type', 'Exam Type:') }}</td>
-            <td>{{ Form::datetime('exam_type', $request->exam_type) }}</td>
+            <td>{{ Form::select('exam_type', [
+                'Midterm' => 'Midterm',
+                'Final' => 'Final',
+                'Other' => 'Other'
+                ], $request->exam_type
+            ) }}</td>
         </tr>
 
         <tr>
             <td>{{ Form::label('exam_medium', 'Exam Medium:') }}</td>
-            <td>{{ Form::datetime('exam_medium', $request->exam_medium) }}</td>
+            <td>{{ Form::select('exam_medium', [
+                'Paper' => 'Paper',
+                'Online' => 'Online',
+                'Other' => 'Other'
+                ], $request->exam_medium
+            ) }}</td>
         </tr>
 
+        <tr>
+            <td>{{ Form::label('computer_required', 'Computer Required:') }}</td>
+            <td>{{ Form::select('computer_required', [
+                'Yes' => 'Yes',
+                'No' => 'No'
+                ], $request->computer_required
+            ) }}</td>
+        </tr>
 
         <tr>
             <th>Center Notes:</th>
@@ -204,21 +222,12 @@
 
         <tr>
             <td>{{ Form::label('student_approval', 'Student Approval Status:') }}</td>
-            <td>
-                @if($request->student_approval == 2)
-                    Approve{{ Form::radio('student_approval', '2', true) }}
-                    Undecided{{ Form::radio('student_approval', '1') }}
-                    Deny{{ Form::radio('student_approval', '0') }}
-                @elseif($request->student_approval == 1)
-                    Approve{{ Form::radio('student_approval', '2') }}
-                    Undecided{{ Form::radio('student_approval', '1', true) }}
-                    Deny{{ Form::radio('student_approval', '0')}}
-                @elseif($request->student_approval == 0)
-                    Approve{{ Form::radio('student_approval', '2') }}
-                    Undecided{{ Form::radio('student_approval', '1') }}
-                    Deny{{ Form::radio('student_approval', '0', true)}}
-                @endif
-            </td>
+            <td>{{ Form::select('student_approval', [
+                '2' => 'Approve',
+                '1' => 'Undecided',
+                '0' => 'Deny'
+                ], $request->student_approval
+            ) }}</td>
         </tr>
 
         {{ Form::hidden('rid', $request->rid) }}

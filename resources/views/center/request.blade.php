@@ -128,6 +128,11 @@
         </tr>
 
         <tr>
+            <th>Computer Required:</th>
+            <td>{{ $request->computer_required }}</td>
+        </tr>
+
+        <tr>
             <th>Student Notes:</th>
             <td>{{ $request->student_notes }}</td>
         </tr>

@@ -177,6 +177,11 @@
         </tr>
 
         <tr>
+            <th>Computer Required:</th>
+            <td>{{ $request->computer_required }}</td>
+        </tr>
+
+        <tr>
             <th>Center Notes:</th>
             <td>{{ $request->center_notes }}</td>
         </tr>

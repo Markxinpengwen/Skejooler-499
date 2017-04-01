@@ -23,7 +23,9 @@
                 <th>{{ Form::label('sex', 'Gender:') }}</th>
                 <td>{{ Form::select('sex',[
                     'not_declared' => 'Not Declared',
-                    'male'=>'Male', 'female'=>'Female',
+                    'male'=>'Male',
+                    'female'=>'Female',
+                    'transgender' => 'Transgender',
                     'other'=>'Other'
                 ], $student->sex) }}
                 </td>

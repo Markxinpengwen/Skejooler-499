@@ -96,7 +96,7 @@
 
         <tr>
             <td>{{ Form::label('scheduled_date', 'Scheduled Date:') }}</td>
-            <td>{{ Form::datetime('scheduled_date', $request->scheduled_date) }}</td>
+            <td>{{ Form::date('scheduled_date', $request->scheduled_date) }}</td>
         </tr>
 
         <tr>
@@ -130,6 +130,11 @@
         </tr>
 
         <tr>
+            <th>Computer Required:</th>
+            <td>{{ $request->computer_required }}</td>
+        </tr>
+
+        <tr>
             <th>Student Notes:</th>
             <td>{{ $request->student_notes }}</td>
         </tr>
@@ -154,21 +159,12 @@
 
         <tr>
             <td>{{ Form::label('center_approval', 'Center Approval Status:') }}</td>
-            <td>
-                @if($request->center_approval == 2)
-                    Approve{{ Form::radio('center_approval', '2', true) }}
-                    Undecided{{ Form::radio('center_approval', '1') }}
-                    Deny{{ Form::radio('center_approval', '0') }}
-                @elseif($request->center_approval == 1)
-                    Approve{{ Form::radio('center_approval', '2') }}
-                    Undecided{{ Form::radio('center_approval', '1', true) }}
-                    Deny{{ Form::radio('center_approval', '0')}}
-                @elseif($request->center_approval == 0)
-                    Approve{{ Form::radio('center_approval', '2') }}
-                    Undecided{{ Form::radio('center_approval', '1') }}
-                    Deny{{ Form::radio('center_approval', '0', true)}}
-                @endif
-            </td>
+            <td>{{ Form::select('center_approval', [
+                '2' => 'Approve',
+                '1' => 'Undecided',
+                '0' => 'Deny'
+                ], $request->center_approval
+            ) }}</td>
         </tr>
 
         {{ Form::hidden('rid', $request->rid) }}

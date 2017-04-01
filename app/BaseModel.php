@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Validator;
+use Illuminate\Support\Facades\Auth as Auth;
 
 class BaseModel extends Model
 {

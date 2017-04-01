@@ -10,7 +10,7 @@
 
         <tr>
             <th>Name:</th>
-            <td>{{ $center->name }}</td>
+            <td>{{ $center->center_name }}</td>
         </tr>
 
         <tr>
@@ -143,17 +143,17 @@
 
         <tr>
             <th>Scheduled Date:</th>
-            <td>{{ $request->scheduled_date or "Not Scheduled" }}</td>
+            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->format('l\\, jS \\of F Y \\a\\t h:i A') }}</td>
         </tr>
 
         <tr>
-            <th>Preferred Date 1:</th>
-            <td>{{ $request->preferred_date_1 }}</td>
+            <th>First Preferred Date:</th>
+            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_1)->format('l\\, jS \\of F Y \\a\\t h:i A') }}</td>
         </tr>
 
         <tr>
-            <th>Preferred Date 2:</th>
-            <td>{{ $request->preferred_date_2 }}</td>
+            <th>Second Preferred Date:</th>
+            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_2)->format('l\\, jS \\of F Y \\a\\t h:i A') }}</td>
         </tr>
 
         <tr>

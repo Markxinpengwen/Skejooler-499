@@ -304,7 +304,7 @@ class StudentController extends Controller
         $cid = $tempRequest['cid'];
 
         // determine is user is allowed to update profile
-        if($r->authorize($rid, $sid))
+        if($r->authorize($sid))
         {
             $request = Requests::where('rid', $rid)
                 ->where('sid', Auth::id())
@@ -347,12 +347,13 @@ class StudentController extends Controller
                 else
                 {
                     // update request
-                    $request->preferred_Date_1 = $tempRequest['preferred_date_1'];
-                    $request->preferred_Date_2 = $tempRequest['preferred_date_2'];
+                    $request->preferred_date_1 = $tempRequest['preferred_date_1']." ".$tempRequest['preferred_time_1'].":00";
+                    $request->preferred_date_2 = $tempRequest['preferred_date_2']." ".$tempRequest['preferred_time_2'].":00";
                     $request->course_code = $tempRequest['course_code'];
                     $request->additional_requirements = $tempRequest['additional_requirements'];
                     $request->exam_type = $tempRequest['exam_type'];
                     $request->exam_medium = $tempRequest['exam_medium'];
+                    $request->computer_required = $tempRequest['computer_required'];
                     $request->student_notes = $tempRequest['student_notes'];
 
                     $request->student_approval = $approvals[0];

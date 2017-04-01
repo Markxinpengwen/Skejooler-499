@@ -299,7 +299,7 @@ class CenterController extends Controller
         $sid = $tempRequest['sid'];
 
         // determine is user is allowed to update profile
-        if($r->authorize($rid, $cid))
+        if($r->authorize($cid))
         {
             $request = Requests::where('rid', $rid)
                 ->where('cid', Auth::id())
@@ -342,7 +342,7 @@ class CenterController extends Controller
                 else
                 {
                     // update request
-                    $request->scheduled_date = $tempRequest['scheduled_date'];
+                    $request->scheduled_date = $tempRequest['scheduled_date']." ".$tempRequest['scheduled_time'].":00";
                     $request->center_notes = $tempRequest['center_notes'];
 
                     $request->center_approval = $approvals[0];

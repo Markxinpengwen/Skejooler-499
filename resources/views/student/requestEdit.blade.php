@@ -12,7 +12,7 @@
 
         <tr>
             <th>Name:</th>
-            <td>{{ $center->name }}</td>
+            <td>{{ $center->center_name }}</td>
         </tr>
 
         <tr>
@@ -145,17 +145,19 @@
 
         <tr>
             <th>Scheduled Date:</th>
-            <td>{{ $request->scheduled_date }}</td>
+            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->format('l\\, jS \\of F Y \\a\\t h:i A') }}</td>
         </tr>
 
         <tr>
-            <td>{{ Form::label('preferred_date_1', 'Preferred Date 1:') }}</td>
-            <td>{{ Form::date('preferred_date_1', $request->preferred_date_1) }}</td>
+            <td>{{ Form::label('preferred_date_1', 'First Preferred Date:') }}</td>
+            <td>{{ Form::date('preferred_date_1', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_1)->toDateString()) }}</td>
+            <td>{{ Form::time('preferred_time_1', \Carbon\Carbon::createFromFormat('H:i', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_1)->Format('H:i'))->toTimeString()) }}</td>
         </tr>
 
         <tr>
-            <td>{{ Form::label('preferred_date_2', 'Preferred Date 12') }}</td>
-            <td>{{ Form::date('preferred_date_2', $request->preferred_date_2) }}</td>
+            <td>{{ Form::label('preferred_date_2', 'Second Preferred Date') }}</td>
+            <td>{{ Form::date('preferred_date_2', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_2)->toDateString()) }}</td>
+            <td>{{ Form::time('preferred_time_2', \Carbon\Carbon::createFromFormat('H:i', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_2)->Format('H:i'))->toTimeString()) }}</td>
         </tr>
 
         <tr>

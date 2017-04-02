@@ -78,8 +78,8 @@ class CreateCentersTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('Centers')) {
-            Schema::drop('Centers');
+        if (Schema::hasTable('centers')) {
+            Schema::drop('centers');
         }
     }
 }

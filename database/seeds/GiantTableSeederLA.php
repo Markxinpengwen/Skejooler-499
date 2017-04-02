@@ -68,7 +68,7 @@ class GiantTableSeederLA extends Seeder
 		
 		//Acquire initial auto_increment values from database (for students, users, and centers) and then print them.
 		//Students
-		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Students'"));
+		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'students'"));
         $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
 		$sid = $result[0]['Auto_increment'];
 		if($sid!=0){
@@ -78,7 +78,7 @@ class GiantTableSeederLA extends Seeder
 			echo "Students next Auto_Increment value was 0.\n\tSetting to default value of ".$sid.".\n";
 		}
 		//Users
-		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Users'"));
+		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'users'"));
         $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
 		$id = $result[0]['Auto_increment'];
 		if($id!=0){
@@ -88,7 +88,7 @@ class GiantTableSeederLA extends Seeder
 			echo "Users next Auto_Increment value was 0.\n\tSetting to default value of ".$id.".\n";
 		}
 		//Centers
-		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Centers'"));
+		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'centers'"));
         $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
 		$cid = $result[0]['Auto_increment'];
 		if($cid!=0){
@@ -233,7 +233,7 @@ class GiantTableSeederLA extends Seeder
 		echo "\n\nInserting Users (including admins):";
 		for($i = 0; $i < ($NUM_CENTERS+$NUM_STUDENTS+$NUM_ADMINS); $i++) {
 			//Submit Users
-			DB::table('Users')->insert(
+			DB::table('users')->insert(
 				[
                     'id' => $users[$i]['uid'], //!@#here
 				    'uid' => $users[$i]['uid'], //!@#changed to 'uid'
@@ -257,7 +257,7 @@ class GiantTableSeederLA extends Seeder
 			//Submit Either Student OR Center
 			if($i < $NUM_CENTERS){
 				//use 'insertGetId' for grabbing auto-incremented field
-				DB::table('Centers')->insert(
+				DB::table('centers')->insert(
 					[					
 						'cid' => $centers[$i]['cid'],
 						'center_name' => $centers[$i]['center_name'],
@@ -279,7 +279,7 @@ class GiantTableSeederLA extends Seeder
 				);
 				echo "\n\t- Center ID ".$centers[$i]['cid'].": ".$centers[$i]['center_name'];
 			}else{
-				DB::table('Students')->insert(
+				DB::table('students')->insert(
 					[					
 						'sid' => $students[($i-$NUM_CENTERS)]['sid'],
 						'firstName' => $students[($i-$NUM_CENTERS)]['firstName'],

@@ -37,7 +37,7 @@ class InstitutionsTableSeederLA extends Seeder
         }
 
 		//Acquire initial auto_increment value from institutions table, for start index when seeding.
-		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Institutions'"));
+		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'institutions'"));
         $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
         //var_dump($result);
 		$iid = intval($result[0]["Auto_increment"]);
@@ -61,7 +61,7 @@ class InstitutionsTableSeederLA extends Seeder
 			$tmp = $faker->company() . " University";
 			
 			//sequential inserts
-			DB::table('Institutions')->insert(
+			DB::table('institutions')->insert(
 				[					
 					'iid' => $iid,
 					'institution_name' => $tmp,

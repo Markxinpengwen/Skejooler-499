@@ -50,7 +50,7 @@ class StaticRequestsTableSeederLA extends Seeder
         //Collect num students and centers
 
         //Acquire initial RID auto_increment value from database, and then print.
-        $result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Requests'"));
+        $result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'requests'"));
         $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
         $rid = $result[0]['Auto_increment'];
         if($rid!=0){

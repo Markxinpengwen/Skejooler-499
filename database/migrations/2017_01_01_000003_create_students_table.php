@@ -71,8 +71,8 @@ class CreateStudentsTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('Students')) {
-            Schema::drop('Students');
+        if (Schema::hasTable('students')) {
+            Schema::drop('students');
         }
     }
 }

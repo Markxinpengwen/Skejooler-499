@@ -31,7 +31,7 @@ class NameController extends Controller
         elseif(Auth::user()->type == "center"){
             $array = DB::select('select center_name from centers where cid = ? ', [$uid]);
             $array = json_decode(json_encode($array), true);
-            $name = $array[0]['name'];
+            $name = $array[0]['center_name'];
             return view('/st/layouts/partials/notifs')->with('name', $name);
         }
     }

@@ -35,9 +35,11 @@ class CenterController extends Controller
         $center = Centers::where('cid', Auth::id())
             ->first();
 
+        // find correct User
         $user = Users::where('uid', Auth::id())
             ->first();
 
+        // send to profile view with Center model for given User and login email from User model
         return view('center/profile')
             ->with('center', $center)
             ->with('login_email', $user->email);
@@ -52,9 +54,11 @@ class CenterController extends Controller
         $center = Centers::where('cid', Auth::id())
             ->first();
 
+        // find correct User
         $user = Users::where('uid', Auth::id())
             ->first();
 
+        // send to profileEdit view with Center model for given User and login email from User model
         return view('center/profileEdit')
             ->with('center', $center)
             ->with('login_email', $user->email);
@@ -66,22 +70,23 @@ class CenterController extends Controller
      */
     public function updateProfile()
     {
+        // instantiate a Center model
         $c = new Centers();
 
-        // grab center info to be updated
+        // grab Center info to be updated and determine cid
         $tempCenter = Input::all();
         $cid = $tempCenter['cid'];
 
-        // determine is user is allowed to update profile
+        // determine is User is allowed to update profile
         if($c->authorize($cid))
         {
-            // find correct Center to update
             if($c->validate($tempCenter))
             {
+                // find correct Center to update
                 $center = Centers::where('cid', Auth::id())
                     ->first();
 
-                // update center
+                // update Center values
                 $center->name = $tempCenter['name'];
                 $center->center_email = $tempCenter['center_email'];
                 $center->phone = $tempCenter['phone'];
@@ -120,7 +125,7 @@ class CenterController extends Controller
      */
     public function showSchedule()
     {
-        //
+        // find all exam requests that Student and Center have approved and is in the future than determine the count
         $upcoming = Requests::where('cid', Auth::id())
             ->where('center_approval', 2)
             ->where('student_approval', 2)
@@ -133,6 +138,7 @@ class CenterController extends Controller
             ->get(); //TODO get correct current datetime
         $upcomingCount = $upcoming->count();
 
+        // find all exam requests that Student has approved and Center
         $pendingCenter = Requests::where('cid', Auth::id())
             ->where('center_approval', 1)
             ->where('student_approval', 2)

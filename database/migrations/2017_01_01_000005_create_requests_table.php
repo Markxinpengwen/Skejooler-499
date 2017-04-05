@@ -50,8 +50,8 @@ class CreateRequestsTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('Requests')) {
-            Schema::drop('Requests');
+        if (Schema::hasTable('requests')) {
+            Schema::drop('requests');
         }
     }
 }

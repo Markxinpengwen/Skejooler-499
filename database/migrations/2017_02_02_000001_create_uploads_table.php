@@ -1,15 +1,15 @@
 <?php
 /**
- * //!@# Completed 01-28
  * Migration genrated using LaraAdmin
  * Help: http://laraadmin.com
  */
- 
+
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateStudentsTable extends Migration
+class CreateUploadsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,14 +18,14 @@ class CreateStudentsTable extends Migration
      */
     public function up()
     {
-        Module::generate("Students", 'students', 'sid', 'fa-building-o', [
-            ["sid", "sid", "Integer", true, "", 5, 7, true],
-            ["firstName", "firstName", "String", false, "First", 0, 256, true],
-			["lastName", "lastName", "String", false, "Last", 0, 256, true],
-			["iid", "iid", "Integer", false, 0, 5, 7, false],
-            ["sex", "sex", "Dropdown", false, "not_declared", 0, 0, false, ["not_declared","male","female","transgender"]],
-			["age", "age", "Integer", false, 0, 0, 110, false],
-			["phone", "phone", "Mobile", false, "0", 0, 15, false] //new default
+        Module::generate("Uploads", 'uploads', 'name', 'fa-files-o', [
+            ["name", "Name", "Name", false, "", 5, 250, true],
+            ["path", "Path", "String", false, "", 0, 250, false],
+            ["extension", "Extension", "String", false, "", 0, 20, false],
+            ["caption", "Caption", "String", false, "", 0, 250, false],
+            ["user_id", "Owner", "Dropdown", false, "1", 0, 0, false, "@users"],
+            ["hash", "Hash", "String", false, "", 0, 250, false],
+            ["public", "Is Public", "Checkbox", false, "0", 0, 0, false],
         ]);
 		
 		/*
@@ -71,8 +71,8 @@ class CreateStudentsTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('students')) {
-            Schema::drop('students');
+        if (Schema::hasTable('uploads')) {
+            Schema::drop('uploads');
         }
     }
 }

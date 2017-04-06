@@ -1,3 +1,7 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("st.layouts.app")
 
 @section('title', 'Request')
@@ -10,7 +14,7 @@
 
         <tr>
             <th>Name:</th>
-            <td>{{ $center->name }}</td>
+            <td>{{ $center->center_name }}</td>
         </tr>
 
         <tr>
@@ -143,17 +147,23 @@
 
         <tr>
             <th>Scheduled Date:</th>
-            <td>{{ $request->scheduled_date or "Not Scheduled" }}</td>
+            <td>
+                @if($request->scheduled_date == "1970-01-02 00:00:00" || $request->scheduled_date == null)
+                    {{ "Date not scheduled" }}
+                @else
+                    {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->format('l\\, jS \\of F Y \\a\\t h:i A') }}
+                @endif
+            </td>
         </tr>
 
         <tr>
-            <th>Preferred Date 1:</th>
-            <td>{{ $request->preferred_date_1 }}</td>
+            <th>First Preferred Date:</th>
+            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_1)->format('l\\, jS \\of F Y \\a\\t h:i A') }}</td>
         </tr>
 
         <tr>
-            <th>Preferred Date 2:</th>
-            <td>{{ $request->preferred_date_2 }}</td>
+            <th>Second Preferred Date:</th>
+            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_2)->format('l\\, jS \\of F Y \\a\\t h:i A') }}</td>
         </tr>
 
         <tr>
@@ -174,6 +184,11 @@
         <tr>
             <th>Exam Medium:</th>
             <td>{{ $request->exam_medium }}</td>
+        </tr>
+
+        <tr>
+            <th>Computer Required:</th>
+            <td>{{ $request->computer_required }}</td>
         </tr>
 
         <tr>

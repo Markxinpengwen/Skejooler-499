@@ -1,3 +1,7 @@
+{{--
+    Author: Barrett Sharpe, Brett Schaad
+--}}
+
 @extends("st.layouts.app")
 
 @section('title', 'Exam Request Form')
@@ -6,6 +10,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -222,9 +227,9 @@
 
             //Function to fill Form elements with marker data.
             function fillForm(data){
-                document.getElementById("centerName").value = data.Name.value; //data is type object.
-                document.getElementById("centerStreetAddress").value = data.Address.value;
-                document.getElementById("centerCity").value = data.City.value;
+                document.getElementById("center_name").value = data.Name.value; //data is type object.
+                document.getElementById("street_address").value = data.Address.value;
+                document.getElementById("city").value = data.City.value;
 
             }//fillForm
 
@@ -280,7 +285,7 @@
                     });
 
                 //'city'Listener
-                google.maps.event.addDomListener(document.getElementById('city'),
+                google.maps.event.addDomListener(document.getElementById('map_city'),
                     'change', function() {
                         updateMap(true);
                     });
@@ -297,7 +302,7 @@
             function updateMap(shouldRecenter) {
 
                 //Collect selection values
-                cityValue = document.getElementById('city').value;
+                cityValue = document.getElementById('map_city').value;
                     console.log("cityValue is:"+cityValue+".");//!@#
                 radiusValue = document.getElementById('radius').value;
                 supportsOnlineValue = document.getElementById('supportsOnline').value;
@@ -426,19 +431,23 @@
 
     </head>
 
+    <body>
 
         <table class="tableForm">
+
             <tr>
                 <th colspan = "3"><h1>Step 1 - Select A Center</h1></th>
             </tr>
+
             <tr>
                 <th colspan = "2"><h2><em>Filter Criteria</em></h2></th>
             </tr>
+
             <tr>
                 <td> {!! Form::label('labelCity','City') !!} </td>
                 <td>
                     <!--//!@# need to fix optgroup potential error in laravel select form-->
-                    <select id="city">
+                    <select id="map_city">
                         <!--default-->
                         <optgroup label="Default">
                             <option value="Any City" default>Any City</option>
@@ -488,57 +497,61 @@
                             <option value="Williams_Lake">Williams Lake </option>
                         </optgroup>
                     </select>
-
                 </td>
                 <td>
                     <button id="centerButton" type="button" onclick="centerOnCity();">Center To City</button>
                 </td>
             </tr>
+
             <tr>
                 <td> {!! Form::label('labelRadius','Radius') !!} </td>
                 <td> <input id='radius'type='Range'min='0'max='40000'step='500'value='0'/> </td>
                 <td> <label id='displayRadius'></label> </td>
             </tr>
+
             <tr>
                 <td> {!! Form::label('supportsOnline','Support for Online Exams') !!} </td>
                 <td> {!! Form::checkbox('supportsOnline') !!}</td>
             </tr>
+
             <tr>
                 <td>.</td>
             </tr>
+
         </table>
-
-
 
         <!--Map Element-->
         <div id="map-canvas"></div>
         <br>
 
-
         <!--New Form Table-->
         <table class="tableForm">
             {{ Form::open() }}
+
             <tr>
                 <th colspan = "2"><h1>Step 2 - Complete Your Exam Form</h1></th>
             </tr>
 
             <!--Section 1): Invigilation Center-->
-
             <tr>
                 <th colspan = "2"><h2><em>Invigilation Center</em></h2></th>
             </tr>
+
             <tr>
-                <td class="required"> {{ Form::label('center_name','Center Name:') }} </td>
-                <td> {!! Form::text('center_name') !!} </td>
+                <td class="required">Center Name: </td>
+                <td> {!! Form::label('center_name') !!} </td>
             </tr>
+
             <tr>
                 <td class="required"> {!! Form::label('street_address','Center Street Address:') //Center Street Address!!} </td>
-                <td> {!! Form::text('street_address') !!} </td>
+                <td> {!! Form::label('street_address') !!} </td>
             </tr>
+
             <tr>
                 <td class="required"> {!! Form::label('city','Center City:') //Center City!!} </td>
-                <td> {!! Form::text('city') !!} </td>
+                <td> {!! Form::label('city') !!} </td>
             </tr>
+
             <tr>
                 <td class="required"> {!! Form::label('province','Center Province:') //Center Province!!} </td>
                 <td>
@@ -550,37 +563,41 @@
                             'manitoba' => 'Manitoba',
                             'ontario' => 'Ontario',
                             'quebec' => 'Quebec',
-                            'nova_Scotia' => 'Nova Scotia',
-                            'newfoundland_and_Labrador' => 'Newfoundland and Labrador',
-                            'new_Brunswick' => 'New Brunswick',
+                            'nova_scotia' => 'Nova Scotia',
+                            'newfoundland_and_labrador' => 'Newfoundland and Labrador',
+                            'new_brunswick' => 'New Brunswick',
                             'prince_edward_island' => 'Prince Edward Island',
-                            'Yukon' => 'Yukon',
-                            'Northwest_Territories' => 'Northwest Territories',
-                            'Nunavut' => 'Nunavut',
+                            'yukon' => 'Yukon',
+                            'northwest_territories' => 'Northwest Territories',
+                            'nunavut' => 'Nunavut',
                         ],
                     ]) !!}
                 </td>
             </tr>
             <tr>
+
                 <td></td>
                 <td>
                     <button id="clear1" type="button" onclick="clearForm(1);">Clear Section</button>
                 </td>
             </tr>
-            {{--{{ var_dump($student) }}--}}
+
             <!-- Section 2: Examinee-->
             <tr></tr>
             <tr>
                 <th colspan = "2"><h2><em>Examinee (i.e. You)</em></h2></th>
             </tr>
+
             <tr>
                 <td class="required">Name</td>
                 <td>{{ $student->firstName }} {{ $student->lastName }}</td>
             </tr>
+
             <tr>
                 <td class="required">Phone</td>
                 <td>{{ $student->phone }}</td>
             </tr>
+
             <tr>
                 <td class="required">Email Address</td>
                 <td>{{ $student_email }}</td>
@@ -589,29 +606,31 @@
             <tr>
                 <td class="required"> {!! Form::label('preferred_date_1','Exam Date (First Choice):') //Exam Date 1!!} </td>
                 <td> {!! Form::datetime('preferred_date_1', \Carbon\Carbon::now()); !!} </td>
-
             </tr>
+
             <tr>
                 <td class="required"> {!! Form::label('preferred_date_2','Exam Date (Second Choice):') //Exam Date 2!!} </td>
                 <td> {!! Form::datetime('preferred_date_2', \Carbon\Carbon::now()); !!} </td>
             </tr>
+
             <tr>
                 <td></td>
                 <td>
                     <button id="clear2" type="button" onclick="clearForm(2);">Clear Section</button>
                 </td>
             </tr>
-{{--            {{ var_dump($institution) }}--}}
-            <!-- Section 3: Institution Info-->
 
+            <!-- Section 3: Institution Info-->
             <tr></tr>
             <tr>
                 <th colspan = "2"><h2><em>Institution</em></h2></th>
             </tr>
+
             <tr>
                 <td class="required">Institution Name</td>
                 <td>{{ $institution->institution_name }}</td>
             </tr>
+
             <!-- Not currently accepting Institution Information in database-->
             <tr>
                 <td class="required">Institution Address</td>
@@ -622,18 +641,22 @@
                     {{ $institution->postal_code }}
                 </td>
             </tr>
+
             <tr>
                 <td>Contact Name</td>
                 <td> {{ $institution->contact_name }} </td>
             </tr>
+
             <tr>
                 <td>Contact Phone</td>
                 <td>{{ $institution->contact_phone }}</td>
             </tr>
+
             <tr>
                 <td>Contact Email</td>
                 <td>{{ $institution->contact_email }}</td>
             </tr>
+
             <tr>
                 <td></td>
                 <td>
@@ -642,31 +665,41 @@
             </tr>
 
             <!-- Section 4: Examination Info-->
-
             <tr></tr>
             <tr>
                 <th colspan = "2"><h2><em>Exam</em></h2></th>
             </tr>
+
             <tr>
                 <td class="required"> {!! Form::label('course_code','Course Number:') //Course Number!!} </td>
                 <td> {!! Form::text('course_code') !!} </td>
             </tr>
+
             <tr>
                 <td class="required"> {!! Form::label('exam_type','Midterm or Final:') //Course Midterm or Final!!}</td>
                 <td> {!! Form::select('exam_type', ['Midterm' => 'Midterm', 'Final' => 'Final'], 'Final'); !!}</td>
             </tr>
+
             <tr>
                 <td class="required"> {!! Form::label('exam_medium','Exam Type:') //Course Exam Type!!}</td>
                 <td> {!! Form::select('exam_medium', ['Paper' => 'Paper', 'Online' => 'Online', 'Other' => 'Other'], 'Paper'); !!}</td>
             </tr>
+
             <tr>
                 <td class="required"> {!! Form::label('computer_required','Computer Required:') //Course Computer Required!!}</td>
                 <td> {!! Form::select('computer_required', ['Yes'=>'Yes','No'=>'No'], 'No'); !!}</td>
             </tr>
+
             <tr>
                 <td> {!! Form::label('additional_requirements','Additional Requirements or Information:') //Course Additional Requirements!!} </td>
                 <td> {!! Form::textarea('additional_requirements') !!} </td>
             </tr>
+
+            <tr>
+                <td> {!! Form::label('student_notes','Notes:') //Course Additional Requirements!!} </td>
+                <td> {!! Form::textarea('student_notes') !!} </td>
+            </tr>
+
             <tr>
                 <td></td>
                 <td>
@@ -675,17 +708,18 @@
             </tr>
 
             <!-- Submit-->
-
             <tr><td>.</td></tr>
             <tr><td>.</td></tr>
             <tr>
                 <td></td>
                 <td>{!! Form::submit('Book Exam!') !!}</td>
             </tr>
+
             {{ Form::close() }}
         </table>
 
     </body>
+
 </html>
 
 @stop

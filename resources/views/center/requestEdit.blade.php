@@ -1,3 +1,7 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("cn.layouts.app")
 
 @section('title', 'Request')
@@ -96,17 +100,18 @@
 
         <tr>
             <td>{{ Form::label('scheduled_date', 'Scheduled Date:') }}</td>
-            <td>{{ Form::datetime('scheduled_date', $request->scheduled_date) }}</td>
+            <td>{{ Form::date('scheduled_date', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->toDateString()) }}</td>
+            <td>{{ Form::time('scheduled_time', \Carbon\Carbon::createFromFormat('H:i', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->Format('H:i'))->toTimeString()) }}</td>
         </tr>
 
         <tr>
-            <th>Preferred Date 1:</th>
-            <td>{{ $request->preferred_date_1 }}</td>
+            <th>First Preferred Date:</th>
+            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_1)->format('l\\, jS \\of F Y \\a\\t h:i A') }}</td>
         </tr>
 
         <tr>
-            <th>Preferred Date 2:</th>
-            <td>{{ $request->preferred_date_2 }}</td>
+            <th>Second Preferred Date:</th>
+            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_2)->format('l\\, jS \\of F Y \\a\\t h:i A') }}</td>
         </tr>
 
         <tr>
@@ -127,6 +132,11 @@
         <tr>
             <th>Exam Medium:</th>
             <td>{{ $request->exam_medium }}</td>
+        </tr>
+
+        <tr>
+            <th>Computer Required:</th>
+            <td>{{ $request->computer_required }}</td>
         </tr>
 
         <tr>
@@ -154,21 +164,12 @@
 
         <tr>
             <td>{{ Form::label('center_approval', 'Center Approval Status:') }}</td>
-            <td>
-                @if($request->center_approval == 2)
-                    Approve{{ Form::radio('center_approval', '2', true) }}
-                    Undecided{{ Form::radio('center_approval', '1') }}
-                    Deny{{ Form::radio('center_approval', '0') }}
-                @elseif($request->center_approval == 1)
-                    Approve{{ Form::radio('center_approval', '2') }}
-                    Undecided{{ Form::radio('center_approval', '1', true) }}
-                    Deny{{ Form::radio('center_approval', '0')}}
-                @elseif($request->center_approval == 0)
-                    Approve{{ Form::radio('center_approval', '2') }}
-                    Undecided{{ Form::radio('center_approval', '1') }}
-                    Deny{{ Form::radio('center_approval', '0', true)}}
-                @endif
-            </td>
+            <td>{{ Form::select('center_approval', [
+                '2' => 'Approve',
+                '1' => 'Undecided',
+                '0' => 'Deny'
+                ], $request->center_approval
+            ) }}</td>
         </tr>
 
         {{ Form::hidden('rid', $request->rid) }}

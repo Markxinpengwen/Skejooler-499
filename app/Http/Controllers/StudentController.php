@@ -351,6 +351,10 @@ class StudentController extends Controller
         $sid = $tempRequest['sid'];
         $cid = $tempRequest['cid'];
 
+        // combine date and time into one value for validation and input
+        $tempRequest['preferred_date_1'] = $tempRequest['preferred_date_1']." ".$tempRequest['preferred_time_1'];
+        $tempRequest['preferred_date_2'] = $tempRequest['preferred_date_2']." ".$tempRequest['preferred_time_2'];
+
         // determine if User is allowed to update Request
         if($r->authorize($sid))
         {
@@ -403,8 +407,8 @@ class StudentController extends Controller
                 else
                 {
                     // update Request values
-                    $request->preferred_date_1 = $tempRequest['preferred_date_1']." ".$tempRequest['preferred_time_1'];
-                    $request->preferred_date_2 = $tempRequest['preferred_date_2']." ".$tempRequest['preferred_time_2'];
+                    $request->preferred_date_1 = $tempRequest['preferred_date_1'];
+                    $request->preferred_date_2 = $tempRequest['preferred_date_2'];
                     $request->course_code = $tempRequest['course_code'];
                     $request->additional_requirements = $tempRequest['additional_requirements'];
                     $request->exam_type = $tempRequest['exam_type'];
@@ -499,6 +503,10 @@ class StudentController extends Controller
         // grab Request info
         $tempRequest = Input::all();
 
+        // combine date and time into one value for validation and input
+        $tempRequest['preferred_date_1'] = $tempRequest['preferred_date_1']." ".$tempRequest['preferred_time_1'];
+        $tempRequest['preferred_date_2'] = $tempRequest['preferred_date_2']." ".$tempRequest['preferred_time_2'];
+
         // instantiate a Request model
         $request = new Requests();
 
@@ -509,8 +517,8 @@ class StudentController extends Controller
             $request->sid = Auth::id();
             $request->iid = $tempRequest['iid'];
             $request->cid = $tempRequest['cid'];
-            $request->preferred_Date_1 = $tempRequest['preferred_date_1'];
-            $request->preferred_Date_2 = $tempRequest['preferred_date_2'];
+            $request->preferred_date_1 = $tempRequest['preferred_date_1'];
+            $request->preferred_date_2 = $tempRequest['preferred_date_2'];
             $request->course_code = $tempRequest['course_code'];
             $request->additional_requirements = $tempRequest['additional_requirements'];
             $request->exam_type = $tempRequest['exam_type'];

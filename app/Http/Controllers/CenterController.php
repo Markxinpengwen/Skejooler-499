@@ -350,6 +350,9 @@ class CenterController extends Controller
         $cid = $tempRequest['cid'];
         $sid = $tempRequest['sid'];
 
+        // combine date and time into one value for validation and input
+        $tempRequest['scheduled_date'] = $tempRequest['scheduled_date']." ".$tempRequest['scheduled_time'];
+
         // determine if User is allowed to update Request
         if($r->authorize($cid))
         {
@@ -402,7 +405,7 @@ class CenterController extends Controller
                 else
                 {
                     // update Request values
-                    $request->scheduled_date = $tempRequest['scheduled_date']." ".$tempRequest['scheduled_time'];
+                    $request->scheduled_date = $tempRequest['scheduled_date'];
                     $request->center_notes = $tempRequest['center_notes'];
                     $request->center_approval = $approvals[0];
                     $request->student_approval = $approvals[1];

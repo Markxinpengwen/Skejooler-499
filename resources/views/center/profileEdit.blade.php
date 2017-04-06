@@ -58,12 +58,6 @@
                 <td>{{ Form::email('center_email', $center->center_email) }}</td>
             </tr>
 
-            {{--TODO - add website--}}
-            {{--<tr>--}}
-                {{--<td>{{ Form::label('website', 'Website:') }}</td>--}}
-                {{--<td>{{ Form::text('website') }}</td>--}}
-            {{--</tr>--}}
-
             <tr><th colspan = "2"><hr><h1>Address</h1></th></tr>
 
             <tr>
@@ -108,16 +102,14 @@
                 <td>{{ Form::text('postal_code', $center->postal_code) }}</td>
             </tr>
 
-            {{--TODO - delete--}}
             <tr>
-                <th>{{ Form::label('longitude', 'Longitude:') }}</th>
-                <td>{{ Form::text('longitude', $center->longitude) }}</td>
+                <th>Longitude:</th>
+                <td>{{ $center->longitude }}</td>
             </tr>
 
-            {{--TODO - delete--}}
             <tr>
-                <th>{{ Form::label('latitude', 'Latitude:') }}</th>
-                <td>{{ Form::text('latitude', $center->latitude) }}</td>
+                <th>Latitude:</th>
+                <td>{{ $center->latitude }}</td>
             </tr>
 
             {{ Form::hidden('cid', $center->cid) }}

@@ -76,13 +76,11 @@
             <td>{{ $center->postal_code }}</td>
         </tr>
 
-        {{--TODO - delete--}}
         <tr>
             <th>Longitude:</th>
             <td>{{ $center->longitude }}</td>
         </tr>
 
-        {{--TODO - delete--}}
         <tr>
             <th>Latitude:</th>
             <td>{{ $center->latitude }}</td>

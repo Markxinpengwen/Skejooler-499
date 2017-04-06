@@ -21,9 +21,21 @@ class CenterController extends Controller
      */
     public function index()
     {
-        // TODO - write condition logic
-        // if first time -> profile
-        return CenterController::showSchedule();
+        /// find correct Student and count of Requests for given Student
+        $center = Centers::where('cid', Auth::id())
+            ->first();
+
+        // test if this is the Student's first visit or if they have any requests made
+        if($center->update_at == null)
+        {
+            // first time - send to profileEdit view
+            return CenterController::editProfile();
+        }
+        else
+        {
+            // return visit - send to schedule view
+            return CenterController::showSchedule();
+        }
     }
 
     //---------------------------------------------------------------------------------------

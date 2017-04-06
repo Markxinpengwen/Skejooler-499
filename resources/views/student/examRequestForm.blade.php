@@ -10,6 +10,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -226,9 +227,9 @@
 
             //Function to fill Form elements with marker data.
             function fillForm(data){
-                document.getElementById("centerName").value = data.Name.value; //data is type object.
-                document.getElementById("centerStreetAddress").value = data.Address.value;
-                document.getElementById("centerCity").value = data.City.value;
+                document.getElementById("center_name").value = data.Name.value; //data is type object.
+                document.getElementById("street_address").value = data.Address.value;
+                document.getElementById("city").value = data.City.value;
 
             }//fillForm
 
@@ -284,7 +285,7 @@
                     });
 
                 //'city'Listener
-                google.maps.event.addDomListener(document.getElementById('city'),
+                google.maps.event.addDomListener(document.getElementById('map_city'),
                     'change', function() {
                         updateMap(true);
                     });
@@ -301,7 +302,7 @@
             function updateMap(shouldRecenter) {
 
                 //Collect selection values
-                cityValue = document.getElementById('city').value;
+                cityValue = document.getElementById('map_city').value;
                     console.log("cityValue is:"+cityValue+".");//!@#
                 radiusValue = document.getElementById('radius').value;
                 supportsOnlineValue = document.getElementById('supportsOnline').value;
@@ -446,7 +447,7 @@
                 <td> {!! Form::label('labelCity','City') !!} </td>
                 <td>
                     <!--//!@# need to fix optgroup potential error in laravel select form-->
-                    <select id="city">
+                    <select id="map_city">
                         <!--default-->
                         <optgroup label="Default">
                             <option value="Any City" default>Any City</option>
@@ -537,18 +538,18 @@
             </tr>
 
             <tr>
-                <td class="required"> {{ Form::label('center_name','Center Name:') }} </td>
-                <td> {!! Form::text('center_name') !!} </td>
+                <td class="required">Center Name: </td>
+                <td> {!! Form::label('center_name') !!} </td>
             </tr>
 
             <tr>
                 <td class="required"> {!! Form::label('street_address','Center Street Address:') //Center Street Address!!} </td>
-                <td> {!! Form::text('street_address') !!} </td>
+                <td> {!! Form::label('street_address') !!} </td>
             </tr>
 
             <tr>
                 <td class="required"> {!! Form::label('city','Center City:') //Center City!!} </td>
-                <td> {!! Form::text('city') !!} </td>
+                <td> {!! Form::label('city') !!} </td>
             </tr>
 
             <tr>
@@ -692,6 +693,11 @@
             <tr>
                 <td> {!! Form::label('additional_requirements','Additional Requirements or Information:') //Course Additional Requirements!!} </td>
                 <td> {!! Form::textarea('additional_requirements') !!} </td>
+            </tr>
+
+            <tr>
+                <td> {!! Form::label('student_notes','Notes:') //Course Additional Requirements!!} </td>
+                <td> {!! Form::textarea('student_notes') !!} </td>
             </tr>
 
             <tr>

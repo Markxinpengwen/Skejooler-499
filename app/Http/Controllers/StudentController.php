@@ -506,6 +506,9 @@ class StudentController extends Controller
         if($request->validate($tempRequest))
         {
             // set Request values
+            $request->sid = Auth::id();
+            $request->iid = $tempRequest['iid'];
+            $request->cid = $tempRequest['cid'];
             $request->preferred_Date_1 = $tempRequest['preferred_date_1'];
             $request->preferred_Date_2 = $tempRequest['preferred_date_2'];
             $request->course_code = $tempRequest['course_code'];
@@ -513,7 +516,6 @@ class StudentController extends Controller
             $request->exam_type = $tempRequest['exam_type'];
             $request->exam_medium = $tempRequest['exam_medium'];
             $request->student_notes = $tempRequest['student_notes'];
-
             $request->student_approval = 2;
             $request->center_approval = 1;
 

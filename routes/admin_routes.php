@@ -27,7 +27,33 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Dashboard ================== */
 	
 	Route::get(config('laraadmin.adminRoute'), 'LA\DashboardController@index');
+    //users
 	Route::get(config('laraadmin.adminRoute'). '/dashboard', 'LA\DashboardController@index');
+    Route::get('updateUser/{id}', 'LA\DashboardController@updateUser');
+    Route::get('delUser/{id}', 'LA\DashboardController@delUser');
+    Route::get('la/addUser', 'LA\DashboardController@addUser');
+    Route::post('addUser', ['as' => 'addUser', 'uses'=>'LA\DashboardController@addU']);
+//    Route::post('updateUsers/{id}', ['as' => 'updateUsers', 'uses'=>'LA\DashboardController@do_updateUsers']);
+
+    //students
+	Route::get('la/students', 'LA\DashboardController@students');
+    Route::get('la/updateStud/{id}', 'LA\DashboardController@updateStud');
+    Route::get('la/delStud/{id}', 'LA\DashboardController@delStud');
+    Route::get('la/addStud', 'LA\DashboardController@addStud');
+    Route::post('la/addStud', ['as' => 'la/addStud', 'uses'=>'LA\DashboardController@addS']);
+
+    //centers
+    Route::get('la/centers', 'LA\DashboardController@centers');
+    Route::get('la/updateCen/{id}', 'LA\DashboardController@updateCen');
+    Route::get('la/delCen/{id}', 'LA\DashboardController@delCen');
+    Route::get('la/addCen', 'LA\DashboardController@addCen');
+    Route::post('la/addCen', ['as' => 'la/addCen', 'uses'=>'LA\DashboardController@addC']);
+
+    //requests
+    Route::get('la/requests', 'LA\DashboardController@requests');
+    Route::get('la/updateReq/{id}', 'LA\DashboardController@updateReq');
+    Route::get('la/delReq/{id}', 'LA\DashboardController@delReq');
+
 	
 	/* ================== Users ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/users', 'LA\UsersController');

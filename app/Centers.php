@@ -1,18 +1,21 @@
 <?php
 
-namespace App;
+/**
+ * Author: Brett Schaad
+ */
 
-use Illuminate\Support\Facades\Auth;
+namespace App;
 
 class Centers extends BaseModel
 {
-
+    // sets table and primary key for database access, and sets timestamps to be updated
     protected $table = "centers";
     protected $primaryKey = "cid";
     public $timestamps = true;
 
-    //TODO rules
+    // validation rules array
     protected $rules = array(
+        'id' => '',
         'cid' => '',
         'center_name' => 'required|string', // TODO add unique
         'center_email' => 'email',
@@ -29,7 +32,10 @@ class Centers extends BaseModel
         'latitude' => '',
     );
 
-    // TODO customized error messages
+    /**
+     * Create custom error messages
+     * @return array
+     */
     public function messages()
     {
         return [
@@ -37,6 +43,10 @@ class Centers extends BaseModel
         ];
     }
 
+    /**
+     * Center model's relational schema
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function centers()
     {
         return $this->hasMany('centers');

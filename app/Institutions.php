@@ -1,15 +1,19 @@
 <?php
 
+/**
+ * Author: Brett Schaad
+ */
+
 namespace App;
 
 class Institutions extends BaseModel
 {
-
+    // sets table and primary key for database access, and sets timestamps to be updated
     protected $table = "institutions";
     protected $primaryKey = "iid";
     public $timestamps = true;
 
-    //TODO rules
+    // validation rules array
     protected $rules = array(
         'iid' => '',
         'institution_name' => '',
@@ -26,7 +30,10 @@ class Institutions extends BaseModel
         'contact_phone' => '',
     );
 
-    // TODO customized error messages
+    /**
+     * Create custom error messages
+     * @return array
+     */
     public function messages()
     {
         return [
@@ -34,6 +41,10 @@ class Institutions extends BaseModel
         ];
     }
 
+    /**
+     * Institutions model's relational schema
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function institutions()
     {
         return $this->hasMany('institutions');

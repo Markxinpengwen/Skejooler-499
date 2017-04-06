@@ -1,3 +1,7 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("cn.layouts.app")
 
 @section('title', 'Profile')

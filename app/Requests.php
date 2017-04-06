@@ -1,31 +1,28 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: brett
- * Date: 2017-03-02
- * Time: 12:40 PM
+ * Author: Barrett Sharpe, Brett Schaad
  */
 
 namespace App;
 
-
 class Requests extends BaseModel
 {
-
+    // sets table and primary key for database access, and sets timestamps to be updated
     protected $table = "requests";
     protected $primaryKey = "rid";
     public $timestamps = true;
 
-    // TODO rules
+    // validation rules array
     protected $rules = array(
         'id' => '',
         'rid' => '',
         'sid' => '',
         'cid' => '',
         'iid' => '',
-        'preferred_date_1' => '',
-        'preferred_date_2' => '',
-        'scheduled_date' => '',
+        'preferred_date_1' => '', // must be in the future or the same
+        'preferred_date_2' => '', // must be in the future or the same
+        'scheduled_date' => '', // must be in the future or the same
         'course_code' => '',
         'additional_requirements' => '',
         'exam_type' => '',
@@ -37,6 +34,7 @@ class Requests extends BaseModel
         'center_notes' => '',
     );
 
+    // decision array for approval status logic (2=approved, 1= undecided, 0=denied)
     private $decision = array(
         //Level 1: Changed Date Schema. [0] = No; [1] = yes
         //No Date Change
@@ -746,7 +744,10 @@ class Requests extends BaseModel
         )
     );
 
-    // TODO customized error messages
+    /**
+     * Create custom error messages
+     * @return array
+     */
     public function messages()
     {
         return [
@@ -768,6 +769,10 @@ class Requests extends BaseModel
         return $this->decision[$dateChanged][$database][$form];
     }
 
+    /**
+     * Request model's relational schema
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function centers()
     {
         return $this->hasMany('requests');

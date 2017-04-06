@@ -1,3 +1,7 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("st.layouts.app")
 
 @section('title', 'Profile')

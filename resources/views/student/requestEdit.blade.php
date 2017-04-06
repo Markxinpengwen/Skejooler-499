@@ -1,3 +1,7 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("st.layouts.app")
 
 @section('title', 'Request')
@@ -145,7 +149,13 @@
 
         <tr>
             <th>Scheduled Date:</th>
-            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->format('l\\, jS \\of F Y \\a\\t h:i A') }}</td>
+            <td>
+                @if($request->scheduled_date == "1970-01-02 00:00:00" || $request->scheduled_date == null)
+                    {{ "Date not scheduled" }}
+                @else
+                    {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->format('l\\, jS \\of F Y \\a\\t h:i A') }}
+                @endif
+            </td>
         </tr>
 
         <tr>

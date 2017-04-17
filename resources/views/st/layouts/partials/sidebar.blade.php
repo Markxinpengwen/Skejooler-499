@@ -31,24 +31,10 @@
             </div>
         @endif
 
-        <!-- search form (Optional) -->
-        @if(LAConfigs::getByKey('sidebar_search'))
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-	                <input type="text" name="q" class="form-control" placeholder="Search..."/>
-              <span class="input-group-btn">
-                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
-        </form>
-        @endif
-        <!-- /.search form -->
-
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
             <li class="header">FUNCTIONS</li>
             <!-- Optionally, you can add icons to the links -->
-            <li><a href="{{url('/student') }}"></i> <span>Dashboard</span></a></li>
             <li><a href="{{url('/student/profile') }}"></i> <span>Profile</span></a></li>
             <li><a href="{{url('/student/schedule') }}"></i> <span>Schedule</span></a></li>
             <li><a href="{{url('/student/examRequestForm') }}"></i> <span>Exam Request Form</span></a></li>

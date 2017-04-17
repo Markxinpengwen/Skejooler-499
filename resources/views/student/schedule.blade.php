@@ -4,7 +4,7 @@
 
 @extends("st.layouts.app")
 
-@section('title', 'Schedule')
+@section('contentheader_title')Schedule @endsection
 
 @section('main-content')
 

@@ -4,7 +4,7 @@
 
 @extends('st.layouts.app')
 
-@section('title', 'Profile')
+@section('contentheader_title')Edit Your Profile @endsection
 
 @section('main-content')
 

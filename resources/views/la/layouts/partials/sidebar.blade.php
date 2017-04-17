@@ -18,18 +18,6 @@
             </div>
         @endif
 
-        <!-- search form (Optional) -->
-        @if(LAConfigs::getByKey('sidebar_search'))
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-	                <input type="text" name="q" class="form-control" placeholder="Search..."/>
-              <span class="input-group-btn">
-                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
-        </form>
-        @endif
-        <!-- /.search form -->
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
@@ -38,6 +26,7 @@
             <li><a href="{{url('/admin') }}"></i> <span>Users</span></a></li>
             <li><a href="{{url('la/students') }}"></i> <span>Students</span></a></li>
             <li><a href="{{url('la/centers') }}"></i> <span>Centers</span></a></li>
+            <li><a href="{{url('la/institutions') }}"></i> <span>Institutions</span></a></li>
             <li><a href="{{url('la/requests') }}"></i> <span>Requests</span></a></li>
 
 

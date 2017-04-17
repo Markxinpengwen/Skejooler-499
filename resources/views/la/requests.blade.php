@@ -7,7 +7,6 @@
 @section('main-content')
 <!-- Main content -->
         <section class="content">
-			<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Resquest</button>
 			<?php
 			$array = DB::select('SELECT * FROM requests');
 			$array = json_decode(json_encode($array), true);
@@ -54,7 +53,6 @@
                             <td>{{$attr['center_approval']}}</td>
                             <td>{{$attr['center_notes']}}</td>
 							<td>
-								<a href="updateReq/{{$attr['id']}}" role="button" class="btn btn-primary btn-xs">Update</a>
 								<a href="delReq/{{$attr['id']}}" role="button" class="btn btn-danger btn-xs">Delete</a>
 							</td>
 						</tr>

@@ -101,27 +101,27 @@ class DatabaseSeeder extends Seeder
 
             $laconfig = new LAConfigs;
             $laconfig->key = "sitename";
-            $laconfig->value = "LaraAdmin 1.0";
+            $laconfig->value = "Skejooler";
             $laconfig->save();
 
             $laconfig = new LAConfigs;
             $laconfig->key = "sitename_part1";
-            $laconfig->value = "Lara";
+            $laconfig->value = "Skejooler";
             $laconfig->save();
 
             $laconfig = new LAConfigs;
             $laconfig->key = "sitename_part2";
-            $laconfig->value = "Admin 1.0";
+            $laconfig->value = "";
             $laconfig->save();
 
             $laconfig = new LAConfigs;
             $laconfig->key = "sitename_short";
-            $laconfig->value = "LA";
+            $laconfig->value = "SJ";
             $laconfig->save();
 
             $laconfig = new LAConfigs;
             $laconfig->key = "site_description";
-            $laconfig->value = "LaraAdmin is a open-source Laravel Admin Panel for quick-start Admin based applications and boilerplate for CRM or CMS systems.";
+            $laconfig->value = "";
             $laconfig->save();
 
             // Display Configurations

@@ -4,11 +4,11 @@
 
 @extends("st.layouts.app")
 
-@section('title', 'Exam Request Form')
+@section('contentheader_title')Select Your Center @endsection
 
 @section('main-content')
 
-<!DOCTYPE html>
+
 <html lang="en">
 
     <head>

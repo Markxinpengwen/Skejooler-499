@@ -4,7 +4,7 @@
 
 @extends("st.layouts.app")
 
-@section('title', 'Request')
+@section('contentheader_title')Requests @endsection
 
 @section('main-content')
 

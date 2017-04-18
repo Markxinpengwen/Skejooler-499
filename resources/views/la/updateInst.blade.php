@@ -1,10 +1,12 @@
 @extends('la.layouts.app')
 
-@section('contentheader_title') Add a Center @endsection
+@section('contentheader_title') Update a Institution @endsection
 
 @section('main-content')
 
-    {{ Form::open(array('action' => 'LA\DashboardController@addC')) }}
+    {{ Form::open(array('action' => 'LA\DashboardController@updateC')) }}
+    <h2>USER ID:       {{$id}}</h2>
+
     <label class="control-label" for="canme">Center Name:</label>
     <input type="text"  id="cname" name="cname" required>*<br>
     <label class="control-label" for="email">Email:</label>
@@ -14,10 +16,8 @@
     <label class="control-label" for="cost">Cost:</label>
     <input type="text"  id="cost" name="cost"><br>
 
-
-
-
-    <button type="submit" class="btn btn-default">ADD</button>
+    {{ Form::hidden('id', $id) }}
+    <button type="submit" class="btn btn-default">UPDATE</button>
     {{ Form::close() }}
 
 

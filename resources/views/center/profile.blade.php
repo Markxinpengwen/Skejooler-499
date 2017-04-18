@@ -56,12 +56,6 @@
             <td>{{ $center->center_email or "Email not found" }}</td>
         </tr>
 
-        {{--TODO add website--}}
-        {{--<tr>--}}
-            {{--<th>Website:</th>--}}
-            {{--<td>{{ $center->website or "Website not found" }}</td>--}}
-        {{--</tr>--}}
-
         <tr><th colspan = "2"><hr><h1>Address</h1></th></tr>
 
         <tr>
@@ -89,13 +83,11 @@
             <td>{{ $center->postal_code }}</td>
         </tr>
 
-        {{--TODO - delete--}}
         <tr>
             <th>Longitude:</th>
             <td>{{ $center->longitude }}</td>
         </tr>
 
-        {{--TODO - delete--}}
         <tr>
             <th>Latitude:</th>
             <td>{{ $center->latitude }}</td>

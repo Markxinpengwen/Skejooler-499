@@ -41,6 +41,7 @@ class DashboardController extends Controller
     {
         return view('la.dashboard');
     }
+
     //Admin functionality created by Mark Wen
     //users
     public function addUser()
@@ -101,6 +102,7 @@ class DashboardController extends Controller
     {
         return view('la/students');
     }
+
     public function updateStud($id)
     {
         return view('la/updateStud')->with('id', $id);

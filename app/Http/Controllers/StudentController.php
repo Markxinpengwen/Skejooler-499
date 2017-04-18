@@ -21,10 +21,29 @@ class StudentController extends Controller
      */
     public function index()
     {
-        // TODO - write condition logic
-        //if no requests made -> requestForm
-        //if first time -> profile
-        return StudentController::showSchedule();
+        // find correct Student and count of Requests for given Student
+        $student = Students::where('sid', Auth::id())
+            ->first();
+        $requestCount = Requests::where('sid', Auth::id())
+            ->get()
+            ->count();
+
+        // test if this is the Student's first visit or if they have any requests made
+        if($student->updated_at == null)
+        {
+            // first time - send to profileEdit view
+            return StudentController::editProfile();
+        }
+        elseif($requestCount == 0)
+        {
+            // no requests - send to examRequestForm view
+            return StudentController::showExamRequestForm();
+        }
+        else
+        {
+            // return visit - send to schedule view
+            return StudentController::showSchedule();
+        }
     }
 
     //---------------------------------------------------------------------------------------

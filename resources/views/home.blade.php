@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -68,9 +69,9 @@
                     }
 
                     elseif(Auth::user()->type == "center"){
-                        $array = DB::select('select center_name from centers where cid = ? ', [$uid]);
+                        $array = DB::select('select name from centers where cid = ? ', [$uid]);
                         $array = json_decode(json_encode($array), true);
-                        $name = $array[0]['center_name'];
+                        $name = $array[0]['name'];
                     }
                     ?>
                     @if(Auth::user()->type == 'center')
@@ -80,7 +81,7 @@
                         <li><a href="{{ url('/student') }}">{{ $name }}</a></li>
                         <li><a href="{{ url('/logout') }}">Log out</a></li>
                     @else
-                        <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ $name }}</a></li>
+                        <li><a href="{{ url(config('laraadmin.adminRoute')) }}">Admin</a></li>
                         <li><a href="{{ url('/logout') }}">Log out</a></li>
                     @endif
                 @endif
@@ -95,7 +96,7 @@
         <div class="row centered">
             <div class="col-lg-12">
                 <h1><b>BOOK YOUR EXAM</b></h1>
-                <h3>choose from one filter to get started:</h3>
+                <h3>login or register to get started:</h3>
                 <h3><a href="{{ url('/login') }}" class="btn btn-lg btn-success">Get Started!</a></h3><br>
             </div>
         </div>
@@ -104,7 +105,7 @@
 
 <!-- FEATURES WRAP -->
 <div id="features">
-    <h3 class="row centered"><strong>what is Skejooler?</strong></h3><br>
+    <h3 class="row centered"><strong>What is Skejooler?</strong></h3><br>
     <div class="container">
 
         <div class="col-xs-6">
@@ -130,29 +131,24 @@
             <h1>Why use Skejooler?</h1>
             <br>
             <br>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
                 <img  src="{{ asset('/la-assets/img/search.jpg') }}">
-                <h3>easy-to-use</h3>
-                <p> search</p>
+                <h3>Easy-To-Use</h3>
+                <p> Search</p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
                 <img  src="{{ asset('/la-assets/img/schedule.jpg') }}">
-                <h3>schedule</h3>
+                <h3>Schedule</h3>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
                 <img  src="{{ asset('/la-assets/img/centers.jpg') }}">
-                <h3>invigilation</h3>
-                <p>centres</p>
+                <h3>Invigilation</h3>
+                <p>Centres</p>
             </div>
-            <div class="col-xs-2">
-                <img  src="{{ asset('/la-assets/img/jobs.jpg') }}">
-                <h3>job postings</h3>
-                <p>Easy to Manipulation the flows.</p>
-            </div>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
                 <img  src="{{ asset('/la-assets/img/programs.jpg') }}">
-                <h3>online</h3>
-                <p>programs</p>
+                <h3>Online</h3>
+                <p>Programs</p>
             </div>
         </div>
         <br>
@@ -180,7 +176,7 @@
             <a href="{{ url('/login') }}">JOB POSTING</a><br>
         </div>
 
-        <div class="col-lg-3">
+        <div class="col-lg-4">
             <h3>FOLLOW US</h3>
             <img  src="{{ asset('/la-assets/img/google_plus.jpg') }}">
             <img  src="{{ asset('/la-assets/img/facebook.jpg') }}">

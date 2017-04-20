@@ -1,6 +1,10 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("st.layouts.app")
 
-@section('title', 'Request')
+@section('contentheader_title')Edit Your Request @endsection
 
 @section('main-content')
 
@@ -12,7 +16,7 @@
 
         <tr style="font-size: 1.3em;">
             <th>Name:</th>
-            <td>{{ $center->name }}</td>
+            <td>{{ $center->center_name }}</td>
         </tr>
 
         <tr style="font-size: 1.3em;">
@@ -71,6 +75,7 @@
             <th>Postal Code:</th>
             <td>{{ $center->postal_code }}</td>
         </tr>
+
 
         {{--TODO - delete--}}
         <tr style="font-size: 1.3em;">

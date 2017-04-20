@@ -1,6 +1,10 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("st.layouts.app")
 
-@section('title', 'Schedule')
+@section('contentheader_title')Schedule @endsection
 
 @section('main-content')
 
@@ -30,7 +34,7 @@
                 {{ Form::open(array('action' => 'StudentController@showRequest', 'name' => "upcomingForm")) }}
                     <td align = "center">{{ $u->rid }}</td>
                     <td align = "center">
-                        @if($u->scheduled_date == "1970-01-02 00:00:00")
+                        @if($u->scheduled_date == "1970-01-02 00:00:00" || $u->scheduled_date == null)
                             {{ "Date not scheduled" }}
                         @else
                             {{ $u->scheduled_date }}
@@ -40,9 +44,9 @@
                     <td align = "center">{{ $u->preferred_date_2 }}</td>
                     <td align = "center">{{ $u->center_name }}</td>
                     <td align = "center">{{ $u->institution_name }}</td>
-                    {{--<td align = "center">{{ $u->course_code }}</td>--}}
-                    {{--<td align = "center">{{ $u->exam_medium }}</td>--}}
-                    {{--<td align = "center">{{ $u->exam_type }}</td>--}}
+                    <td align = "center">{{ $u->course_code }}</td>
+                    <td align = "center">{{ $u->exam_medium }}</td>
+                    <td align = "center">{{ $u->exam_type }}</td>
                     {{ Form::hidden('rid', $u->rid) }}
                     {{ Form::hidden('sid', $u->sid) }}
                     {{ Form::hidden('cid', $u->cid) }}
@@ -89,9 +93,9 @@
                     <td align = "center">{{ $ps->preferred_date_2 }}</td>
                     <td align = "center">{{ $ps->center_name }}</td>
                     <td align = "center">{{ $ps->institution_name }}</td>
-                    {{--<td align = "center">{{ $ps->course_code }}</td>--}}
-                    {{--<td align = "center">{{ $ps->exam_medium }}</td>--}}
-                    {{--<td align = "center">{{ $ps->exam_type }}</td>--}}
+                    <td align = "center">{{ $ps->course_code }}</td>
+                    <td align = "center">{{ $ps->exam_medium }}</td>
+                    <td align = "center">{{ $ps->exam_type }}</td>
                     {{ Form::hidden('rid', $ps->rid) }}
                     {{ Form::hidden('sid', $ps->sid) }}
                     {{ Form::hidden('cid', $ps->cid) }}
@@ -128,7 +132,7 @@
                 {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">{{ $pc->rid }}</td>
                     <td align = "center">
-                        @if($pc->scheduled_date == "1970-01-02 00:00:00")
+                        @if($pc->scheduled_date == "1970-01-02 00:00:00" || $pc->scheduled_date == null)
                             {{ "Date not scheduled" }}
                         @else
                             {{ $pc->scheduled_date }}
@@ -138,9 +142,9 @@
                     <td align = "center">{{ $pc->preferred_date_2 }}</td>
                     <td align = "center">{{ $pc->center_name }}</td>
                     <td align = "center">{{ $pc->institution_name }}</td>
-                    {{--<td align = "center">{{ $pc->course_code }}</td>--}}
-                    {{--<td align = "center">{{ $pc->exam_medium }}</td>--}}
-                    {{--<td align = "center">{{ $pc->exam_type }}</td>--}}
+                    <td align = "center">{{ $pc->course_code }}</td>
+                    <td align = "center">{{ $pc->exam_medium }}</td>
+                    <td align = "center">{{ $pc->exam_type }}</td>
                     {{ Form::hidden('rid', $pc->rid) }}
                     {{ Form::hidden('sid', $pc->sid) }}
                     {{ Form::hidden('cid', $pc->cid) }}
@@ -177,7 +181,7 @@
                 {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">{{ $dc->rid }}</td>
                     <td align = "center">
-                        @if($dc->scheduled_date == "1970-01-02 00:00:00")
+                        @if($dc->scheduled_date == "1970-01-02 00:00:00" || $dc->scheduled_date == null)
                             {{ "Date not scheduled" }}
                         @else
                             {{ $dc->scheduled_date }}
@@ -187,9 +191,9 @@
                     <td align = "center">{{ $dc->preferred_date_2 }}</td>
                     <td align = "center">{{ $dc->center_name }}</td>
                     <td align = "center">{{ $dc->institution_name }}</td>
-                    {{--<td align = "center">{{ $dc->course_code }}</td>--}}
-                    {{--<td align = "center">{{ $dc->exam_medium }}</td>--}}
-                    {{--<td align = "center">{{ $dc->exam_type }}</td>--}}
+                    <td align = "center">{{ $dc->course_code }}</td>
+                    <td align = "center">{{ $dc->exam_medium }}</td>
+                    <td align = "center">{{ $dc->exam_type }}</td>
                     {{ Form::hidden('rid', $dc->rid) }}
                     {{ Form::hidden('sid', $dc->sid) }}
                     {{ Form::hidden('cid', $dc->cid) }}
@@ -226,7 +230,7 @@
                 {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">{{ $ds->rid }}</td>
                     <td align = "center">
-                        @if($ds->scheduled_date == "1970-01-02 00:00:00")
+                        @if($ds->scheduled_date == "1970-01-02 00:00:00" || $ds->scheduled_date == null)
                             {{ "Date not scheduled" }}
                         @else
                             {{ $ds->scheduled_date }}
@@ -236,9 +240,9 @@
                     <td align = "center">{{ $ds->preferred_date_2 }}</td>
                     <td align = "center">{{ $ds->center_name }}</td>
                     <td align = "center">{{ $ds->institution_name }}</td>
-                    {{--<td align = "center">{{ $ds->course_code }}</td>--}}
-                    {{--<td align = "center">{{ $ds->exam_medium }}</td>--}}
-                    {{--<td align = "center">{{ $ds->exam_type }}</td>--}}
+                    <td align = "center">{{ $ds->course_code }}</td>
+                    <td align = "center">{{ $ds->exam_medium }}</td>
+                    <td align = "center">{{ $ds->exam_type }}</td>
                     {{ Form::hidden('rid', $ds->rid) }}
                     {{ Form::hidden('sid', $ds->sid) }}
                     {{ Form::hidden('cid', $ds->cid) }}
@@ -275,7 +279,7 @@
                 {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">{{ $pa->rid }}</td>
                     <td align = "center">
-                        @if($pa->scheduled_date == "1970-01-02 00:00:00")
+                        @if($pa->scheduled_date == "1970-01-02 00:00:00" || $pa->scheduled_date == null)
                             {{ "Date not scheduled" }}
                         @else
                             {{ $pa->scheduled_date }}
@@ -285,9 +289,9 @@
                     <td align = "center">{{ $pa->preferred_date_2 }}</td>
                     <td align = "center">{{ $pa->center_name }}</td>
                     <td align = "center">{{ $pa->institution_name }}</td>
-                    {{--<td align = "center">{{ $pa->course_code }}</td>--}}
-                    {{--<td align = "center">{{ $pa->exam_medium }}</td>--}}
-                    {{--<td align = "center">{{ $pa->exam_type }}</td>--}}
+                    <td align = "center">{{ $pa->course_code }}</td>
+                    <td align = "center">{{ $pa->exam_medium }}</td>
+                    <td align = "center">{{ $pa->exam_type }}</td>
                     {{ Form::hidden('rid', $pa->rid) }}
                     {{ Form::hidden('sid', $pa->sid) }}
                     {{ Form::hidden('cid', $pa->cid) }}

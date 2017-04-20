@@ -1,17 +1,23 @@
 <?php
 
+/**
+ * Author: Brett Schaad
+ */
+
 namespace App;
 
 class Centers extends BaseModel
 {
-
+    // sets table and primary key for database access, and sets timestamps to be updated
     protected $table = "centers";
     protected $primaryKey = "cid";
     public $timestamps = true;
 
-    //TODO rules
+    // validation rules array
     protected $rules = array(
-        'name' => 'required|string', // TODO add unique
+        'id' => '',
+        'cid' => '',
+        'center_name' => 'required|string', // TODO add unique
         'center_email' => 'email',
         'phone' => 'numeric', // TODO needs a valid change into mobile 0 - 20 accepts valid characters
         'description' => '', // TODO text area 0 - 1000
@@ -22,15 +28,14 @@ class Centers extends BaseModel
         'province' => 'string',
         'country' => 'string',
         'postal_code' => 'between:5,6|string',
+        'longitude' => '',
+        'latitude' => '',
     );
 
-    // TODO authorize statement
-    public function authorize($id)
-    {
-        return true;
-    }
-
-    // TODO customized error messages
+    /**
+     * Create custom error messages
+     * @return array
+     */
     public function messages()
     {
         return [
@@ -38,6 +43,10 @@ class Centers extends BaseModel
         ];
     }
 
+    /**
+     * Center model's relational schema
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function centers()
     {
         return $this->hasMany('centers');

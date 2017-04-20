@@ -5,7 +5,7 @@
 
 @extends("st.layouts.app")
 
-@section('title', 'Exam Request Form')
+@section('contentheader_title')Select Your Center @endsection
 
 @section('main-content')
 
@@ -235,6 +235,7 @@
 
             //Function to fill Form elements with marker data. These data object references will have to be changed if the table or columnNames are changed.
             function fillForm(data){
+
                 //Labels
                 document.getElementById("center_name").innerHTML = data.center_name.value; //data is type object.
                 document.getElementById("center_id").innerHTML = data.cid.value;
@@ -318,7 +319,8 @@
 
                 //Collect selection values
                 cityValue = document.getElementById('map_city').value;
-                    console.log("cityValue is:"+cityValue+".");
+                console.log("cityValue is:"+cityValue+".");
+                
                 radiusValue = document.getElementById('radius').value;
                 supportsOnlineValue = document.getElementById('supportsOnline').value;
                 var query = "";

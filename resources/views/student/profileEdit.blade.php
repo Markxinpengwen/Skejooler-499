@@ -1,6 +1,10 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends('st.layouts.app')
 
-@section('title', 'Profile')
+@section('contentheader_title')Edit Your Profile @endsection
 
 @section('main-content')
 
@@ -23,7 +27,9 @@
                 <th>{{ Form::label('sex', 'Gender:') }}</th>
                 <td>{{ Form::select('sex',[
                     'not_declared' => 'Not Declared',
-                    'male'=>'Male', 'female'=>'Female',
+                    'male'=>'Male',
+                    'female'=>'Female',
+                    'transgender' => 'Transgender',
                     'other'=>'Other'
                 ], $student->sex) }}
                 </td>

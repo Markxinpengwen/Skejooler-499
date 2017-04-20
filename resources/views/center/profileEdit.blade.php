@@ -1,6 +1,10 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("cn.layouts.app")
 
-@section('title', 'Profile')
+@section('contentheader_title')Edit Your Profile @endsection
 
 @section('main-content')
     <table class="table table-responsive" width="100%">
@@ -54,12 +58,6 @@
                 <td>{{ Form::email('center_email', $center->center_email) }}</td>
             </tr>
 
-            {{--TODO - add website--}}
-            {{--<tr>--}}
-                {{--<td>{{ Form::label('website', 'Website:') }}</td>--}}
-                {{--<td>{{ Form::text('website') }}</td>--}}
-            {{--</tr>--}}
-
             <tr><th colspan = "2"><hr><h1>Address</h1></th></tr>
 
             <tr style="font-size: 1.3em;">
@@ -75,19 +73,19 @@
             <tr style="font-size: 1.3em;">
                 <th>{{ Form::label('province', 'Province:') }}</th>
                 <td>{{ Form::select('province', [
-                    'British_Columbia' => 'British Columbia',
-                    'Alberta' => 'Alberta',
-                    'Sasketchewan' => 'Sasketchewan',
-                    'Manitoba' => 'Manitoba',
-                    'Ontario' => 'Ontario',
-                    'Quebec' => 'Quebec',
-                    'Nova_Scotia' => 'Nova Scotia',
-                    'Newfoundland_and_Labrador' => 'Newfoundland and Labrador',
-                    'New_Brunswick' => 'New Brunswick',
-                    'Prince_Edward_Island' => 'Prince Edward Island',
-                    'Yukon' => 'Yukon',
-                    'Northwest_Territories' => 'Northwest Territories',
-                    'Nunavut' => 'Nunavut'
+                    'british_columbia' => 'British Columbia' ,
+                    'alberta' => 'Alberta',
+                    'sasketchewan' => 'Sasketchewan',
+                    'manitoba' => 'Manitoba',
+                    'ontario' => 'Ontario',
+                    'quebec' => 'Quebec',
+                    'nova_scotia' => 'Nova Scotia',
+                    'newfoundland_and_labrador' => 'Newfoundland and Labrador',
+                    'new_brunswick' => 'New Brunswick',
+                    'prince_edward_island' => 'Prince Edward Island',
+                    'yukon' => 'Yukon',
+                    'northwest_territories' => 'Northwest Territories',
+                    'nunavut' => 'nunavut',
                     ], $center->province
                     ) }}</td>
             </tr>
@@ -103,6 +101,7 @@
                 <th>{{ Form::label('postal_code', 'Postal Code:') }}</th>
                 <td>{{ Form::text('postal_code', $center->postal_code) }}</td>
             </tr>
+
 
             {{--TODO - delete--}}
             <tr style="font-size: 1.3em;">

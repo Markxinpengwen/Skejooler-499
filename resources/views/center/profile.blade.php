@@ -1,6 +1,10 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("cn.layouts.app")
 
-@section('title', 'Profile')
+@section('contentheader_title')Profile @endsection
 
 @section('main-content')
 
@@ -52,12 +56,6 @@
             <td>{{ $center->center_email or "Email not found" }}</td>
         </tr>
 
-        {{--TODO add website--}}
-        {{--<tr>--}}
-            {{--<th>Website:</th>--}}
-            {{--<td>{{ $center->website or "Website not found" }}</td>--}}
-        {{--</tr>--}}
-
         <tr><th colspan = "2"><hr><h1>Address</h1></th></tr>
 
         <tr style="font-size: 1.3em;">
@@ -85,11 +83,13 @@
             <td>{{ $center->postal_code }}</td>
         </tr>
 
+
         {{--TODO - delete--}}
         <tr style="font-size: 1.3em;">
             <th>Longitude:</th>
             <td>{{ $center->longitude }}</td>
         </tr>
+
 
         {{--TODO - delete--}}
         <tr style="font-size: 1.3em;">

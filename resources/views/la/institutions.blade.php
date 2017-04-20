@@ -1,24 +1,34 @@
 @extends('la.layouts.app')
 
 {{--@section('htmlheader_title') Dashboard @endsection--}}
-@section('contentheader_title') Users @endsection
+@section('contentheader_title') Institutions @endsection
 {{--@section('contentheader_description') Requests Overview @endsection--}}
 
 @section('main-content')
 <!-- Main content -->
         <section class="content">
-			<a href="la/addUser" button class="btn btn-success btn-sm pull-right" data-toggle="modal">Add User</a>
+            <a href="addInst" button class="btn btn-success btn-sm pull-right">Add Institution</a>
 			<?php
-			$array = DB::select('SELECT * FROM users');
+			$array = DB::select('SELECT * FROM institutions');
 			$array = json_decode(json_encode($array), true);
 			?>
 				<table class="table table-striped table-hover">
 					<thead>
 					<tr>
 						<th>id</th>
-						<th>uid</th>
-						<th>email</th>
-						<th>type</th>
+						<th>iid</th>
+						<th>Institution Name</th>
+						<th>Description</th>
+                        <th>Phone</th>
+						<th>HasPaid</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Province</th>
+                        <th>Country</th>
+                        <th>Postal Code</th>
+                        <th>Contact Name</th>
+                        <th>Contact Email</th>
+                        <th>Contact Phone</th>
 					</tr>
 					</thead>
 
@@ -26,11 +36,22 @@
 					@foreach($array as $attr)
 						<tr>
 							<td>{{$attr['id']}}</td>
-							<td>{{$attr['uid']}}</td>
-							<td>{{$attr['email']}}</td>
-							<td>{{$attr['type']}}</td>
+							<td>{{$attr['iid']}}</td>
+							<td>{{$attr['institution_name']}}</td>
+                            <td>{{$attr['description']}}</td>
+                            <td>{{$attr['phone']}}</td>
+                            <td>{{$attr['hasPaid']}}</td>
+                            <td>{{$attr['street_address']}}</td>
+                            <td>{{$attr['city']}}</td>
+                            <td>{{$attr['province']}}</td>
+                            <td>{{$attr['country']}}</td>
+                            <td>{{$attr['postal_code']}}</td>
+                            <td>{{$attr['contact_name']}}</td>
+                            <td>{{$attr['contact_email']}}</td>
+                            <td>{{$attr['contact_phone']}}</td>
 							<td>
-								<a href="delUser/{{$attr['id']}}" role="button" class="btn btn-danger btn-xs">Delete</a>
+								<a href="updateInst/{{$attr['id']}}" role="button" class="btn btn-primary btn-xs">Update</a>
+								<a href="delInst/{{$attr['id']}}" role="button" class="btn btn-danger btn-xs">Delete</a>
 							</td>
 						</tr>
 					@endforeach

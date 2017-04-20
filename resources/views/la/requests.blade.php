@@ -1,41 +1,64 @@
 @extends('la.layouts.app')
 
 {{--@section('htmlheader_title') Dashboard @endsection--}}
-@section('contentheader_title') Users @endsection
+@section('contentheader_title') Requests @endsection
 {{--@section('contentheader_description') Requests Overview @endsection--}}
 
 @section('main-content')
 <!-- Main content -->
         <section class="content">
-			<a href="la/addUser" button class="btn btn-success btn-sm pull-right" data-toggle="modal">Add User</a>
 			<?php
-			$array = DB::select('SELECT * FROM users');
+			$array = DB::select('SELECT * FROM requests');
 			$array = json_decode(json_encode($array), true);
 			?>
 				<table class="table table-striped table-hover">
 					<thead>
 					<tr>
-						<th>id</th>
-						<th>uid</th>
-						<th>email</th>
-						<th>type</th>
+						<th>rid</th>
+						<th>sid</th>
+						<th>cid</th>
+						<th>iid</th>
+						<th>Preferred Date 1</th>
+						<th>Preferred Date 2</th>
+						<th>Scheduled Date</th>
+						<th>Course Code</th>
+						<th>Additional Requirements</th>
+                        <th>Exam Type</th>
+                        <th>Exam Medium</th>
+                        <th>Computer Required</th>
+                        <th>Student Approval</th>
+                        <th>Student Note</th>
+                        <th>Center Approval</th>
+                        <th>Center Note</th>
 					</tr>
 					</thead>
 
 					<tbody>
 					@foreach($array as $attr)
 						<tr>
-							<td>{{$attr['id']}}</td>
-							<td>{{$attr['uid']}}</td>
-							<td>{{$attr['email']}}</td>
-							<td>{{$attr['type']}}</td>
+							<td>{{$attr['rid']}}</td>
+							<td>{{$attr['sid']}}</td>
+							<td>{{$attr['cid']}}</td>
+							<td>{{$attr['iid']}}</td>
+							<td>{{$attr['preferred_date_1']}}</td>
+							<td>{{$attr['preferred_date_2']}}</td>
+							<td>{{$attr['scheduled_date']}}</td>
+							<td>{{$attr['course_code']}}</td>
+                            <td>{{$attr['additional_requirements']}}</td>
+                            <td>{{$attr['exam_type']}}</td>
+                            <td>{{$attr['exam_medium']}}</td>
+                            <td>{{$attr['computer_required']}}</td>
+                            <td>{{$attr['student_approval']}}</td>
+                            <td>{{$attr['student_notes']}}</td>
+                            <td>{{$attr['center_approval']}}</td>
+                            <td>{{$attr['center_notes']}}</td>
 							<td>
-								<a href="delUser/{{$attr['id']}}" role="button" class="btn btn-danger btn-xs">Delete</a>
+								<a href="delReq/{{$attr['id']}}" role="button" class="btn btn-danger btn-xs">Delete</a>
 							</td>
 						</tr>
 					@endforeach
 					</tbody>
-				</table>
+
         </section><!-- /.content -->
 @endsection
 

@@ -96,7 +96,7 @@ class RegisterController extends Controller
                 'salt' => $options['salt'],
                 'type' => "student",
             ]);
-            DB::insert('insert into students (sid,firstName,age) values (?,?,?)',[$uid,$data['name'],10]);
+            DB::insert('insert into students (sid,firstName,iid,age) values (?,?,?,?)',[$uid,$data['name'],10000,10]);
         }
         else{
             $options = [

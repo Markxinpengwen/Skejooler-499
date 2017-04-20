@@ -1,6 +1,10 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("cn.layouts.app")
 
-@section('title', 'Request')
+@section('contentheader_title')Requests @endsection
 
 @section('main-content')
 
@@ -92,10 +96,18 @@
 
         <tr><th colspan = "2"><hr><h1>Exam Info</h1></th></tr>
 
+
         <tr style="font-size: 1.3em;">
             <th>Scheduled Date:</th>
-            <td>{{ $request->scheduled_date or "Not Scheduled" }}</td>
+            <td>
+                @if($request->scheduled_date == "1970-01-02 00:00:00" || $request->scheduled_date == null)
+                    {{ "Date not scheduled" }}
+                @else
+                    {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->format('l\\, jS \\of F Y \\a\\t h:i A') }}
+                @endif
+            </td>
         </tr>
+
 
         <tr style="font-size: 1.3em;">
             <th>Preferred Date 1:</th>
@@ -127,7 +139,13 @@
             <td>{{ $request->exam_medium }}</td>
         </tr>
 
+
         <tr style="font-size: 1.3em;">
+            <th>Computer Required:</th>
+            <td>{{ $request->computer_required }}</td>
+        </tr>
+
+      <tr style="font-size: 1.3em;">
             <th>Student Notes:</th>
             <td>{{ $request->student_notes }}</td>
         </tr>

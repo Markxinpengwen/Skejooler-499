@@ -1,6 +1,10 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("st.layouts.app")
 
-@section('title', 'Request')
+@section('contentheader_title')Requests @endsection
 
 @section('main-content')
 
@@ -10,7 +14,7 @@
 
         <tr style="font-size: 1.3em;">
             <th>Name:</th>
-            <td>{{ $center->name }}</td>
+            <td>{{ $center->center_name }}</td>
         </tr>
 
         <tr style="font-size: 1.3em;">
@@ -69,6 +73,7 @@
             <th>Postal Code:</th>
             <td>{{ $center->postal_code }}</td>
         </tr>
+
 
         {{--TODO - delete--}}
         <tr style="font-size: 1.3em;">
@@ -143,7 +148,13 @@
 
         <tr style="font-size: 1.3em;">
             <th>Scheduled Date:</th>
-            <td>{{ $request->scheduled_date or "Not Scheduled" }}</td>
+            <td>
+                @if($request->scheduled_date == "1970-01-02 00:00:00" || $request->scheduled_date == null)
+                    {{ "Date not scheduled" }}
+                @else
+                    {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->format('l\\, jS \\of F Y \\a\\t h:i A') }}
+                @endif
+            </td>
         </tr>
 
         <tr style="font-size: 1.3em;">
@@ -175,6 +186,13 @@
             <th>Exam Medium:</th>
             <td>{{ $request->exam_medium }}</td>
         </tr>
+
+        <tr style="font-size: 1.3em;">
+            <th>Computer Required:</th>
+            <td>{{ $request->computer_required }}</td>
+        </tr>
+
+        <tr>
 
         <tr style="font-size: 1.3em;">
             <th>Center Notes:</th>

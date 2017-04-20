@@ -394,8 +394,8 @@ class StudentController extends Controller
 //                }
 //                else
 //                {
-                // scheduled date has not changed
-                $dateChanged = 0; // TODO - student cant change scheduled date... need diff value
+                    // scheduled date has not changed
+                    $dateChanged = 0; // TODO - student cant change scheduled date... need diff value
 //                }
 
                 // determine new approval status from previous approval status and input approval status using Request model decision method and array
@@ -519,6 +519,7 @@ class StudentController extends Controller
      */
     public function createRequest()
     {
+
         // grab Exam Request Form info
         $formInput = Input::all();
 
@@ -553,6 +554,7 @@ class StudentController extends Controller
 
             // send to schedule view
             return StudentController::showSchedule();
+
         } else {
             // invalid input based on rules of Request model
             redirect();

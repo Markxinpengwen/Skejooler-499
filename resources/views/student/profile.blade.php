@@ -1,6 +1,10 @@
+{{--
+    Author: Brett Schaad
+--}}
+
 @extends("st.layouts.app")
 
-@section('title', 'Profile')
+@section('contentheader_title')Profile @endsection
 
 @section('main-content')
 

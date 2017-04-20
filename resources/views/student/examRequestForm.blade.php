@@ -233,6 +233,17 @@
 
             /*-------- Functions --------------*/
 
+            //didn't work
+//            function assignCIDtoForm(cidValue){
+//                //jQuery doc ready
+//                $( document ).ready(function() {
+//                    console.log("JQuery Document Ready. Assigning...");
+//                    document.getElementById("cidChosen").value = cidValue;
+//                    console.log("JQuery cidChosen set to "+cidValue+".");
+//                });
+//
+//            }
+
             //Function to fill Form elements with marker data. These data object references will have to be changed if the table or columnNames are changed.
             function fillForm(data){
 
@@ -240,12 +251,14 @@
                 document.getElementById("center_name").innerHTML = data.center_name.value; //data is type object.
                 document.getElementById("center_id").innerHTML = data.cid.value;
                 //document.getElementById("center_id").value = data.cid.value;
+                //assignCIDtoForm(data.cid.value); //didn't work.
+
                 document.getElementById("street_address").innerHTML = data.street_address.value;
                 document.getElementById("city").innerHTML = data.city.value;
                 document.getElementById("province").innerHTML = data.province.value;
 
                 //Hidden Fields
-                document.getElementById("cid").value = data.cid.value;
+                //document.getElementById("cidChosen").value = data.cid.value; //didn't work
 
             }//fillForm
 
@@ -411,6 +424,7 @@
                     //Invigilation Center Information
                     document.getElementById('center_name').innerHTML="Please Pick A Center from the above map.";
                     document.getElementById('center_id').innerHTML="";
+                    document.getElementById('center_id_value').value=0;
                     document.getElementById('street_address').innerHTML="";
                     document.getElementById('city').innerHTML="";
                     document.getElementById('province').innerHTML="";
@@ -638,8 +652,20 @@
 
                 <tr style="font-size: 1.3em;">
                     <td class="required"> {!! Form::label('center_id','0') !!} </td>
-                    <td></td>
+                    <td id="center_id"></td>
                 </tr>
+
+            <tr style="font-size: 1.3em;">
+                <td class="bg-danger">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    <em> Please copy the above "Center ID" number into this field.</em>
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </td>
+                <td>
+                    {{--The Student enters their chosen Center ID--}}
+                    {!! Form::number('center_id_value', 0) !!}
+                </td>
+            </tr>
 
                 <tr style="font-size: 1.3em;">
                     <td class="required"> {!! Form::label('street_address','Center Street Address:') //Center Street Address!!} </td>
@@ -757,7 +783,8 @@
                     <td>
                         <span class="glyphicon glyphicon-calendar"></span>
                         <span class="glyphicon glyphicon-time"></span>
-                        {{ Form::datetime('preferred_datetime_1', \Carbon\Carbon::now()) }}
+                        {{-- {{ Form::datetime('preferred_datetime_1', \Carbon\Carbon::now()) }} No default Carbon time. Just using string --}}
+                        {{ Form::datetime('preferred_datetime_1', "2017-01-01 00:00:00") }}
                     </td>
                 </tr>
 
@@ -766,7 +793,8 @@
                     <td>
                         <span class="glyphicon glyphicon-calendar"></span>
                         <span class="glyphicon glyphicon-time"></span>
-                        {{ Form::datetime('preferred_datetime_2', \Carbon\Carbon::now()) }}
+                        {{-- {{ Form::datetime('preferred_datetime_2', \Carbon\Carbon::now()) }} No default Carbon time. Just use string --}}
+                        {{ Form::datetime('preferred_datetime_2', "2017-01-01 00:00:00") }}
                     </td>
                 </tr>
 
@@ -800,22 +828,14 @@
                 <tr style="font-size: 1.3em;">
                     <td> {!! Form::label('additional_requirements','Additional Requirements or Information:') //Course Additional Requirements!!} </td>
                     <td>
-                        <textarea id='additional_requirements' rows='2'></textarea>
-                        {{--
-                            Using HTML over Laravel Form b/c can't pass rows size param w/o creating custom component
-                            {!! Form::textarea('additional_requirements') !!}
-                        --}}
+                        {!! Form::textarea('additional_requirements') !!}
                     </td>
                 </tr>
 
                 <tr style="font-size: 1.3em;">
-                    <td> {!! Form::label('student_notes','Notes:') //Course Additional Requirements!!} </td>
+                    <td> {!! Form::label('student_notes','Student Notes About This Request:') //Course Additional Requirements!!} </td>
                     <td>
-                        <textarea id='student_notes' rows='2'></textarea>
-                        {{--
-                            Using HTML over Laravel Form b/c can't pass rows size param w/o creating custom component
-                            {!! Form::textarea('student_notes') !!}
-                        --}}
+                        {{ Form::textarea('student_notes') }}
                     </td>
                 </tr>
 

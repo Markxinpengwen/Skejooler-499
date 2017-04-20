@@ -13,6 +13,9 @@ use App\Students as Students;
 use App\Requests as Requests;
 use App\User as Users;
 use App\Institutions as Institutions;
+//test
+//use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB as DB;
 
 class StudentController extends Controller
 {
@@ -534,10 +537,22 @@ class StudentController extends Controller
 
         // determine if the input is valid, testing against the rules of the Request model
         if ($request->validate($formInput)) {
+
+            //Acquire initial RID auto_increment value from database, and then print.
+            $result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Requests'"));
+            $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
+            $rid = $result[0]['Auto_increment'];
+            if($rid!=0){
+                echo "\nRequests Auto_Increment value is: ".$rid.".\n";
+            }else{
+                echo "\nRequests next Auto_Increment value was 0.\n";
+            }
+
             // set Request values
+            $request->rid = intval($rid);
             $request->sid = Auth::id();
             $request->iid = $formInput['iid'];
-            $request->cid = $formInput['cid']; //!@#problem
+            $request->cid = intval($formInput['center_id_value']); //workaround
             $request->preferred_date_1 = $formInput['preferred_datetime_1']; //single, datetime field
             $request->preferred_date_2 = $formInput['preferred_datetime_2']; //single, datetime field
             $request->course_code = $formInput['course_code'];

@@ -145,39 +145,87 @@
 
         <tr style="font-size: 1.3em;">
             <th>Scheduled Date:</th>
-            <td>{{ $request->scheduled_date }}</td>
+            <td>
+                @if($request->scheduled_date == "1970-01-02 00:00:00" || $request->scheduled_date == null)
+                    {{ "Date not scheduled" }}
+                @else
+                    {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->format('l\\, jS \\of F Y \\a\\t h:i A') }}
+                @endif
+            </td>
+        </tr>
+
+        <tr style="font-size: 1.3em;" class="bg-warning">
+            <th colspan = "2">
+                <span class="glyphicon glyphicon-calendar"></span>
+                <em>Dates must be in the format: YYYY-MM-DD</em>
+            </th>
+        </tr>
+
+        <tr style="font-size: 1.3em;" class="bg-warning">
+            <th colspan = "2">
+                <span class="glyphicon glyphicon-time"></span>
+                <em>Times must be in the following 24hr format: HH:MM:SS</em>
+            </th>
         </tr>
 
         <tr style="font-size: 1.3em;">
-            <td>{{ Form::label('preferred_date_1', 'Preferred Date 1:') }}</td>
-            <td>{{ Form::datetime('preferred_date_1', $request->preferred_date_1) }}</td>
+            <td>{{ Form::label('preferred_date_1', 'First Preferred Date:') }}</td>
+            <td>
+                <span class="glyphicon glyphicon-calendar"></span>
+                {{ Form::date('preferred_date_1', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_1)->toDateString()) }}
+                <span class="glyphicon glyphicon-time"></span>
+                {{ Form::time('preferred_time_1', \Carbon\Carbon::createFromFormat('H:i', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_1)->Format('H:i'))->toTimeString()) }}
+            </td>
         </tr>
 
         <tr style="font-size: 1.3em;">
-            <td>{{ Form::label('preferred_date_2', 'Preferred Date 12') }}</td>
-            <td>{{ Form::datetime('preferred_date_2', $request->preferred_date_2) }}</td>
+            <td>{{ Form::label('preferred_date_2', 'Second Preferred Date') }}</td>
+            <td>
+                <span class="glyphicon glyphicon-calendar"></span>
+                {{ Form::date('preferred_date_2', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_2)->toDateString()) }}
+                <span class="glyphicon glyphicon-time"></span>
+                {{ Form::time('preferred_time_2', \Carbon\Carbon::createFromFormat('H:i', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->preferred_date_2)->Format('H:i'))->toTimeString()) }}
+            </td>
         </tr>
 
         <tr style="font-size: 1.3em;">
             <td>{{ Form::label('course_code', 'Course Code:') }}</td>
-            <td>{{ Form::datetime('course_code', $request->course_code) }}</td>
+            <td>{{ Form::text('course_code', $request->course_code) }}</td>
         </tr>
 
         <tr style="font-size: 1.3em;">
             <td>{{ Form::label('additional_requirements', 'Additional Requirements:') }}</td>
-            <td>{{ Form::datetime('additional_requirements', $request->additional_requirements) }}</td>
+            <td>{{ Form::textarea('additional_requirements', $request->additional_requirements) }}</td>
         </tr>
 
         <tr style="font-size: 1.3em;">
             <td>{{ Form::label('exam_type', 'Exam Type:') }}</td>
-            <td>{{ Form::datetime('exam_type', $request->exam_type) }}</td>
+            <td>{{ Form::select('exam_type', [
+                'Midterm' => 'Midterm',
+                'Final' => 'Final',
+                'Other' => 'Other'
+                ], $request->exam_type
+            ) }}</td>
         </tr>
 
         <tr style="font-size: 1.3em;">
             <td>{{ Form::label('exam_medium', 'Exam Medium:') }}</td>
-            <td>{{ Form::datetime('exam_medium', $request->exam_medium) }}</td>
+            <td>{{ Form::select('exam_medium', [
+                'Paper' => 'Paper',
+                'Online' => 'Online',
+                'Other' => 'Other'
+                ], $request->exam_medium
+            ) }}</td>
         </tr>
 
+        <tr style="font-size: 1.3em;">
+            <td>{{ Form::label('computer_required', 'Computer Required:') }}</td>
+            <td>{{ Form::select('computer_required', [
+                'Yes' => 'Yes',
+                'No' => 'No'
+                ], $request->computer_required
+            ) }}</td>
+        </tr>
 
         <tr style="font-size: 1.3em;">
             <th>Center Notes:</th>
@@ -204,21 +252,12 @@
 
         <tr style="font-size: 1.3em;">
             <td>{{ Form::label('student_approval', 'Student Approval Status:') }}</td>
-            <td>
-                @if($request->student_approval == 2)
-                    Approve{{ Form::radio('student_approval', '2', true) }}
-                    Undecided{{ Form::radio('student_approval', '1') }}
-                    Deny{{ Form::radio('student_approval', '0') }}
-                @elseif($request->student_approval == 1)
-                    Approve{{ Form::radio('student_approval', '2') }}
-                    Undecided{{ Form::radio('student_approval', '1', true) }}
-                    Deny{{ Form::radio('student_approval', '0')}}
-                @elseif($request->student_approval == 0)
-                    Approve{{ Form::radio('student_approval', '2') }}
-                    Undecided{{ Form::radio('student_approval', '1') }}
-                    Deny{{ Form::radio('student_approval', '0', true)}}
-                @endif
-            </td>
+            <td>{{ Form::select('student_approval', [
+                '2' => 'Approve',
+                '1' => 'Undecided',
+                '0' => 'Deny'
+                ], $request->student_approval
+            ) }}</td>
         </tr>
 
         {{ Form::hidden('rid', $request->rid) }}

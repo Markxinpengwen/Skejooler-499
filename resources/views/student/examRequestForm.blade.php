@@ -1,5 +1,6 @@
 {{--
     Author: Barrett Sharpe, Brett Schaad
+    NOTE: Date and Time fields are not supported in Mozilla Firefox, and I.E. <= 12.0
 --}}
 
 @extends("st.layouts.app")
@@ -7,6 +8,28 @@
 @section('title', 'Exam Request Form')
 
 @section('main-content')
+
+
+@php
+/*
+    // Detect the current visitor's browser information.
+    //$result = BrowserDetect::detect();
+    $result = get_browser(null, true);
+    var_dump($result);
+    //Decide if html input type 'time' can be used (Non-Firefox, and Non I.E.<=12.0 browsers)
+    //Sorry for the boolean headache i'm about to cause you.
+    $willTimeWork = true;
+    if (stripos($result['browser'], "firefox") !== false){
+        //if 'firefox' is detected in the browser family. Or as above, if case-insensitive substring search for 'firefox' returns a non boolean false value.
+        $willTimeWork = false;
+    }else if((stripos($result['browser'], "explorer") !== false) && ($result['majorver'] <= 12)){
+        //if 'explorer' (for Internet Explorer) is detected in the browser family. Or as above, if case-insensitive substring search for 'explorer' returns a non boolean false value.
+        $willTimeWork = false;
+    }
+    print("WillTimeWork? ".$willTimeWork);
+*/
+@endphp
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -116,7 +139,7 @@
 
         <!--Google Maps Script-->
         <script type="text/javascript"
-                src="https://maps.google.com/maps/api/js?key=AIzaSyAA4pr6pygT6q-cClvi404Yuvh4AUOeRjk&v=3"></script>
+                src="https://maps.google.com/maps/api/js?key=AIzaSyAVkBBZ7mXisGTnifzS0KTFxobI880GXKE&v=3"></script>
 
         <!--Default Google Stylesheet-->
         <style>
@@ -148,8 +171,7 @@
             var radiusValue;
             var supportsOnlineValue;
             //Fusion Table
-            //var tableId = '1vHtd2HTIiWmfZBfunHoRkTvuJoTG8UXabitBsgok'; //real data table
-            var tableId = "1Y3Bi0J3ABBlBG3qVbkGH1tkbU5L70_N5M8PaxuNP"; //'1_wz4IdRa9RrG9PrgcuckeZRgSQ7p88fczPc5L9iz'; //seeder data data table
+            var tableId = "1oK8T4r1Zwke7ewmaUETA0v7lpIYTC2SNNCP0bkWC"; //Sophia - Seeder Table A
             var cityColumn = "city";
             var onlineColumn = "canSupportOnlineExam";
             var addressColumn = "street_address";
@@ -213,10 +235,16 @@
 
             //Function to fill Form elements with marker data. These data object references will have to be changed if the table or columnNames are changed.
             function fillForm(data){
+                //Labels
                 document.getElementById("center_name").innerHTML = data.center_name.value; //data is type object.
+                document.getElementById("center_id").innerHTML = data.cid.value;
+                //document.getElementById("center_id").value = data.cid.value;
                 document.getElementById("street_address").innerHTML = data.street_address.value;
                 document.getElementById("city").innerHTML = data.city.value;
                 document.getElementById("province").innerHTML = data.province.value;
+
+                //Hidden Fields
+                document.getElementById("cid").value = data.cid.value;
 
             }//fillForm
 
@@ -380,6 +408,7 @@
                 if(section==1){
                     //Invigilation Center Information
                     document.getElementById('center_name').innerHTML="Please Pick A Center from the above map.";
+                    document.getElementById('center_id').innerHTML="";
                     document.getElementById('street_address').innerHTML="";
                     document.getElementById('city').innerHTML="";
                     document.getElementById('province').innerHTML="";
@@ -418,12 +447,83 @@
 
         </script>
 
+        <!-- Simple JS Browser (family) Detection -->
+        <script type="text/javascript">
+            /**
+             * Gets the browser name or returns an empty string if unknown.
+             * This function also caches the result to provide for any
+             * future calls this function has.
+             *
+             * @returns {string}
+             */
+            var browser = function() {
+                // Return cached result if available, else get result then cache it.
+                if (browser.prototype._cachedResult)
+                    return browser.prototype._cachedResult;
+                // Opera 8.0+
+                var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+                // Firefox 1.0+
+                var isFirefox = typeof InstallTrigger !== 'undefined';
+                // Safari 3.0+ "[object HTMLElementConstructor]"
+                var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+                // Internet Explorer 6-11
+                var isIE = /*@cc_on!@*/false || !!document.documentMode;
+                // Edge 20+
+                var isEdge = !isIE && !!window.StyleMedia;
+                // Chrome 1+
+                var isChrome = !!window.chrome && !!window.chrome.webstore;
+                // Blink engine detection
+                var isBlink = (isChrome || isOpera) && !!window.CSS;
+                return browser.prototype._cachedResult =
+                    isOpera ? 'Opera' :
+                        isFirefox ? 'Firefox' :
+                            isSafari ? 'Safari' :
+                                isChrome ? 'Chrome' :
+                                    isIE ? 'IE' :
+                                        isEdge ? 'Edge' :
+                                            "Don't know";
+            };
+
+
+            //Custom Action. Render out the compatable
+            var action = function(str){
+                //Check if browser is incompatable
+                if(str === "Firefox" || str === "IE" || str === "Don't know"){
+                    console.log(str);
+                    //Browser cannot handle time input. Replace with integer inputs
+                    document.getElementById("time1").innerHTML =
+                        "<td id=\'time1\'>" +
+                        "<input type=\'number\' name=\'preferred_time_1_hour\' min=\'0\' max=\'23\' size=\'2\' value=\'12\'>" +
+                        "<input type=\'number\' name=\'preferred_time_1_minute\' min=\'0\' max=\'59\' size=\'2\' value=\'30\'>" +
+                        "</td>";
+                    document.getElementById("time2").innerHTML =
+                        "<td id=\'time2\'>" +
+                        "<input type=\'number\' name=\'preferred_time_2_hour\' min=\'0\' max=\'23\' size=\'2\' value=\'12\'>" +
+                        "<input type=\'number\' name=\'preferred_time_2_minute\' min=\'0\' max=\'59\' size=\'2\' value=\'30\'>" +
+                        "</td>";
+                    console.log("Custom Time fields.");
+                }else{
+                    //Browser can handle time inputs
+                    document.getElementById("time1").innerHTML =
+                        "<input type=\'time\' name=\'preferred_time_1\'>";
+                    document.getElementById("time2").innerHTML =
+                        "<input type=\'time\' name=\'preferred_time_2\'>";
+                    console.log("Time inputs allowed.");
+                }
+            };
+
+            //Once window loads, begin
+            window.onload = function(){
+                var browserString = browser();
+                //action(browserString); //disabled in favour of one datetime field for prototype
+            }
+        </script>
     </head>
 
     <body>
 
         <!-- Filter Criteria Table -->
-        <table class="customTable">
+        <table class="customTable table table-responsive" width="100%">
 
             <tr>
                 <th colspan = "3"><h1>Step 1 - Select A Center</h1></th>
@@ -433,7 +533,7 @@
                 <th colspan = "2"><h2><em>Filter Criteria</em></h2></th>
             </tr>
 
-            <tr>
+            <tr  style="font-size: 1.3em;">
                 <td> {!! Form::label('labelCity','City:') !!} </td>
                 <td>
                     <!--//!@# need to fix optgroup potential error in laravel select form-->
@@ -493,13 +593,13 @@
                 </td>
             </tr>
 
-            <tr>
+            <tr style="font-size: 1.3em;">
                 <td> {!! Form::label('labelRadius','Radius:') !!} </td>
                 <td> <input id='radius'type='Range'min='0'max='40000'step='500'value='0'/> </td>
                 <td> <label id='displayRadius'></label> </td>
             </tr>
 
-            <tr>
+            <tr style="font-size: 1.3em;">
                 <td> {!! Form::label('supportsOnline','Online Exam Support:  ') !!} </td>
                 <td> {!! Form::checkbox('supportsOnline') !!}</td>
             </tr>
@@ -515,194 +615,229 @@
         <br>
 
         <!--Exam Form Table-->
-        <table class="customTable">
-            {{ Form::open() }}
+        <table class="customTable table table-responsive" width="100%">
 
-            <tr>
-                <th colspan = "2"><h1>Step 2 - Complete Your Exam Form</h1></th>
-            </tr>
+            {{-- {{Form::open()}} --}}
+            {{ Form::open(array('action' => 'StudentController@createRequest')) }}
 
-            <!--Section 1): Invigilation Center-->
-            <tr>
-                <th colspan = "2"><h2><em>Invigilation Center</em></h2></th>
-            </tr>
+                <tr>
+                    <th colspan = "2"><h1>Step 2 - Complete Your Exam Form</h1></th>
+                </tr>
 
-            <tr>
-                <td class="required">{!! Form::label('center_name','Center Name:') //Center Street Address!!} </td>
-                <td id="center_name">Please Pick A Center from the above map.</td>
-            </tr>
+                <!--Section 1): Invigilation Center-->
+                <tr>
+                    <th colspan = "2"><h2><em>Invigilation Center</em></h2></th>
+                </tr>
 
-            <tr>
-                <td class="required"> {!! Form::label('street_address','Center Street Address:') //Center Street Address!!} </td>
-                <td id="street_address"></td>
-            </tr>
+                <tr style="font-size: 1.3em;">
+                    <td class="required">{!! Form::label('center_name','Center Name:') //Center Street Address!!} </td>
+                    <td id="center_name">Please Pick A Center from the above map.</td>
+                </tr>
 
-            <tr>
-                <td class="required"> {!! Form::label('city','Center City:') //Center City!!} </td>
-                <td id="city"></td>
-            </tr>
+                <tr style="font-size: 1.3em;">
+                    <td class="required"> {!! Form::label('center_id','0') !!} </td>
+                    <td></td>
+                </tr>
 
-            <tr>
-                <td class="required"> {!! Form::label('province','Center Province:') //Center Province!!} </td>
-                <td id="province"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <button id="clear1" type="button" onclick="clearForm(1);">Clear Section</button>
-                </td>
-            </tr>
+                <tr style="font-size: 1.3em;">
+                    <td class="required"> {!! Form::label('street_address','Center Street Address:') //Center Street Address!!} </td>
+                    <td id="street_address"></td>
+                </tr>
 
-            <!-- Section 2: Examinee-->
-            <tr></tr>
-            <tr>
-                <th colspan = "2"><h2><em>Examinee (i.e. You)</em></h2></th>
-            </tr>
+                <tr style="font-size: 1.3em;">
+                    <td class="required"> {!! Form::label('city','Center City:') //Center City!!} </td>
+                    <td id="city"></td>
+                </tr>
 
-            <tr>
-                <td class="required">{!! Form::label('examinee_name','Name:')!!}</td>
-                <td>{{ $student->firstName }} {{ $student->lastName }}</td>
-            </tr>
+                <tr style="font-size: 1.3em;">
+                    <td class="required"> {!! Form::label('province','Center Province:') //Center Province!!} </td>
+                    <td id="province"></td>
+                </tr>
 
-            <tr>
-                <td class="required">{!! Form::label('examinee_phone','Phone:')!!}</td>
-                <td>{{ $student->phone }}</td>
-            </tr>
 
-            <tr>
-                <td class="required">{!! Form::label('examinee_email','Email Address:')!!}</td>
-                <td>{{ $student_email }}</td>
-            </tr>
 
-            <tr>
-                <td class="required"> {!! Form::label('preferred_date_1','Exam Date (First Choice):') //Exam Date 1!!} </td>
-                <td> {!! Form::datetime('preferred_date_1', \Carbon\Carbon::now()); !!} </td>
-            </tr>
+                <tr style="font-size: 1.3em;">
+                    <td></td>
+                    <td>
+                        <button id="clear1" type="button" onclick="clearForm(1);">Clear Section</button>
+                    </td>
+                </tr>
 
-            <tr>
-                <td class="required"> {!! Form::label('preferred_date_2','Exam Date (Second Choice):') //Exam Date 2!!} </td>
-                <td> {!! Form::datetime('preferred_date_2', \Carbon\Carbon::now()); !!} </td>
-            </tr>
+                <!-- Section 3: Institution Info-->
+                <tr></tr>
+                <tr>
+                    <th colspan = "2"><h2><em>Institution</em></h2></th>
+                </tr>
 
-            <tr>
-                {{-- Examinee Clear Button Not Required
-                <td></td>
-                <td>
-                    <button id="clear2" type="button" onclick="clearForm(2);">Clear Section</button>
-                </td>
-                --}}
-            </tr>
+                <tr style="font-size: 1.3em;">
+                    <td class="required">{!! Form::label('institution_name','Institution Name:')!!}</td>
+                    <td>{{ $institution->institution_name }}</td>
+                </tr>
 
-            <!-- Section 3: Institution Info-->
-            <tr></tr>
-            <tr>
-                <th colspan = "2"><h2><em>Institution</em></h2></th>
-            </tr>
+                <!-- Not currently accepting Institution Information in database-->
+                <tr style="font-size: 1.3em;">
+                    <td class="required">{!! Form::label('institution_address','Institution Address:')!!}</td>
+                    <td>
+                        {{ $institution->street_address }}<br>
+                        {{ $institution->city }}, {{ $institution->province }}<br>
+                        {{ $institution->country }},<br>
+                        {{ $institution->postal_code }}
+                    </td>
+                </tr>
 
-            <tr>
-                <td class="required">{!! Form::label('institution_name','Institution Name:')!!}</td>
-                <td>{{ $institution->institution_name }}</td>
-            </tr>
+                <tr style="font-size: 1.3em;">
+                    <td>{!! Form::label('institution_contact_name','Contact Name:')!!}</td>
+                    <td> {{ $institution->contact_name }} </td>
+                </tr>
 
-            <!-- Not currently accepting Institution Information in database-->
-            <tr>
-                <td class="required">{!! Form::label('institution_address','Institution Address:')!!}</td>
-                <td>
-                    {{ $institution->street_address }}<br>
-                    {{ $institution->city }}, {{ $institution->province }}<br>
-                    {{ $institution->country }},<br>
-                    {{ $institution->postal_code }}
-                </td>
-            </tr>
+                <tr style="font-size: 1.3em;">
+                    <td>{!! Form::label('institution_contact_phone','Contact Phone:')!!}</td>
+                    <td>{{ $institution->contact_phone }}</td>
+                </tr>
 
-            <tr>
-                <td>{!! Form::label('institution_contact_name','Contact Name:')!!}</td>
-                <td> {{ $institution->contact_name }} </td>
-            </tr>
+                <tr style="font-size: 1.3em;">
+                    <td>{!! Form::label('institution_contact_email','Contact Email:')!!}</td>
+                    <td>{{ $institution->contact_email }}</td>
+                </tr>
 
-            <tr>
-                <td>{!! Form::label('institution_contact_phone','Contact Phone:')!!}</td>
-                <td>{{ $institution->contact_phone }}</td>
-            </tr>
+                {{--Grab the student's Insitution ID--}}
+                {!! Form::hidden('iid', $student->iid) !!}
 
-            <tr>
-                <td>{!! Form::label('institution_contact_email','Contact Email:')!!}</td>
-                <td>{{ $institution->contact_email }}</td>
-            </tr>
-
-            <tr>
-                {{-- Institution Clear Button Not Required
-                <td></td>
-                <td>
-                    <button id="clear3" type="button" onclick="clearForm(3);">Clear Section</button>
-                </td>
-                --}}
-            </tr>
-
-            <!-- Section 4: Examination Info-->
-            <tr></tr>
-            <tr>
-                <th colspan = "2"><h2><em>Exam</em></h2></th>
-            </tr>
-
-            <tr>
-                <td class="required"> {!! Form::label('course_code','Course Number:') //Course Number!!} </td>
-                <td> {!! Form::text('course_code') !!} </td>
-            </tr>
-
-            <tr>
-                <td class="required"> {!! Form::label('exam_type','Midterm or Final:') //Course Midterm or Final!!}</td>
-                <td> {!! Form::select('exam_type', ['Midterm' => 'Midterm', 'Final' => 'Final'], 'Final'); !!}</td>
-            </tr>
-
-            <tr>
-                <td class="required"> {!! Form::label('exam_medium','Exam Type:') //Course Exam Type!!}</td>
-                <td> {!! Form::select('exam_medium', ['Paper' => 'Paper', 'Online' => 'Online', 'Other' => 'Other'], 'Paper'); !!}</td>
-            </tr>
-
-            <tr>
-                <td class="required"> {!! Form::label('computer_required','Computer Required:') //Course Computer Required!!}</td>
-                <td> {!! Form::select('computer_required', ['Yes'=>'Yes','No'=>'No'], 'No'); !!}</td>
-            </tr>
-
-            <tr>
-                <td> {!! Form::label('additional_requirements','Additional Requirements or Information:') //Course Additional Requirements!!} </td>
-                <td>
-                    <textarea id='additional_requirements' rows='2'></textarea>
-                    {{--
-                        Using HTML over Laravel Form b/c can't pass rows size param w/o creating custom component
-                        {!! Form::textarea('additional_requirements') !!}
+                <tr>
+                    {{-- Institution Clear Button Not Required
+                    <td></td>
+                    <td>
+                        <button id="clear3" type="button" onclick="clearForm(3);">Clear Section</button>
+                    </td>
                     --}}
-                </td>
-            </tr>
+                </tr>
 
-            <tr>
-                <td> {!! Form::label('student_notes','Notes:') //Course Additional Requirements!!} </td>
-                <td>
-                    <textarea id='student_notes' rows='2'></textarea>
-                    {{--
-                        Using HTML over Laravel Form b/c can't pass rows size param w/o creating custom component
-                        {!! Form::textarea('student_notes') !!}
-                    --}}
-                </td>
-            </tr>
 
-            <tr>
-                <td></td>
-                <td>
-                    <button id="clear4" type="button" onclick="clearForm(4);">Clear Section</button>
-                </td>
-            </tr>
+                <!-- Section 2: Examinee-->
+                <tr></tr>
+                <tr>
+                    <th colspan = "2"><h2><em>Examinee (i.e. You)</em></h2></th>
+                </tr>
 
-            <!-- Submit-->
-            <tr><td>.</td></tr>
-            <tr><td>.</td></tr>
-            <tr>
-                <td></td>
-                <td>{!! Form::submit('Book Exam!') !!}</td>
-            </tr>
+                <tr style="font-size: 1.3em;">
+                    <td class="required">{!! Form::label('examinee_name','Name:')!!}</td>
+                    <td>{{ $student->firstName }} {{ $student->lastName }}</td>
+                </tr>
+
+                <tr style="font-size: 1.3em;">
+                    <td class="required">{!! Form::label('examinee_phone','Phone:')!!}</td>
+                    <td>{{ $student->phone }}</td>
+                </tr>
+
+                <tr style="font-size: 1.3em;">
+                    <td class="required">{!! Form::label('examinee_email','Email Address:')!!}</td>
+                    <td>{{ $student_email }}</td>
+                </tr>
+
+                <!-- Date and Time fields are not supported in Mozilla Firefox, and I.E. <= 12.0 -->
+                <!-- Section 5: Times-->
+                <tr></tr>
+                <tr>
+                    <th colspan = "2"><h2><em>Date and Time</em></h2></th>
+                </tr>
+
+
+                <tr style="font-size: 1.3em;" class="bg-warning">
+                    <th colspan = "2">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        <span class="glyphicon glyphicon-time"></span>
+                        <em>Datetimes must be in the following 24hr format: YYYY-MM-DD HH:MM:SS</em>
+                    </th>
+                </tr>
+
+                <tr style="font-size: 1.3em;">
+                    <td>{{ Form::label('preferred_datetime_1', 'First Preferred Datetime:') }}</td>
+                    <td>
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        <span class="glyphicon glyphicon-time"></span>
+                        {{ Form::datetime('preferred_datetime_1', \Carbon\Carbon::now()) }}
+                    </td>
+                </tr>
+
+                <tr style="font-size: 1.3em;">
+                    <td>{{ Form::label('preferred_datetime_2', 'Second Preferred Datetime') }}</td>
+                    <td>
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        <span class="glyphicon glyphicon-time"></span>
+                        {{ Form::datetime('preferred_datetime_2', \Carbon\Carbon::now()) }}
+                    </td>
+                </tr>
+
+
+                <!-- Section 4: Examination Info-->
+                <tr></tr>
+                <tr>
+                    <th colspan = "2"><h2><em>Exam</em></h2></th>
+                </tr>
+
+                <tr style="font-size: 1.3em;">
+                    <td class="required"> {!! Form::label('course_code','Course Number:') //Course Number!!} </td>
+                    <td> {!! Form::text('course_code') !!} </td>
+                </tr>
+
+                <tr style="font-size: 1.3em;">
+                    <td class="required"> {!! Form::label('exam_type','Midterm or Final:') //Course Midterm or Final!!}</td>
+                    <td> {!! Form::select('exam_type', ['Midterm' => 'Midterm', 'Final' => 'Final'], 'Final'); !!}</td>
+                </tr>
+
+                <tr style="font-size: 1.3em;">
+                    <td class="required"> {!! Form::label('exam_medium','Exam Type:') //Course Exam Type!!}</td>
+                    <td> {!! Form::select('exam_medium', ['Paper' => 'Paper', 'Online' => 'Online', 'Other' => 'Other'], 'Paper'); !!}</td>
+                </tr>
+
+                <tr style="font-size: 1.3em;">
+                    <td class="required"> {!! Form::label('computer_required','Computer Required:') //Course Computer Required!!}</td>
+                    <td> {!! Form::select('computer_required', ['Yes'=>'Yes','No'=>'No'], 'No'); !!}</td>
+                </tr>
+
+                <tr style="font-size: 1.3em;">
+                    <td> {!! Form::label('additional_requirements','Additional Requirements or Information:') //Course Additional Requirements!!} </td>
+                    <td>
+                        <textarea id='additional_requirements' rows='2'></textarea>
+                        {{--
+                            Using HTML over Laravel Form b/c can't pass rows size param w/o creating custom component
+                            {!! Form::textarea('additional_requirements') !!}
+                        --}}
+                    </td>
+                </tr>
+
+                <tr style="font-size: 1.3em;">
+                    <td> {!! Form::label('student_notes','Notes:') //Course Additional Requirements!!} </td>
+                    <td>
+                        <textarea id='student_notes' rows='2'></textarea>
+                        {{--
+                            Using HTML over Laravel Form b/c can't pass rows size param w/o creating custom component
+                            {!! Form::textarea('student_notes') !!}
+                        --}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <button id="clear4" type="button" onclick="clearForm(4);">Clear Section</button>
+                    </td>
+                </tr>
+
+                <!-- Submit-->
+                <tr><td>.</td></tr>
+                <tr><td>.</td></tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <div class="btn-group btn-group-lg">
+                            {{ Form::submit('Book Exam', $attributes = array('id'=>"bookExamButton", 'class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
+                </tr>
 
             {{ Form::close() }}
+
         </table>
 
     </body>
@@ -711,52 +846,3 @@
 
 
 @stop
-{{--
-OLD CODE GRAVEYARD
-
-    //JavaScript
-            //Old City Table
-            //Any City = Burnaby Default
-            var City = [
-                'Any City',
-                '100_Mile_House',
-                'Abbotsford',
-                'Burnaby',
-                'Kelowna'
-            ];
-
-            //Old Coord Table
-            var Coord = [
-                [49.248775, -122.980531], //any city
-                [51.644127, -121.295124], //100 mile
-                [49.050339, -122.304451], //abbotsford
-                [49.248775, -122.980531], //burnaby
-                [49.887836, -119.496592], //kelowna
-            ];
-
-            //City Table (sorted by pop.; unused)
-            //var CityByPop = ['Vancouver', 'Surrey', 'Burnaby', 'Richmond', 'Abbotsford', 'Kelowna', 'Port Coquitlam', 'Delta', 'Kamloops', 'Nanaimo', 'Victoria', 'Chilliwack', 'Maple Ridge', 'Prince George', 'New Westminster', 'North Vancouver', 'Penticton', 'West Vancouver', 'North Cowichan', 'Courtenay', 'Vernon', 'Central Okanagan', 'Campbell River', 'Port Moody', 'Walnut Grove', 'Langley', 'Duncan', 'Parksville', 'Williams Lake', 'White Rock', 'Terrace', 'Cranbrook', 'Pitt Meadows', 'Fort Saint John', 'Port Alberni', 'Quesnel', 'Squamish', 'Powell River', 'Prince Rupert', 'Aldergrove'];
-
-
-
-    //PHP LARAVEL
-            //OLD Province Select Code
-            {!! Form::select('province',[
-                'Canada' => [
-                    'british_columbia' => 'British Columbia' ,
-                    'alberta' => 'Alberta',
-                    'sasketchewan' => 'Sasketchewan',
-                    'manitoba' => 'Manitoba',
-                    'ontario' => 'Ontario',
-                    'quebec' => 'Quebec',
-                    'nova_scotia' => 'Nova Scotia',
-                    'newfoundland_and_labrador' => 'Newfoundland and Labrador',
-                    'new_brunswick' => 'New Brunswick',
-                    'prince_edward_island' => 'Prince Edward Island',
-                    'yukon' => 'Yukon',
-                    'northwest_territories' => 'Northwest Territories',
-                    'nunavut' => 'Nunavut',
-                ],
-            ]) !!}
-
---}}

@@ -29,8 +29,8 @@ class Requests extends BaseModel
         'exam_medium' => 'string',
         'computer_required' => 'string',
         'student_approval' => 'numeric',
-        'student_notes' => 'numeric',
-        'center_approval' => 'string',
+        'student_notes' => 'string',
+        'center_approval' => 'numeric',
         'center_notes' => 'string',
     );
 

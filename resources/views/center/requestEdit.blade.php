@@ -100,8 +100,12 @@
 
         <tr style="font-size: 1.3em;">
             <td>{{ Form::label('scheduled_date', 'Scheduled Date:') }}</td>
-            <td>{{ Form::date('scheduled_date', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->toDateString()) }}</td>
-            <td>{{ Form::time('scheduled_time', \Carbon\Carbon::createFromFormat('H:i', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->Format('H:i'))->toTimeString()) }}</td>
+            <td>
+                <span class="glyphicon glyphicon-calendar"></span>
+                {{ Form::date('scheduled_date', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_date)->toDateString()) }}
+                <span class="glyphicon glyphicon-time"></span>
+                {{ Form::time('scheduled_time', \Carbon\Carbon::createFromFormat('H:i', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->scheduled_time)->Format('H:i'))->toTimeString()) }}
+            </td>
         </tr>
 
 

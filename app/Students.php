@@ -16,13 +16,13 @@ class Students extends BaseModel
     // validation rules array
     protected $rules = array(
         'id' => 'id',
-        'sid' => '',
-        'firstName' => '',
-        'lastName' => '',
-        'iid' => '',
-        'sex' => '',
-        'age' => '',
-        'phone' => '',
+        'sid' => 'numeric',
+        'firstName' => 'required|string',
+        'lastName' => 'required|string',
+        'iid' => 'numeric',
+        'sex' => 'string',
+        'age' => 'numeric',
+        'phone' => 'numeric',
     );
 
     /**

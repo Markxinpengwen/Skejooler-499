@@ -15,12 +15,12 @@ class Centers extends BaseModel
 
     // validation rules array
     protected $rules = array(
-        'id' => '',
-        'cid' => '',
-        'center_name' => 'required|string', // TODO add unique
+        'id' => 'numeric',
+        'cid' => 'numeric',
+        'center_name' => 'required|string',
         'center_email' => 'email',
-        'phone' => 'numeric', // TODO needs a valid change into mobile 0 - 20 accepts valid characters
-        'description' => '', // TODO text area 0 - 1000
+        'phone' => '', // TODO numeric of specific length
+        'description' => 'string', // TODO text area 0 - 1000
         'canSupportOnlineExam' => 'boolean',
         'cost' => 'numeric', // TODO 15 digits total, 2 past decimal OR 0 - 11 digits
         'street_address' => 'string', // TODO 3 - 100
@@ -28,8 +28,8 @@ class Centers extends BaseModel
         'province' => 'string',
         'country' => 'string',
         'postal_code' => 'between:5,6|string',
-        'longitude' => '',
-        'latitude' => '',
+        'longitude' => 'numeric',
+        'latitude' => 'numeric',
     );
 
     /**

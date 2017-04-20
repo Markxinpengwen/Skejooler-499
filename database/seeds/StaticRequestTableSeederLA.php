@@ -31,7 +31,7 @@ class StaticRequestsTableSeederLA extends Seeder
         $NUM_REQUESTS = 0; //This value is now calculated
         $DEFAULT_AUTO_INCREMENT = 20000;
         $FAKER_SEED = 1234;
-        $MINIMUM_DATE= "1970-01-02 00:00:01";
+        $MINIMUM_DATE= \Carbon\Carbon::createFromFormat("Y-m-d H:i:s","1970-01-02 00:00:01"); //Datetime Object required for Brett's request, for :00 second values //"1970-01-02 00:00:01";
         $DEFAULT_CODE = "DFLT 000";
 
         //Variables
@@ -220,6 +220,16 @@ class StaticRequestsTableSeederLA extends Seeder
                         //'created_at' => $faker->dateTimeThisDecade($max = 'now'),
                         //'updated_at' => $faker->dateTimeThisMonth($max = 'now')
                     ];
+
+                    //Transform Date Time values, specifically to have :00 for the seconds value. Brett's request
+                    $requests[($k-1)]['preferred_date_1'] = $requests[($k-1)]['preferred_date_1']->format('Y-m-d H:i');
+                    $requests[($k-1)]['preferred_date_1'] = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $requests[($k-1)]['preferred_date_1'])->toDateTimeString();
+
+                    $requests[($k-1)]['preferred_date_2'] = $requests[($k-1)]['preferred_date_2']->format('Y-m-d H:i');
+                    $requests[($k-1)]['preferred_date_2'] = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $requests[($k-1)]['preferred_date_2'])->toDateTimeString();
+
+                    $requests[($k-1)]['scheduled_date'] = $requests[($k-1)]['scheduled_date']->format('Y-m-d H:i');
+                    $requests[($k-1)]['scheduled_date'] = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $requests[($k-1)]['scheduled_date'])->toDateTimeString();
 
                     //rid incrementer
                     $k++;

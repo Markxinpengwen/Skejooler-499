@@ -8,23 +8,25 @@
 
 @section('main-content')
 
-    <table width = "100%">
+    <table class="table table-responsive table-hover table-striped" width="100%">
+
 
         <tr>
-            <th colspan = "4"><h1>Upcoming Exams</h1></th>
-            <td colspan = "2"><h2>{{ $upcomingCount }} exams</h2></td>
+            <th colspan = "5"><h1>Upcoming Exams</h1></th>
+            <td colspan = "5"><h2>{{ $upcomingCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
-            <td align = "center"><b>Course Code</b></td>
-            <td align = "center"><b>Exam Medium</b></td>
-            <td align = "center"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"></td>
         </tr>
 
         @foreach($upcoming as $u)
@@ -49,26 +51,31 @@
                     {{ Form::hidden('cid', $u->cid) }}
                     {{ Form::hidden('sid', $u->sid) }}
                     {{ Form::hidden('iid', $u->iid) }}
-                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
         <tr>
-            <th colspan = "4"><h1>Exams Pending Center's Approval</h1></th>
-            <td colspan = "2"><h2>{{ $pendingCenterCount }} exams</h2></td>
+            <th colspan = "5"><h1>Exams Pending Center's Approval</h1></th>
+            <td colspan = "5"><h2>{{ $pendingCenterCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
-            <td align = "center"><b>Course Code</b></td>
-            <td align = "center"><b>Exam Medium</b></td>
-            <td align = "center"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"></td>
         </tr>
 
         @foreach($pendingCenter as $pc)
@@ -93,26 +100,31 @@
                     {{ Form::hidden('cid', $pc->cid) }}
                     {{ Form::hidden('sid', $pc->sid) }}
                     {{ Form::hidden('iid', $pc->iid) }}
-                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
         <tr>
-            <th colspan = "4"><h1>Exams Pending Student's Approval</h1></th>
-            <td colspan = "2"><h2>{{ $pendingStudentCount }} exams</h2></td>
+            <th colspan = "5"><h1>Exams Pending Student's Approval</h1></th>
+            <td colspan = "5"><h2>{{ $pendingStudentCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
-            <td align = "center"><b>Course Code</b></td>
-            <td align = "center"><b>Exam Medium</b></td>
-            <td align = "center"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"></td>
         </tr>
 
         @foreach($pendingStudent as $ps)
@@ -137,26 +149,31 @@
                     {{ Form::hidden('cid', $ps->cid) }}
                     {{ Form::hidden('sid', $ps->sid) }}
                     {{ Form::hidden('iid', $ps->iid) }}
-                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
         <tr>
-            <th colspan = "4"><h1>Exams Denied By Student</h1></th>
-            <td colspan = "2"><h2>{{ $deniedStudentCount }} exams</h2></td>
+            <th colspan = "5"><h1>Exams Denied By Student</h1></th>
+            <td colspan = "5"><h2>{{ $deniedStudentCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
-            <td align = "center"><b>Course Code</b></td>
-            <td align = "center"><b>Exam Medium</b></td>
-            <td align = "center"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"></td>
         </tr>
 
          @foreach($deniedStudent as $ds)
@@ -181,26 +198,31 @@
                     {{ Form::hidden('cid', $ds->cid) }}
                     {{ Form::hidden('sid', $ds->sid) }}
                     {{ Form::hidden('iid', $ds->iid) }}
-                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
         <tr>
-            <th colspan = "4"><h1>Exams Denied By Center</h1></th>
-            <td colspan = "2"><h2>{{ $deniedCenterCount }} exams</h2></td>
+            <th colspan = "5"><h1>Exams Denied By Center</h1></th>
+            <td colspan = "5"><h2>{{ $deniedCenterCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
-            <td align = "center"><b>Course Code</b></td>
-            <td align = "center"><b>Exam Medium</b></td>
-            <td align = "center"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"></td>
         </tr>
 
         @foreach($deniedCenter as $dc)
@@ -225,26 +247,31 @@
                     {{ Form::hidden('cid', $dc->cid) }}
                     {{ Form::hidden('sid', $dc->sid) }}
                     {{ Form::hidden('iid', $dc->iid) }}
-                <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
         <tr>
-            <th colspan = "4"><h1>Past Exams</h1></th>
-            <td colspan = "2"><h2>{{ $pastCount }} exams</h2></td>
+            <th colspan = "5"><h1>Past Exams</h1></th>
+            <td colspan = "5"><h2>{{ $pastCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
-            <td align = "center"><b>Course Code</b></td>
-            <td align = "center"><b>Exam Medium</b></td>
-            <td align = "center"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
+            <td align = "center" style="text-decoration: underline;"></td>
         </tr>
 
         @foreach($past as $pa)
@@ -269,7 +296,11 @@
                     {{ Form::hidden('cid', $pa->cid) }}
                     {{ Form::hidden('sid', $pa->sid) }}
                     {{ Form::hidden('iid', $pa->iid) }}
-                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach

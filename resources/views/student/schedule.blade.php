@@ -30,7 +30,7 @@
                 {{ Form::open(array('action' => 'StudentController@showRequest', 'name' => "upcomingForm")) }}
                     <td align = "center">{{ $u->rid }}</td>
                     <td align = "center">
-                        @if($u->scheduled_date == "1970-01-02 00:00:01")
+                        @if($u->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $u->scheduled_date }}
@@ -79,7 +79,7 @@
                 {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">{{ $ps->rid }}</td>
                     <td align = "center">
-                        @if($ps->scheduled_date == "1970-01-02 00:00:01")
+                        @if($ps->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $ps->scheduled_date }}
@@ -128,7 +128,7 @@
                 {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">{{ $pc->rid }}</td>
                     <td align = "center">
-                        @if($pc->scheduled_date == "1970-01-02 00:00:01")
+                        @if($pc->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $pc->scheduled_date }}
@@ -177,7 +177,7 @@
                 {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">{{ $dc->rid }}</td>
                     <td align = "center">
-                        @if($dc->scheduled_date == "1970-01-02 00:00:01")
+                        @if($dc->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $dc->scheduled_date }}
@@ -226,7 +226,7 @@
                 {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">{{ $ds->rid }}</td>
                     <td align = "center">
-                        @if($ds->scheduled_date == "1970-01-02 00:00:01")
+                        @if($ds->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $ds->scheduled_date }}
@@ -275,7 +275,7 @@
                 {{ Form::open(array('action' => 'StudentController@showRequest')) }}
                     <td align = "center">{{ $pa->rid }}</td>
                     <td align = "center">
-                        @if($pa->scheduled_date == "1970-01-02 00:00:01")
+                        @if($pa->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $pa->scheduled_date }}

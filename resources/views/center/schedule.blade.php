@@ -3,20 +3,21 @@
 @section('title', 'Schedule')
 
 @section('main-content')
-    <table width = "100%">
+    <table class="table table-responsive table-hover table-striped" width="100%">
 
         <tr>
             <th colspan = "4"><h1>Upcoming Exams</h1></th>
-            <td colspan = "2"><h2>{{ $upcomingCount }} exams</h2></td>
+            <td colspan = "3"><h2>{{ $upcomingCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b></b></td>
             {{--<td align = "center"><b>Course Code</b></td>--}}
             {{--<td align = "center"><b>Exam Medium</b></td>--}}
             {{--<td align = "center"><b>Exam Type</b></td>--}}
@@ -27,7 +28,7 @@
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
                     <td align = "center">{{ $u->rid }}</td>
                     <td align = "center">
-                        @if($u->scheduled_date == "1970-01-02 00:00:01")
+                        @if($u->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $u->scheduled_date }}
@@ -44,23 +45,28 @@
                     {{ Form::hidden('cid', $u->cid) }}
                     {{ Form::hidden('sid', $u->sid) }}
                     {{ Form::hidden('iid', $u->iid) }}
-                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
         <tr>
             <th colspan = "4"><h1>Exams Pending Center's Approval</h1></th>
-            <td colspan = "2"><h2>{{ $pendingCenterCount }} exams</h2></td>
+            <td colspan = "3"><h2>{{ $pendingCenterCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b></b></td>
             {{--<td align = "center"><b>Course Code</b></td>--}}
             {{--<td align = "center"><b>Exam Medium</b></td>--}}
             {{--<td align = "center"><b>Exam Type</b></td>--}}
@@ -71,7 +77,7 @@
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
                     <td align = "center">{{ $pc->rid }}</td>
                     <td align = "center">
-                        @if($pc->scheduled_date == "1970-01-02 00:00:01")
+                        @if($pc->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $pc->scheduled_date }}
@@ -88,23 +94,28 @@
                     {{ Form::hidden('cid', $pc->cid) }}
                     {{ Form::hidden('sid', $pc->sid) }}
                     {{ Form::hidden('iid', $pc->iid) }}
-                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
         <tr>
             <th colspan = "4"><h1>Exams Pending Student's Approval</h1></th>
-            <td colspan = "2"><h2>{{ $pendingStudentCount }} exams</h2></td>
+            <td colspan = "3"><h2>{{ $pendingStudentCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b></b></td>
             {{--<td align = "center"><b>Course Code</b></td>--}}
             {{--<td align = "center"><b>Exam Medium</b></td>--}}
             {{--<td align = "center"><b>Exam Type</b></td>--}}
@@ -115,7 +126,7 @@
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
                     <td align = "center">{{ $ps->rid }}</td>
                     <td align = "center">
-                        @if($ps->scheduled_date == "1970-01-02 00:00:01")
+                        @if($ps->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $ps->scheduled_date }}
@@ -132,23 +143,28 @@
                     {{ Form::hidden('cid', $ps->cid) }}
                     {{ Form::hidden('sid', $ps->sid) }}
                     {{ Form::hidden('iid', $ps->iid) }}
-                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
         <tr>
             <th colspan = "4"><h1>Exams Denied By Student</h1></th>
-            <td colspan = "2"><h2>{{ $deniedStudentCount }} exams</h2></td>
+            <td colspan = "3"><h2>{{ $deniedStudentCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b></b></td>
             {{--<td align = "center"><b>Course Code</b></td>--}}
             {{--<td align = "center"><b>Exam Medium</b></td>--}}
             {{--<td align = "center"><b>Exam Type</b></td>--}}
@@ -159,7 +175,7 @@
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
                     <td align = "center">{{ $ds->rid }}</td>
                     <td align = "center">
-                        @if($ds->scheduled_date == "1970-01-02 00:00:01")
+                        @if($ds->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $ds->scheduled_date }}
@@ -176,23 +192,28 @@
                     {{ Form::hidden('cid', $ds->cid) }}
                     {{ Form::hidden('sid', $ds->sid) }}
                     {{ Form::hidden('iid', $ds->iid) }}
-                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
         <tr>
             <th colspan = "4"><h1>Exams Denied By Center</h1></th>
-            <td colspan = "2"><h2>{{ $deniedCenterCount }} exams</h2></td>
+            <td colspan = "3"><h2>{{ $deniedCenterCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b></b></td>
             {{--<td align = "center"><b>Course Code</b></td>--}}
             {{--<td align = "center"><b>Exam Medium</b></td>--}}
             {{--<td align = "center"><b>Exam Type</b></td>--}}
@@ -203,7 +224,7 @@
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
                     <td align = "center">{{ $dc->rid }}</td>
                     <td align = "center">
-                        @if($dc->scheduled_date == "1970-01-02 00:00:01")
+                        @if($dc->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $dc->scheduled_date }}
@@ -220,23 +241,28 @@
                     {{ Form::hidden('cid', $dc->cid) }}
                     {{ Form::hidden('sid', $dc->sid) }}
                     {{ Form::hidden('iid', $dc->iid) }}
-                <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach
 
         <tr>
             <th colspan = "4"><h1>Past Exams</h1></th>
-            <td colspan = "2"><h2>{{ $pastCount }} exams</h2></td>
+            <td colspan = "3"><h2>{{ $pastCount }} exams</h2></td>
         </tr>
 
         <tr>
-            <td align = "center"><b>Request ID</b></td>
-            <td align = "center"><b>Scheduled Date</b></td>
-            <td align = "center"><b>First Preferred Date</b></td>
-            <td align = "center"><b>Second Preferred Date</b></td>
-            <td align = "center"><b>Student</b></td>
-            <td align = "center"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Request ID</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Scheduled Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>First Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Student</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b></b></td>
             {{--<td align = "center"><b>Course Code</b></td>--}}
             {{--<td align = "center"><b>Exam Medium</b></td>--}}
             {{--<td align = "center"><b>Exam Type</b></td>--}}
@@ -247,7 +273,7 @@
                 {{ Form::open(array('action' => 'CenterController@showRequest')) }}
                     <td align = "center">{{ $pa->rid }}</td>
                     <td align = "center">
-                        @if($pa->scheduled_date == "1970-01-02 00:00:01")
+                        @if($pa->scheduled_date == "1970-01-02 00:00:00")
                             {{ "Date not scheduled" }}
                         @else
                             {{ $pa->scheduled_date }}
@@ -264,7 +290,11 @@
                     {{ Form::hidden('cid', $pa->cid) }}
                     {{ Form::hidden('sid', $pa->sid) }}
                     {{ Form::hidden('iid', $pa->iid) }}
-                    <td align = "center">{{ Form::submit('View Details') }}</td>
+                    <td align="center">
+                        <div class="btn-group btn-group-xs">
+                            {{ Form::submit('View Details', $attributes = array('class'=>"btn btn-primary")) }}
+                        </div>
+                    </td>
                 {{ Form::close() }}
             </tr>
         @endforeach

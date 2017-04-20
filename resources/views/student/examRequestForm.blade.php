@@ -779,22 +779,22 @@
                 </tr>
 
                 <tr style="font-size: 1.3em;">
-                    <td>{{ Form::label('preferred_datetime_1', 'First Preferred Datetime:') }}</td>
+                    <td>{{ Form::label('preferred_date_1', 'First Preferred Date & Time:') }}</td>
                     <td>
                         <span class="glyphicon glyphicon-calendar"></span>
+                        {{ Form::date('preferred_date_1', \Carbon\Carbon::now('America/Vancouver')) }}
                         <span class="glyphicon glyphicon-time"></span>
-                        {{-- {{ Form::datetime('preferred_datetime_1', \Carbon\Carbon::now()) }} No default Carbon time. Just using string --}}
-                        {{ Form::datetime('preferred_datetime_1', "2017-01-01 00:00:00") }}
+                        {{ Form::time('preferred_time_1', \Carbon\Carbon::createFromFormat('H:i', \Carbon\Carbon::now('America/Vancouver')->Format('H:i'))->toTimeString()) }}
                     </td>
                 </tr>
 
                 <tr style="font-size: 1.3em;">
-                    <td>{{ Form::label('preferred_datetime_2', 'Second Preferred Datetime') }}</td>
+                    <td>{{ Form::label('preferred_date_2', 'Second Preferred Date & Time:') }}</td>
                     <td>
                         <span class="glyphicon glyphicon-calendar"></span>
+                        {{ Form::date('preferred_date_2', \Carbon\Carbon::now('America/Vancouver')) }}
                         <span class="glyphicon glyphicon-time"></span>
-                        {{-- {{ Form::datetime('preferred_datetime_2', \Carbon\Carbon::now()) }} No default Carbon time. Just use string --}}
-                        {{ Form::datetime('preferred_datetime_2', "2017-01-01 00:00:00") }}
+                        {{ Form::time('preferred_time_2', \Carbon\Carbon::createFromFormat('H:i', \Carbon\Carbon::now('America/Vancouver')->Format('H:i'))->toTimeString()) }}
                     </td>
                 </tr>
 

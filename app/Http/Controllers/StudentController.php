@@ -527,7 +527,7 @@ class StudentController extends Controller
         $formInput = Input::all();
 
         //test dump information
-        var_dump($formInput);
+        //var_dump($formInput);
 
         //OLD TIMESTAMP. Need to use Carbon to convert to MySQL Datetime format
         //$carbon = new Carbon();

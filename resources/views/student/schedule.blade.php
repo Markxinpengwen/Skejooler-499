@@ -12,8 +12,8 @@
     <table class="table table-responsive table-hover table-striped" width="100%">
 
         <tr>
-            <th colspan = "4"><h1>Upcoming Exams</h1></th>
-            <td colspan = "3"><h2>{{ $upcomingCount }} exams</h2></td>
+            <th colspan = "5"><h1>Upcoming Exams</h1></th>
+            <td colspan = "5"><h2>{{ $upcomingCount }} exams</h2></td>
         </tr>
 
         <tr>
@@ -23,10 +23,10 @@
             <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Center</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
             <td align = "center" style="text-decoration: underline;"></td>
-            {{--<td align = "center"><b>Course Code</b></td>--}}
-            {{--<td align = "center"><b>Exam Medium</b></td>--}}
-            {{--<td align = "center"><b>Exam Type</b></td>--}}
         </tr>
 
         @foreach($upcoming as $u)
@@ -61,8 +61,8 @@
         @endforeach
 
         <tr>
-            <th colspan = "4"><h1>Exams Pending Student's Approval</h1></th>
-            <td colspan = "3"><h2>{{ $pendingStudentCount }} exams</h2></td>
+            <th colspan = "5"><h1>Exams Pending Student's Approval</h1></th>
+            <td colspan = "5"><h2>{{ $pendingStudentCount }} exams</h2></td>
         </tr>
 
         <tr>
@@ -72,10 +72,10 @@
             <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Center</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
             <td align = "center" style="text-decoration: underline;"></td>
-            {{--<td align = "center"><b>Course Code</b></td>--}}
-            {{--<td align = "center"><b>Exam Medium</b></td>--}}
-            {{--<td align = "center"><b>Exam Type</b></td>--}}
         </tr>
 
         @foreach($pendingStudent as $ps)
@@ -110,8 +110,8 @@
         @endforeach
 
         <tr>
-            <th colspan = "4"><h1>Exams Pending Center's Approval</h1></th>
-            <td colspan = "3"><h2>{{ $pendingCenterCount }} exams</h2></td>
+            <th colspan = "5"><h1>Exams Pending Center's Approval</h1></th>
+            <td colspan = "5"><h2>{{ $pendingCenterCount }} exams</h2></td>
         </tr>
 
         <tr>
@@ -121,10 +121,10 @@
             <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Center</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
             <td align = "center" style="text-decoration: underline;"></td>
-            {{--<td align = "center"><b>Course Code</b></td>--}}
-            {{--<td align = "center"><b>Exam Medium</b></td>--}}
-            {{--<td align = "center"><b>Exam Type</b></td>--}}
         </tr>
 
         @foreach($pendingCenter as $pc)
@@ -159,8 +159,8 @@
         @endforeach
 
         <tr>
-            <th colspan = "4"><h1>Exams Denied By Center</h1></th>
-            <td colspan = "3"><h2>{{ $deniedCenterCount }} exams</h2></td>
+            <th colspan = "5"><h1>Exams Denied By Center</h1></th>
+            <td colspan = "5"><h2>{{ $deniedCenterCount }} exams</h2></td>
         </tr>
 
         <tr>
@@ -170,10 +170,10 @@
             <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Center</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
             <td align = "center" style="text-decoration: underline;"></td>
-            {{--<td align = "center"><b>Course Code</b></td>--}}
-            {{--<td align = "center"><b>Exam Medium</b></td>--}}
-            {{--<td align = "center"><b>Exam Type</b></td>--}}
         </tr>
 
         @foreach($deniedCenter as $dc)
@@ -208,8 +208,8 @@
         @endforeach
 
         <tr>
-            <th colspan = "4"><h1>Exams Denied By Student</h1></th>
-            <td colspan = "3"><h2>{{ $deniedStudentCount }} exams</h2></td>
+            <th colspan = "5"><h1>Exams Denied By Student</h1></th>
+            <td colspan = "5"><h2>{{ $deniedStudentCount }} exams</h2></td>
         </tr>
 
         <tr>
@@ -219,10 +219,10 @@
             <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Center</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
             <td align = "center" style="text-decoration: underline;"></td>
-            {{--<td align = "center"><b>Course Code</b></td>--}}
-            {{--<td align = "center"><b>Exam Medium</b></td>--}}
-            {{--<td align = "center"><b>Exam Type</b></td>--}}
         </tr>
 
         @foreach($deniedStudent as $ds)
@@ -257,8 +257,8 @@
         @endforeach
 
         <tr>
-            <th colspan = "4"><h1>Past Exams</h1></th>
-            <td colspan = "3"><h2>{{ $pastCount }} exams</h2></td>
+            <th colspan = "5"><h1>Past Exams</h1></th>
+            <td colspan = "5"><h2>{{ $pastCount }} exams</h2></td>
         </tr>
 
         <tr>
@@ -268,10 +268,10 @@
             <td align = "center" style="text-decoration: underline;"><b>Second Preferred Date</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Center</b></td>
             <td align = "center" style="text-decoration: underline;"><b>Institution</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Course Code</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Medium</b></td>
+            <td align = "center" style="text-decoration: underline;"><b>Exam Type</b></td>
             <td align = "center" style="text-decoration: underline;"></td>
-            {{--<td align = "center"><b>Course Code</b></td>--}}
-            {{--<td align = "center"><b>Exam Medium</b></td>--}}
-            {{--<td align = "center"><b>Exam Type</b></td>--}}
         </tr>
 
         @foreach($past as $pa)

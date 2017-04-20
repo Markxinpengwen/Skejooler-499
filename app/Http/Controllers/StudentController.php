@@ -375,7 +375,7 @@ class StudentController extends Controller
         $tempRequest['preferred_date_2'] = $tempRequest['preferred_date_2']." ".$tempRequest['preferred_time_2'];
 
         // determine if User is allowed to update Request
-        if($r->authorize($sid))
+        if($r->authorize($sid, $cid))
         {
             // determine if the input is valid, testing against the rules of the Request model
             if($r->validate($tempRequest))
@@ -519,30 +519,33 @@ class StudentController extends Controller
      */
     public function createRequest()
     {
-        // grab Request info
-        $tempRequest = Input::all();
 
-        // combine date and time into one value for validation and input
-        $tempRequest['preferred_date_1'] = $tempRequest['preferred_date_1']." ".$tempRequest['preferred_time_1'];
-        $tempRequest['preferred_date_2'] = $tempRequest['preferred_date_2']." ".$tempRequest['preferred_time_2'];
+        // grab Exam Request Form info
+        $formInput = Input::all();
+
+        //test dump information
+        var_dump($formInput);
+
+        //OLD TIMESTAMP. Need to use Carbon to convert to MySQL Datetime format
+        //$carbon = new Carbon();
 
         // instantiate a Request model
         $request = new Requests();
 
         // determine if the input is valid, testing against the rules of the Request model
-        if($request->validate($tempRequest))
-        {
+        if ($request->validate($formInput)) {
             // set Request values
             $request->sid = Auth::id();
-            $request->iid = $tempRequest['iid'];
-            $request->cid = $tempRequest['cid'];
-            $request->preferred_date_1 = $tempRequest['preferred_date_1'];
-            $request->preferred_date_2 = $tempRequest['preferred_date_2'];
-            $request->course_code = $tempRequest['course_code'];
-            $request->additional_requirements = $tempRequest['additional_requirements'];
-            $request->exam_type = $tempRequest['exam_type'];
-            $request->exam_medium = $tempRequest['exam_medium'];
-            $request->student_notes = $tempRequest['student_notes'];
+            $request->iid = $formInput['iid'];
+            $request->cid = $formInput['cid']; //!@#problem
+            $request->preferred_date_1 = $formInput['preferred_datetime_1']; //single, datetime field
+            $request->preferred_date_2 = $formInput['preferred_datetime_2']; //single, datetime field
+            $request->course_code = $formInput['course_code'];
+            $request->additional_requirements = $formInput['additional_requirements'];
+            $request->exam_type = $formInput['exam_type'];
+            $request->exam_medium = $formInput['exam_medium'];
+            $request->student_notes = $formInput['student_notes'];
+            // set standard student approval values (student=accept; center=unseen)
             $request->student_approval = 2;
             $request->center_approval = 1;
 
@@ -551,11 +554,14 @@ class StudentController extends Controller
 
             // send to schedule view
             return StudentController::showSchedule();
-        }
-        else
-        {
+
+        } else {
             // invalid input based on rules of Request model
             redirect();
         }
     }
+
+
+
+
 }

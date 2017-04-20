@@ -103,7 +103,7 @@ class CenterController extends Controller
                     ->first();
 
                 // update Center values
-                $center->name = $tempCenter['name'];
+                $center->center_name = $tempCenter['center_name'];
                 $center->center_email = $tempCenter['center_email'];
                 $center->phone = $tempCenter['phone'];
                 $center->description = $tempCenter['description'];

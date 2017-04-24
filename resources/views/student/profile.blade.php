@@ -1,5 +1,5 @@
 {{--
-    Author: Brett Schaad
+    Author: Brett Schaad, Barrett Sharpe
 --}}
 
 @extends("st.layouts.app")
@@ -7,19 +7,6 @@
 @section('contentheader_title')Profile @endsection
 
 @section('main-content')
-
-    {{--<script type="javascript">--}}
-    {{--//Method to assign a DOM click event to submit the given form.--}}
-    {{--var assignSubmitAction = function(formName){--}}
-    {{--document.getElementById("").classList.add('class');--}}
-    {{--};--}}
-
-    {{--//Once window loads, begin--}}
-    {{--window.onload = function(){--}}
-    {{--assignSubmitAction("upcomingForm");--}}
-    {{--console.log("Set submit event");--}}
-    {{--};--}}
-    {{--</script>--}}
 
     <table class="table table-responsive table-hover" width="100%">
 

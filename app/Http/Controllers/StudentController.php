@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Author: Brett Schaad
+ * Author: Brett Schaad, Barrett Sharpe
  */
 
 namespace App\Http\Controllers;
@@ -523,14 +523,8 @@ class StudentController extends Controller
     public function createRequest()
     {
 
-        // grab Exam Request Form info
+        // grab Exam Request Form input
         $formInput = Input::all();
-
-        //test dump information
-        //var_dump($formInput);
-
-        //OLD TIMESTAMP. Need to use Carbon to convert to MySQL Datetime format
-        //$carbon = new Carbon();
 
         // instantiate a Request model
         $request = new Requests();
@@ -542,15 +536,10 @@ class StudentController extends Controller
         // determine if the input is valid, testing against the rules of the Request model
         if ($request->validate($formInput))
         {
-            //Acquire initial RID auto_increment value from database, and then print.
+            //Acquire the Request ID, the Request table auto_increment value, from database
             $result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'Requests'"));
             $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
             $rid = $result[0]['Auto_increment'];
-//            if($rid!=0){
-//                echo "\nRequests Auto_Increment value is: ".$rid.".\n";
-//            }else{
-//                echo "\nRequests next Auto_Increment value was 0.\n";
-//            }
 
             // set Request values
             $request->rid = intval($rid);
@@ -575,7 +564,7 @@ class StudentController extends Controller
             return StudentController::showSchedule();
 
         } else {
-            // invalid input based on rules of Request model
+            // invalid input based on rules of Request model. Redirect
             redirect();
         }
     }

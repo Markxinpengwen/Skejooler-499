@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Author: Barrett Sharpe
+ */
+
 use Illuminate\Database\Seeder;
 
 // require the Faker autoloader
@@ -8,8 +12,7 @@ require_once 'vendor/fzaninotto/faker/src/autoload.php';//old seeder works fine 
 class GiantTableSeederLA extends Seeder
 {
 	/**
-     * Seeds ALL the Dependant tables
-     *
+     * Seeds ALL the Dependant tables: Users, Students, Centers.
      * @return void
      */
     public function run()
@@ -43,7 +46,7 @@ class GiantTableSeederLA extends Seeder
 		//Faker
 		$faker = Faker\Factory::create();
 
-        //Choice for Standardized Seed
+        //User Input: Choice for Standardized Seed
         echo "\nUse Standardized Seed? (y/n):";
         $fp = fopen("php://stdin","r");
         $input = rtrim(fgets($fp, 1024));
@@ -66,7 +69,7 @@ class GiantTableSeederLA extends Seeder
 		$institutions = $institutions->toArray();		
 		shuffle($institutions);
 		
-		//Acquire initial auto_increment values from database (for students, users, and centers) and then print them.
+		//Acquire initial auto_increment values from database (for tables: students, users, and centers) and then print them.
 		//Students
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'students'"));
         $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
@@ -99,7 +102,8 @@ class GiantTableSeederLA extends Seeder
 		}
 		
 		unset($result);
-		
+
+		//NOTE:
 		//First, we will create the Student and Center arrays with all of the values in them.
 		//Second, we will create the User table, and entries, based on the values in the Student/Center arrays.
 		
@@ -138,7 +142,7 @@ class GiantTableSeederLA extends Seeder
 				'created_at' => $faker->dateTimeThisDecade($max = 'now'),
 				'updated_at' => $faker->dateTimeThisMonth($max = 'now')
 			];
-		}//for
+		}//for Students
 		echo "\nGenerated ". $NUM_STUDENTS . " Students.";
 	
 		//Centers Array
@@ -163,12 +167,11 @@ class GiantTableSeederLA extends Seeder
 				'created_at' => $faker->dateTimeThisDecade($max = 'now'),
 				'updated_at' => $faker->dateTimeThisMonth($max = 'now')
 			];
-		}//for
+		}//for Centers
 		echo "\nGenerated ". $NUM_CENTERS . " Centers.";
 
-		//
+		//No Admin Array
 		//Currently, no personal information for admins.
-		//
 
 		//Users Array		
 		$users = array();
@@ -222,7 +225,7 @@ class GiantTableSeederLA extends Seeder
 			
 			//Increment id
 			$id++;
-		}//for		
+		}//for Users
 		
 		
 		//--------------------------------------------------------------------------------
@@ -249,7 +252,7 @@ class GiantTableSeederLA extends Seeder
 				]
 			);
 			echo "\n\t- User ID ".$users[$i]['uid'].": ". $users[$i]['email'];
-		}
+		}//for Users
 		
 		//Centers AND Students
 		echo "\n\nInserting Centers/Students:";
@@ -294,8 +297,10 @@ class GiantTableSeederLA extends Seeder
 				);
 				echo "\n\t- Student ID ".$students[($i-$NUM_CENTERS)]['sid'].": ".$students[($i-$NUM_CENTERS)]['firstName']." ".$students[($i-$NUM_CENTERS)]['lastName'];
 			}//if
-		}//for	
+
+		}//for centers/students
 		echo "\n";
+
 	}//run
 	
 }//class

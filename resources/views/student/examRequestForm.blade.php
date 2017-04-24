@@ -9,28 +9,6 @@
 
 @section('main-content')
 
-
-@php
-/*
-    // Detect the current visitor's browser information.
-    //$result = BrowserDetect::detect();
-    $result = get_browser(null, true);
-    var_dump($result);
-    //Decide if html input type 'time' can be used (Non-Firefox, and Non I.E.<=12.0 browsers)
-    //Sorry for the boolean headache i'm about to cause you.
-    $willTimeWork = true;
-    if (stripos($result['browser'], "firefox") !== false){
-        //if 'firefox' is detected in the browser family. Or as above, if case-insensitive substring search for 'firefox' returns a non boolean false value.
-        $willTimeWork = false;
-    }else if((stripos($result['browser'], "explorer") !== false) && ($result['majorver'] <= 12)){
-        //if 'explorer' (for Internet Explorer) is detected in the browser family. Or as above, if case-insensitive substring search for 'explorer' returns a non boolean false value.
-        $willTimeWork = false;
-    }
-    print("WillTimeWork? ".$willTimeWork);
-*/
-@endphp
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,10 +22,6 @@
 
         <!-- Styles -->
         <style>
-            /*Skejooler Colour Variable #52ffe5*/
-            :root{
-
-            }
 
             html, body {
                 background-color: #fff;
@@ -141,7 +115,7 @@
         <script type="text/javascript"
                 src="https://maps.google.com/maps/api/js?key=AIzaSyAVkBBZ7mXisGTnifzS0KTFxobI880GXKE&v=3"></script>
 
-        <!--Default Google Stylesheet-->
+        <!--Default Google Map Element Stylesheet-->
         <style>
             #map-canvas {
                 height: 500px;
@@ -159,9 +133,14 @@
             }
         </style>
 
-        <!--Initialize Map script-->
+        <!--Skejooler Custom Initialize Map Script-->
         <script type="text/javascript">
-            /* ----- Global Script variables --------- */
+            /**
+             * This script is meant to help with the autofill functions, as well as being able to clear sections of the form
+             * Additinoally to initialize the Google Map element itself.
+             */
+
+            /*----- Global Script variables ---------*/
             //Google Maps
             var map;
             var layer;
@@ -171,19 +150,17 @@
             var radiusValue;
             var supportsOnlineValue;
             //Fusion Table
-            var tableId = "1oK8T4r1Zwke7ewmaUETA0v7lpIYTC2SNNCP0bkWC"; //Sophia - Seeder Table A
+            var tableId = "1oK8T4r1Zwke7ewmaUETA0v7lpIYTC2SNNCP0bkWC"; //Sophia's Skejooler Google Account API Key - Seeder Table A
             var cityColumn = "city";
             var onlineColumn = "canSupportOnlineExam";
             var addressColumn = "street_address";
             var provinceColumn = "province";
             var locationColumn = "latitude";
 
-
-            //City Table (sorted alphabetically)
+            //City Array (sorted alphabetically)
             var CityAlphabetic = ["Any City", "100_Mile_House","Abbotsford","Aldergrove","Burnaby","Campbell_River","Central_Okanagan","Chilliwack","Courtenay","Cranbrook","Delta","Duncan","Fort_Saint_John","Kamloops","Kelowna","Langley","Maple_Ridge","Nanaimo","New_Westminster","North_Cowichan","North_Vancouver","Parksville","Penticton","Pitt_Meadows","Port_Alberni","Port_Coquitlam","Port_Moody","Powell_River","Prince_George","Prince_Rupert","Quesnel","Richmond","Squamish","Surrey","Terrace","Vancouver","Vernon","Victoria","Walnut_Grove","West_Vancouver","White_Rock","Williams_Lake"];
-            console.log("CA size ="+CityAlphabetic.length+".");
 
-            //Coord Table (Any City = Burnaby Default)
+            //Coord Array (to accompany the CityAplhabetic array) (Any City = Burnaby Default)
             var CoordAlphabetic = [
                 [49.248775, -122.980531], //any city
                 [51.644127, -121.295124], //100 mile
@@ -226,41 +203,22 @@
                 [49.175003,-122.624019],                 //
                 [49.334897,-123.166785],                 //
                 [49.025309,-122.802962],                 //
-                [52.141674,-122.141688]              //                 //
+                [52.141674,-122.141688]                     //
 
             ];
 
 
-            /*-------- Functions --------------*/
-
-            //didn't work
-//            function assignCIDtoForm(cidValue){
-//                //jQuery doc ready
-//                $( document ).ready(function() {
-//                    console.log("JQuery Document Ready. Assigning...");
-//                    document.getElementById("cidChosen").value = cidValue;
-//                    console.log("JQuery cidChosen set to "+cidValue+".");
-//                });
-//
-//            }
+            /*-------- Script Functions --------------*/
 
             //Function to fill Form elements with marker data. These data object references will have to be changed if the table or columnNames are changed.
             function fillForm(data){
-
                 //Labels
                 document.getElementById("center_name").innerHTML = data.center_name.value; //data is type object.
                 document.getElementById("center_id").innerHTML = data.cid.value;
-                //document.getElementById("center_id").value = data.cid.value;
-                //assignCIDtoForm(data.cid.value); //didn't work.
-
                 document.getElementById("street_address").innerHTML = data.street_address.value;
                 document.getElementById("city").innerHTML = data.city.value;
                 document.getElementById("province").innerHTML = data.province.value;
-
-                //Hidden Fields
-                //document.getElementById("cidChosen").value = data.cid.value; //didn't work
-
-            }//fillForm
+            }
 
             //Google Maps Default Initialization method.
             function initialize() {
@@ -272,7 +230,7 @@
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 });
 
-                //Create Layer ( "where select locationColumn is an existing geocoded column of type location" )
+                //Create Layer ( where select 'locationColumn' is an existing geo-coded column of type 'location' )
                 layer = new google.maps.FusionTablesLayer({
                     query: {
                         select: locationColumn,
@@ -301,7 +259,7 @@
                 });
 
 
-                //DOM LISTENERS for initialize() method
+                //DOM LISTENERS
                 //Fill Form Listener
                 google.maps.event.addListener(layer, 'click', function(event) {
                     fillForm(event.row); //from: https://developers.google.com/maps/documentation/javascript/reference?csw=1#FusionTablesMouseEvent
@@ -325,7 +283,7 @@
                         updateMap(false);
                     });
 
-            }//Initialize
+            }
 
             // Update the query sent to the Fusion Table Layer based on user selection.
             function updateMap(shouldRecenter) {
@@ -333,7 +291,6 @@
                 //Collect selection values
                 cityValue = document.getElementById('map_city').value;
                 console.log("cityValue is:"+cityValue+".");
-                
                 radiusValue = document.getElementById('radius').value;
                 supportsOnlineValue = document.getElementById('supportsOnline').value;
                 var query = "";
@@ -400,7 +357,7 @@
                 if(shouldRecenter) {
                     centerOnCity();
                 }
-            }//updateMap
+            }
 
             //Adda DOM listener to window to initialize()
             google.maps.event.addDomListener(window, 'load', initialize);
@@ -463,77 +420,7 @@
 
         </script>
 
-        <!-- Simple JS Browser (family) Detection -->
-        <script type="text/javascript">
-            /**
-             * Gets the browser name or returns an empty string if unknown.
-             * This function also caches the result to provide for any
-             * future calls this function has.
-             *
-             * @returns {string}
-             */
-            var browser = function() {
-                // Return cached result if available, else get result then cache it.
-                if (browser.prototype._cachedResult)
-                    return browser.prototype._cachedResult;
-                // Opera 8.0+
-                var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
-                // Firefox 1.0+
-                var isFirefox = typeof InstallTrigger !== 'undefined';
-                // Safari 3.0+ "[object HTMLElementConstructor]"
-                var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
-                // Internet Explorer 6-11
-                var isIE = /*@cc_on!@*/false || !!document.documentMode;
-                // Edge 20+
-                var isEdge = !isIE && !!window.StyleMedia;
-                // Chrome 1+
-                var isChrome = !!window.chrome && !!window.chrome.webstore;
-                // Blink engine detection
-                var isBlink = (isChrome || isOpera) && !!window.CSS;
-                return browser.prototype._cachedResult =
-                    isOpera ? 'Opera' :
-                        isFirefox ? 'Firefox' :
-                            isSafari ? 'Safari' :
-                                isChrome ? 'Chrome' :
-                                    isIE ? 'IE' :
-                                        isEdge ? 'Edge' :
-                                            "Don't know";
-            };
 
-
-            //Custom Action. Render out the compatable
-            var action = function(str){
-                //Check if browser is incompatable
-                if(str === "Firefox" || str === "IE" || str === "Don't know"){
-                    console.log(str);
-                    //Browser cannot handle time input. Replace with integer inputs
-                    document.getElementById("time1").innerHTML =
-                        "<td id=\'time1\'>" +
-                        "<input type=\'number\' name=\'preferred_time_1_hour\' min=\'0\' max=\'23\' size=\'2\' value=\'12\'>" +
-                        "<input type=\'number\' name=\'preferred_time_1_minute\' min=\'0\' max=\'59\' size=\'2\' value=\'30\'>" +
-                        "</td>";
-                    document.getElementById("time2").innerHTML =
-                        "<td id=\'time2\'>" +
-                        "<input type=\'number\' name=\'preferred_time_2_hour\' min=\'0\' max=\'23\' size=\'2\' value=\'12\'>" +
-                        "<input type=\'number\' name=\'preferred_time_2_minute\' min=\'0\' max=\'59\' size=\'2\' value=\'30\'>" +
-                        "</td>";
-                    console.log("Custom Time fields.");
-                }else{
-                    //Browser can handle time inputs
-                    document.getElementById("time1").innerHTML =
-                        "<input type=\'time\' name=\'preferred_time_1\'>";
-                    document.getElementById("time2").innerHTML =
-                        "<input type=\'time\' name=\'preferred_time_2\'>";
-                    console.log("Time inputs allowed.");
-                }
-            };
-
-            //Once window loads, begin
-            window.onload = function(){
-                var browserString = browser();
-                //action(browserString); //disabled in favour of one datetime field for prototype
-            }
-        </script>
     </head>
 
     <body>
@@ -552,7 +439,6 @@
             <tr  style="font-size: 1.3em;">
                 <td> {!! Form::label('labelCity','City:') !!} </td>
                 <td>
-                    <!--//!@# need to fix optgroup potential error in laravel select form-->
                     <select id="map_city">
                         <!--default-->
                         <optgroup label="Default">
@@ -731,14 +617,7 @@
                 {{--Grab the student's Insitution ID--}}
                 {!! Form::hidden('iid', $student->iid) !!}
 
-                <tr>
-                    {{-- Institution Clear Button Not Required
-                    <td></td>
-                    <td>
-                        <button id="clear3" type="button" onclick="clearForm(3);">Clear Section</button>
-                    </td>
-                    --}}
-                </tr>
+                <tr></tr>
 
 
                 <!-- Section 2: Examinee-->

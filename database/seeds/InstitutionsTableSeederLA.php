@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Author: Barrett Sharpe
+ */
+
 use Illuminate\Database\Seeder;
 
 // require the Faker autoloader
@@ -9,7 +13,6 @@ class InstitutionsTableSeederLA extends Seeder
 {
 	/**
      * Seed the Institutions Table, given predefined values.
-     * 
      * @return void
      */
     public function run()
@@ -28,7 +31,7 @@ class InstitutionsTableSeederLA extends Seeder
 		//Faker Instantiation
 		$faker = Faker\Factory::create();
 
-		//Choice for Standardized Seed
+		//User Input: Choice for Standardized Seed
         echo "\nUse Standardized Seed? (y/n):";
         $fp = fopen("php://stdin","r");
         $input = rtrim(fgets($fp, 1024));
@@ -39,7 +42,6 @@ class InstitutionsTableSeederLA extends Seeder
 		//Acquire initial auto_increment value from institutions table, for start index when seeding.
 		$result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'institutions'"));
         $result = json_decode(json_encode($result),true); //LA Workaround. Boolean true for returned as associative array.
-        //var_dump($result);
 		$iid = intval($result[0]["Auto_increment"]);
 
 		//Check whether to set initial auto increment to default constant

@@ -1,5 +1,5 @@
 {{--
-    Author: Brett Schaad
+    Author: Brett Schaad, Barrett Sharpe
 --}}
 
 @extends("st.layouts.app")

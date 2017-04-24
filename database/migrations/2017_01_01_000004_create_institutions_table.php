@@ -1,10 +1,8 @@
 <?php
-/**
- * //!@# Completed 01-28
- * Migration genrated using LaraAdmin
- * Help: http://laraadmin.com
- */
 
+/**
+ * Author: Barrett Sharpe
+ */
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -14,7 +12,6 @@ class CreateInstitutionsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      * @return void
      */
     public function up()
@@ -23,7 +20,7 @@ class CreateInstitutionsTable extends Migration
             ["iid", "iid", "Integer", true, "", 5, 7, true],
             ["institution_name", "institution_name", "String", true, "", 0, 256, true],
             ["description", "description", "Textarea", false, "", 0, 1000, false],
-            ["phone", "phone", "Mobile", false, "", 0, 20, false], //is needed in future?
+            ["phone", "phone", "Mobile", false, "", 0, 20, false],
             ["hasPaid", "hasPaid", "Radio", false, "0", 0, 0, false, ["0","1"]],
             //Location
             ["street_address", "street_address", "String", false, "No Address Listed", 3, 100, true],
@@ -40,7 +37,6 @@ class CreateInstitutionsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
      * @return void
      */
     public function down()

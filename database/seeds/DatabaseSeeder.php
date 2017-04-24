@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Author: Barrett Sharpe
+ */
+
 use Illuminate\Database\Seeder;
 
 use Dwij\Laraadmin\Models\Module;
@@ -18,14 +22,12 @@ include 'database\seeds\InstitutionsTableSeederLA.php';
 class DatabaseSeeder extends Seeder
 {
 	/**
-	 * Run the database seeds.
-	 *
+	 * Run the database seeder.
 	 * @return void
 	 */
 	public function run()
 	{
-	    //PHP Laravel Artisan Seeder Workaround
-        //Skip: Bypass Laraadmin Standard Seeder Code.
+        //Skip Input: Bypass LaraAdmin Standard Seeder Code.
         $skip=false;
         echo "\nSkip Standard LA Seeder Code? (y/n):";
         $fp = fopen("php://stdin","r");
@@ -178,9 +180,9 @@ class DatabaseSeeder extends Seeder
 
 		echo "DatabaseSeeder] \t- Completed\n";
 		
-		/* ======*=====*===== Custom Seeder Code ====*====*====*==== */
+		/* ======*=====*===== Custom Seeder Code for Skejooler ====*====*====*==== */
 		
-		echo "DatabaseSeeder] Running Custom Seeder Code for LaraAdmin...\n";
+		echo "DatabaseSeeder] Running Custom Seeder Code for Skejooler...\n";
 		
 		//Call Institution Seeder:
 		echo "DatabaseSeeder] \tInstitution Seeder\n";
@@ -201,4 +203,5 @@ class DatabaseSeeder extends Seeder
 		//End Run Mehtod
 		echo "\nDatabaseSeeder] End of Database Seeding.\n";
 	} //run
+
 }

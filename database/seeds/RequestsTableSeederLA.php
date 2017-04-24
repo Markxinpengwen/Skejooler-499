@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Author: Barrett Sharpe
+ * NOTE: This seeder is NO LONGER USED. It has been replaced by "StaticRequestTableSeederLA.php".
+ */
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 

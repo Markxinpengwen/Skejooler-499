@@ -1,11 +1,9 @@
 <?php
+
 /**
- * //!@# Completed 01-28
- * Migration genrated using LaraAdmin
- * Help: http://laraadmin.com
- * NEW, added last logged in
+ * Author: Barrett Sharpe
  */
- 
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -19,14 +17,12 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        //Minimum date
+        //Choose a minimum date value (arbitrary)
         $MINIMUM_DATE= "1970-01-02 00:00:01";
 
         Module::generate("Users", 'users', 'uid', 'fa-group', [
             ["uid", "User ID", "Integer", true, "", 0, 5, 7, true],
 			["email", "Email", "Email", true, "", 0, 250, true],
-            //["name", "Name", "Name", false, 0, 40, false], //name removal request from Mark
-            //["context_id", "Context", "Integer", false, "0", 0, 0, false],
             ["password", "password", "Password", false, "", 6, 250, true],
             ["salt", "salt", "String", true, "", 6, 250, true],
             ["type", "Type", "Dropdown", false, "student", 0, 0, true, ["student", "center", "admin"]],
@@ -36,7 +32,6 @@ class CreateUsersTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
      * @return void
      */
     public function down()

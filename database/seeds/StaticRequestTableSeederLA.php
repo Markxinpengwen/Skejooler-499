@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * Author: Barrett Sharpe
+ */
+
 /*
  * This file is being used by Brett. It gets rid of unecessary mod logic from original seeder
  * Other, new, changes
@@ -18,7 +23,6 @@ class StaticRequestsTableSeederLA extends Seeder
 {
     /**
      * Run the database seeds.
-     *
      * @return void
      */
     public function run()
@@ -39,15 +43,7 @@ class StaticRequestsTableSeederLA extends Seeder
         $num_centers=0;
         $faker = Faker\Factory::create();
 
-//        //Choice for Standardized Seed
-//        echo "\nUse Standardized Seed? (y/n):";
-//        $fp = fopen("php://stdin","r");
-//        $input = rtrim(fgets($fp, 1024));
-//        if($input=="y" || $input=="Y"){
-//            $faker->seed($FAKER_SEED);
-//        }
-
-        //Collect num students and centers
+        //Collect the counts of Students and Centers
 
         //Acquire initial RID auto_increment value from database, and then print.
         $result = DB::select(DB::raw("SHOW TABLE STATUS LIKE 'requests'"));
@@ -93,13 +89,10 @@ class StaticRequestsTableSeederLA extends Seeder
         }
         echo "\nRequestSeeder] Calculated. Creating ".$NUM_REQUESTS." Requests from students.\n";
 
-
         //--------------------------------------------------------------------------------
-        //STEP 2) CREATING REQUEST VALUES [//!@#MODIFIED]
+        //STEP 2) CREATING REQUEST VALUES
         //-------------------------------------------------------------------------------
 
-
-        //New static
         $k = 1;
         for($h=0;$h<$num_students;$h++){
             for ($i = 0; $i < $num_centers; $i++){
@@ -139,7 +132,7 @@ class StaticRequestsTableSeederLA extends Seeder
                     $stuApv = "0";
                     $futureScheduled = 0;
                     switch ($j) {
-                        //Non-arbitrary Order
+                        //Non-arbitrary Order. Refer to "DecisionTalbe.csv" and the final report for more info.
                         /*
                          * Never be two unseens (1,1)
                          * Never be double deny (should be deleted) (0,0)
@@ -185,15 +178,15 @@ class StaticRequestsTableSeederLA extends Seeder
                     //Creating Appropriate DateTime
                     $scheduledDate = null;
                     if($futureScheduled==2){
+                        //Possible Future Past
                         $scheduledDate = $faker->dateTimeBetween($startDate = '-1 years', $endDate = '+1 years', $timezone = 'America/Vancouver');
                     }elseif($futureScheduled==1) {
+                        //Possible Future Only
                         $scheduledDate = $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver');
                     }else{
+                        //Default
                         $scheduledDate = $MINIMUM_DATE;
                     }
-
-                    //Test Print Request info
-                    //echo "\nBefore request ".(($k))." with studentIndex ".($h+1)." and centerIndex ".($i+1)." and J = ".$j."."; //t
 
                     //Set Request array
                     $requests[($k-1)]= [
@@ -201,7 +194,7 @@ class StaticRequestsTableSeederLA extends Seeder
                         'rid' => ($rid + ($k-1)),
                         'sid' => $students[$h]['sid'], //0 indexed
                         'cid' => $centers[$i]['cid'], //0 indexed
-                        'iid' => rand(10000,10004), //$centers[$i]['iid'], //!@# change later
+                        'iid' => rand(10000,10004), //hard-coded for now. May need to be changed once IID's outside this range.
                         //other attributes
                         'preferred_date_1' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
                         'preferred_date_2' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
@@ -215,10 +208,6 @@ class StaticRequestsTableSeederLA extends Seeder
                         'student_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
                         'center_approval' => $cenApv,
                         'center_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
-                        //Request Metainformation
-                        //'remember_token' => str_random(100),
-                        //'created_at' => $faker->dateTimeThisDecade($max = 'now'),
-                        //'updated_at' => $faker->dateTimeThisMonth($max = 'now')
                     ];
 
                     //Transform Date Time values, specifically to have :00 for the seconds value. Brett's request
@@ -264,10 +253,6 @@ class StaticRequestsTableSeederLA extends Seeder
                     'student_notes' => $requests[$i]['student_notes'],
                     'center_approval' => $requests[$i]['center_approval'],
                     'center_notes' => $requests[$i]['center_notes'],
-                    //Request Metainformation
-                    //'remember_token' => $requests[$i]['remember_token'],
-                    //'created_at' => $requests[$i]['created_at'],
-                    //'updated_at' => $requests[$i]['updated_at']
                 ]
             );
             echo "\n\t- Request ".$requests[$i]['rid'].": S-".$requests[$i]['sid']." to C-".$requests[$i]['cid'].".";
@@ -280,126 +265,5 @@ class StaticRequestsTableSeederLA extends Seeder
         unset($requests);
 
     }//run
-
-
-    //OLD CODE (functioning)
-
-    ////        //For the randomized students list, assign a center to request
-//        $requests=array();
-//        for($i=0;$i<($NUM_REQUESTS/5);$i++){
-//            for($j=0;$j<5;$j++){
-//
-//                $centerIndex = ($i%5); //the center being selected
-//                $studentIndex = ((($i*5)+$j) % $num_students); //the student being chosen
-//
-//                //echo "\nFor Request: ".($rid+$i-1)." (".$rid."+".$i."-1), the idx value is: ".$idx.". Grabs element centers[".$idx."]. Approval_Set=".$approval_set.".";
-//
-//                //Define enumerated variables and switch assignments
-//                $type = "";
-//                switch (rand(0, 2)) {
-//                    case 0:
-//                        $type = "Final";
-//                        break;
-//                    case 1:
-//                        $type = "Midterm";
-//                        break;
-//                    case 2:
-//                        $type = "Other";
-//                        break;
-//                };
-//                $medium = "";
-//                switch (rand(0, 2)) {
-//                    case 0:
-//                        $medium = "Paper";
-//                        break;
-//                    case 1:
-//                        $medium = "Online";
-//                        break;
-//                    case 2:
-//                        $medium = "Other";
-//                        break;
-//                };
-//
-//                //resquest center/student approval status switch (0,1,2) X (0,1,2)
-//                $cenApv = "0";
-//                $stuApv = "0";
-//                //print("idx=".$idx."."); //test
-//                switch ($j) {
-//                    //Non-arbitrary Order
-//                    /*
-//                     * Never be two unseens (1,1)
-//                     * Never be double deny (should be deleted) (0,0)
-//                     *
-//                     * Never be a deny and approved (0,2) and (2,0)
-//                     *      Switched to (2, 1) and (1,2)
-//                     */
-//                    case 0:
-//                        //ctr yes st yes
-//                        $cenApv = "2";
-//                        $stuApv = "2";
-//                        break;
-//                    case 1:
-//                        //ctr yes std unseen
-//                        $cenApv = "2";
-//                        $stuApv = "1";
-//                        break;
-//                    case 2:
-//                        //ctr unseen std yes
-//                        $cenApv = "1";
-//                        $stuApv = "2";
-//                        break;
-//                    case 3:
-//                        //ctr no std unseen
-//                        $cenApv = "0";
-//                        $stuApv = "1";
-//                        break;
-//                    case 4:
-//                        //ctr unseen, std no
-//                        $cenApv = "1";
-//                        $stuApv = "0";
-//                        break;
-//                    default:
-//                        echo "\nDEFAULTED";
-//                        $cenApv = "2";
-//                        $stuApv = "2";
-//                        break;
-//                }
-//
-//                echo "Before request ".(($i*5)+$j+1)." with studentIndex ".$studentIndex." and centerIndex ".$centerIndex." and J = ".$j."."; //t
-////                if(!isset($requests[(($i*5)+$j+1)])){
-////                    echo "Req ".(($i*5)+$j+1)." not set.";
-////                    $requests[(($i*5)+$j+1)] = array();
-////                }
-//                $requests[(($i*5)+$j+1)]= [
-//                    //Request Identifiers
-//                    'rid' => ($rid + (($i*5) + $j) + 1),
-//                    'sid' => $students[$studentIndex]['sid'],
-//                    'cid' => $centers[$centerIndex]['cid'],
-//                    //other attributes
-//                    'preferred_date_1' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
-//                    'preferred_date_2' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = 'America/Vancouver'),
-//                    //'scheduled_date' => Datetime.date_create_from_format($format = "YYYY-mm-dd HH:mm:ss",$time = $MINIMUM_DATE, $timezone = 'America/Vancouver'), //Migration should set this by default
-//                    'course_code' => $DEFAULT_CODE,
-//                    'additional_requirements' => $faker->realText($maxNbChars = 200, $indexSize = 2),
-//                    'exam_type' => $type,
-//                    'exam_medium' => $medium,
-//                    'student_approval' => $stuApv,
-//                    'student_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
-//                    'center_approval' => $cenApv,
-//                    'center_notes' => $faker->realText($maxNbChars = 200, $indexSize = 2),
-//                    //Request Metainformation
-//                    //'remember_token' => str_random(100),
-//                    'created_at' => $faker->dateTimeThisDecade($max = 'now'),
-//                    'updated_at' => $faker->dateTimeThisMonth($max = 'now')
-//                ];
-//
-//                echo " Completed request " . ($i+$j+1) . "\n";//t
-//
-//            }//j
-//        }//i
-//
-//
-//        echo "\nGenerated ".$NUM_REQUESTS." Requests.";
-
 
 }

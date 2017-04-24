@@ -15,23 +15,23 @@ class Requests extends BaseModel
 
     // validation rules array
     protected $rules = array(
-        'id' => '',
-        'rid' => '',
-        'sid' => '',
-        'cid' => '',
-        'iid' => '',
+        'id' => 'numeric',
+        'rid' => 'numeric',
+        'sid' => 'numeric',
+        'cid' => 'numeric',
+        'iid' => 'numeric',
         'preferred_date_1' => '', // must be in the future or the same
         'preferred_date_2' => '', // must be in the future or the same
         'scheduled_date' => '', // must be in the future or the same
-        'course_code' => '',
-        'additional_requirements' => '',
-        'exam_type' => '',
-        'exam_medium' => '',
-        'computer_required' => '',
-        'student_approval' => '',
-        'student_notes' => '',
-        'center_approval' => '',
-        'center_notes' => '',
+        'course_code' => 'string',
+        'additional_requirements' => 'string',
+        'exam_type' => 'string',
+        'exam_medium' => 'string',
+        'computer_required' => 'string',
+        'student_approval' => 'numeric',
+        'student_notes' => 'string',
+        'center_approval' => 'numeric',
+        'center_notes' => 'string',
     );
 
     // decision array for approval status logic (2=approved, 1= undecided, 0=denied)
